@@ -1,0 +1,42 @@
+@import url(http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css);
+
+html {
+    color: #333;
+    font: 14px/1.5 Georgia, serif;
+}
+body {
+    margin: 0 auto;
+    padding: 3em 0;
+    width: 40em;
+}
+h1 {
+    color: #000;
+    font-size: 2.2em;
+    text-align: center;
+}
+h2 {
+    color: #000;
+    font-size: 1.2em;
+    margin: 0 0 2.5em;
+    text-align: center;
+}
+p {
+    margin: 1.5em 0;
+}
+ol {
+    margin: 1.5em 0;
+}
+ol li {
+    list-style: decimal;
+    margin: 1.5em 0;
+}
+#poweredby {
+    background: url(../images/appengine-silver-120x30.gif);
+    display: block;
+    height: 30px;
+    margin: 3em auto 0;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: -9999em;
+    width: 120px;
+}
