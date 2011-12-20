@@ -1,0 +1,65 @@
+{% extends "blog/one.html" %}
+{% block pagetitle %}Radiocicletta{% endblock %}
+{% block headstyle %}
+<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
+{% endblock %}
+{% block headscript %}
+<script type='text/javascript' src='http://radiocicletta-static.appspot.com/js/jquery.loadmask.js'></script>
+{% endblock %}
+{% block bodybaronair %}
+<div id="onair">
+ <h2>Ora in onda:</h2>
+ <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
+</div>
+<div id="playnow">
+    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
+</div>
+
+{% endblock %}
+
+{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
+
+
+{% block bodyleft %}
+<div id="download">
+					<h2>Download</h2><br/>
+					Porta con te Radiocicletta!!<br/> 
+					da oggi sara più facile ascoltare radiocicletta con i nuovi software per Android 2.1 , Mac OS X e Windows<br/>
+					<br/>
+					<br/>
+					Screenshot<br/>
+					<br/>
+					<img src="http://radiocicletta-static.appspot.com/images/download/SCR_mac.png" width="100px"><img src="http://radiocicletta-static.appspot.com/images/download/SCR_andr1.png" width="100px" style="margin-left:26px"><img src="http://radiocicletta-static.appspot.com/images/download/SCR_andr2.png" width="100px" style="margin-left:26px"><img src="http://radiocicletta-static.appspot.com/images/download/SCR_andr3.png" width="100px" style="margin-left:26px"><br/>
+					x mac e windows&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp x Android<br/><br/><br/>
+				
+					<div id="android">
+		      			<img src="http://radiocicletta-static.appspot.com/images/download/AndroidSH.png" width="50" style="margin-left:26px"><br/>
+						<a href="http://s5.histats.com/stats/r.php?1686508&100&29539&urlr=&www.radiocicletta.ithttp://radiocicletta-static.appspot.com/app/Android/Radiocicletta.apk"><img src="image/download/download_button.png"></a><br/>
+					</div>
+				
+					<div id="apple">
+						<img src="http://radiocicletta-static.appspot.com/images/download/Apple.png" width="50px" style="margin-left:26px"><br/>
+						<a href="http://s5.histats.com/stats/r.php?1686508&100&29541&urlr=&www.radiocicletta.ithttp://radiocicletta-static.appspot.com/app/Flash/Radiocicletta.dmg"><img src="image/download/download_button.png" ></a><br/>
+						<span style="font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8px;">v 1.0.2</span><br/>
+					</div>
+					
+					<div id="windows">
+						<img src="http://radiocicletta-static.appspot.com/images/download/Windows.png" width="50px" style="margin-left:26px"><br/>
+						<a href="http://s5.histats.com/stats/r.php?1686508&100&29540&urlr=&www.radiocicletta.ithttp://radiocicletta-static.appspot.com/app/Flash/Radiocicletta.air"><img src="image/download/download_button.png" ></a><br/>
+						<span style="font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8px;">v 1.0.2</span><br/>
+					</div>
+               	 	
+               	 	<br/>
+               	 	<br/>
+               	 	<br/>
+               	 	<br/>
+               	 	<br/>
+               	 	<br/>
+               	 	<br/>
+                	Per Windows e Mac potrebbe richiedere l'installazione di <a href="http://get.adobe.com/it/air/">Adobe AIR</a><br/><br/>
+		      		<span style="font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8px;">
+		     		Aiutaci a migliorare!! se rivele errori o vuoi suggerire dei miglioramenti contattaci su radiocicletta@gmail.com</span>
+</div>
+{% endblock %}
+{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
+{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}

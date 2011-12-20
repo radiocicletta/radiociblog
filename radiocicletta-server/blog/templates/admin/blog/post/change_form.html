@@ -1,0 +1,67 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% block extrahead %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+	<script src="http://radiocicletta-radiocicletta.dotcloud.com/_samples/sample.js" type="text/javascript"></script>
+	<script src="http://radiocicletta-radiocicletta.dotcloud.com/ckeditor.js" type="text/javascript"></script>
+	<script src="http://radiocicletta-radiocicletta.dotcloud.com/adapters/jquery.js" type="text/javascript"></script>
+	
+<script type="text/javascript">
+//<![CDATA[
+
+$(document).ready(function(){
+
+$('textarea').ckeditor(function() { /* callback code */ }, 
+ {extraPlugins:"youtube,vimeo",
+  /*uiColor:'#BAC0C0',*/
+  toolbar:[
+   {name:'docum', items:['Preview','Templates','Source']},
+   {name:'clipb', items:['Cut','Copy','Paste','-','Undo','Redo','-','Find','Replace','-','SelectAll']},
+   {name:'style', items : [ 'Styles','Format','Font','FontSize' ] },
+   '/',
+   {name:'basics',items:['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+   {name:'para',  items:['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']},
+   {name:'color', items : [ 'TextColor','BGColor' ] },
+   {name:'links', items : [ 'Link','Unlink','Anchor','-','Image','Flash','Youtube','Vimeo','-','Smiley','SpecialChar','PageBreak' ] }
+         ],
+ } );
+/**  CKEDITOR.replace( 'id_content',
+		 { extraPlugins : 'youtube',
+		   uiColor: '#BAC0C0',
+		   toolbar: [
+				{ name: 'basicstyles', items : [ 'Bold','Italic' ] },
+				{ name: 'paragraph', items : [ 'NumberedList','BulletedList' ] },
+				{ name: 'tools', items : [ 'Youtube','-','About' ] }
+		            ],
+height:"291", width:"400"
+
+		  });
+
+**/
+});
+
+
+
+//]]>
+</script>
+{% endblock %}
+
+
+{% block branding %}{% if not user.is_superuser %}<h1>Radiocicletta Blog Admin</h1>{% else %}<h1>Django administration</h1>{% endif %}{% endblock %}
+
+{% block breadcrumbs %}{% if not user.is_superuser %}<div class="breadcrumbs"><a href="/amministra">Home</a>{% if title %} &rsaquo; {{ title }}{% endif %}</div>{% else %}
+<div class="breadcrumbs"><a href="/admin/">Home</a> › <a href="/admin/blog/">Blog</a> › <a href="/admin/blog/post/">Posts</a> › {{ original.title }} </div>{% endif %}{% endblock %}
+
+
+
+
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+  <li><a href="{{ original.get_review_url }}">Review</a></li>
+  <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
+  {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}
+

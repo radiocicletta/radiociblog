@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+	<title>{% block pagetitle %}{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="content-language" content="it" />
+    {% block headmeta %}{% endblock %}
+    <link rel="shortcut icon" href="http://radiocicletta-static.appspot.com/images/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/css/style.css" />
+    {% block headstyle %}{% endblock %}
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://radiocicletta-static.appspot.com/js/date.js"></script>
+    <script type='text/javascript' src='http://radiocicletta-static.appspot.com/js/jquery.corner.js'></script>
+    {% block headscript %}{% endblock %}
+    <script type="text/javascript">
+    	$("footer").corner(20);
+		$(".box").corner(20);
+		$(".sum").corner('bevelfold');
+    </script>
+  </head>
+  <body>
+    {% block prebody %}{% endblock %}
+    {% block bodyheader %}{% endblock %}
+    <div id="bar_onair">
+    {% block bodybaronair %}{% endblock %}
+	</div>
+    <!------ NEWS ------> 
+    {% block bodynewsbox %}{% endblock %}
+
+    <div id="body">	
+        {% block bodybody %}{% endblock %}
+		<div id="bodyleft">
+        {% block bodyleft %}{% endblock %}
+		</div>
+        
+		<div id="bodyright">
+        {% block bodyright %}{% endblock %}
+        </div>
+
+  		<div class="visualclear">{% block bodyvisualclear %}{% endblock %}</div>
+      	
+     </div>
+      <footer>
+         {% block bodyfooter %}{% endblock %}
+      </footer>
+   </body>
+  </body>
+</html>

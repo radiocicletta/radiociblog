@@ -1,0 +1,20 @@
+{
+    "sEcho": {{sEcho}},
+    "iTotalRecords": {{iTotalRecords}},
+    "iTotalDisplayRecords": {{iTotalDisplayRecords}},
+    "aaData":[
+    {% for post in querySet %}
+    [
+        
+        "<a class=\"changelink\" href=\"/admin/blog/post/{{ post.id }}/\">Edit</a> <a href=\"/admin/blog/post/{{ post.id }}/delete/\" class=\"deletelink\">Delete</a>",
+        "{{ post.title }}",
+	"{{ post.published_on }}",
+	"<img src=\"/media/admin/img/admin/icon-{% if post.published %}yes{% else %}no{% endif %}.gif\">"
+        ]
+    {% if not forloop.last %}
+    ,
+    {% endif %}
+    {% endfor %}
+    ]
+}
+

@@ -1,0 +1,37 @@
+{% extends "blog/one.html" %}
+{% block pagetitle %}Radiocicletta{% endblock %}
+{% block headstyle %}
+<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
+{% endblock %}
+{% block bodybaronair %}
+<div id="onair">
+ <h2>Ora in onda:</h2>
+ <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
+</div>
+<div id="playnow">
+    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
+</div>
+
+{% endblock %}
+
+{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
+
+
+{% block bodyleft %}
+<div class="content">
+<div id="testo">
+					Mandare avanti un progetto di radio richiede molte energie, tempo e competenze. Questo è ancora più vero se si tratta di <strong>un progetto senza scopo di lucro</strong>, indipendente da major, e aziende, proprio come Radiocicletta. Tutto l'aiuto del mondo, diretto o indiretto, è sicuramente utile e apprezzato. Se vuoi darci il tuo appoggio puoi farlo in molti modi.
+					<h2>Propaganda!</h2>
+					<strong>Passa questo blog</strong> ad amici e nemici, fai girare la voce!<strong></strong>
+					<strong>Scrivici</strong> all’indirizzo <a href="mailto:radiocicletta@gmail.com">radiocicletta@gmail.com</a>, se hai idee, suggerimenti, o anche solo per fare un saluto!
+					Hai un account su <a href="http://lastfm.it">last.fm</a>? Allora <a href="http://www.last.fm/group/Radiocicletta">iscriviti al nostro gruppo</a>.
+					<h2>Materiale utile</h2>
+					Abbiamo bisogno di <strong>materiale</strong>, <strong>contatti</strong>, <strong>informazioni</strong> utili. Hai strumentazione audio (semi)professionale in buono stato e a prezzi irrisori (cavetteria, microfoni, cuffie, monitor, amplificatori o mixer e/o altro)? Avete CD/cassette/vinile in buono stato o sai dove trovarne (possibilmente nella zona di Pisa e dintorni)? Contattaci, descrivendoci la tua offerta.
+					<h2>Fatti conoscere!</h2>
+					Sei studente a Pisa, hai<strong> esperienze radiofoniche</strong> precedenti, o semplicemente hai voglia di metterti in gioco? Proponici le tue idee! Cerchiamo collaboratori con un po’ di tempo da perdere insieme a noi, con zero pretese monetarie, con o senza esperienza, basta avere la mente sveglia e una buona parlantina.
+					Sei <strong>esperto nel settore audio</strong>, con competenze nel campo di registrazione/trasmissione in studio e vuoi offrire un po' del tuo tempo e conoscenze? Abbiamo una parte tecnico/logistica da gestire in modo decente, ogni consiglio non può che aiutarci a migliorare.
+</div>
+</div>
+{% endblock %}
+{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
+{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}

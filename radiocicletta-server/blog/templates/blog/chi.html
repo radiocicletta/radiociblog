@@ -1,0 +1,39 @@
+{% extends "blog/one.html" %}
+{% block pagetitle %}Radiocicletta{% endblock %}
+{% block headstyle %}
+<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
+{% endblock %}
+{% block bodybaronair %}
+<div id="onair">
+ <h2>Ora in onda:</h2>
+ <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
+</div>
+<div id="playnow">
+    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
+</div>
+
+{% endblock %}
+
+{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
+
+
+{% block bodyleft %}
+<div class="content">
+					<h2>Il nome</h2>
+					<a href="nome-e-cognome">Radiocicletta</a> (anche RadioCicletta, o radioCicletta, o Radio Cicletta) è il nome che abbiamo scelto in un estenuante ora di brainstorming per battezzare il nostro progetto. L'idea è semplice: vogliamo creare una radio.
+					<h2>Perché una radio?</h2>
+						Tra di noi c'è chi ha questo sogno nel cassetto da anni, chi una volta ha già provato l'ebrezza della diretta, e chi invece non ne sa proprio nulla ma pensa solo che sia qualcosa di estremamente figo. Tuttavia tutto è iniziato quando qualcuno di noi, cercando qualcosa di decente da ascoltare nell'etere, si è stufato di sentirsi propinare sempre la solita roba e ha detto "basta, non ce n'è una che mi piace, facciamoci la radio", e qualcun'altro, bevendo il suo caffé, ha semplicemente risposto "Ok".
+					<h2>Ma chi siamo "Noi"?</h2>
+						Siamo ragazzi che si sono ritrovati insieme all'Università di Pisa. Per la verità non siamo più "ragazzi", dato che ormai bazzichiamo qui da un bel po'. Diciamo che, anche se per poco, siamo ancora nel fiore dei nostri vent'anni. Siamo ingegneri, scienziati, c'è anche qualche farmacista e degli smanettoni incontrati per caso. Siamo tutti hobbysti, abbiamo poche competenze riguardo a come si gestisce un affare di questa portata. In compenso abbiamo un sacco di idee e di risorse, e tutta la fantasia che ci occorre per concretizzare il nostro progetto.
+					<h2>E i soldi? Quanto dovrebbe entrare nelle tasche di qualcuno?</h2>
+						<strong>Assolutamente niente</strong>. Radiocicletta è un progetto totalmente a fondo perduto, che nasce per semplice gusto di un gruppo di appassionati che hanno un piccolo sogno nel cassetto, un'urgenza da soddisfare. Per questo abbiamo bisogno di <a href="http://radiocicletta.wordpress.com/supporta">tutto l'aiuto possibile</a> per andare avanti.
+					<h2>Per creare una radio servono soldi.</h2>
+						La risposta è: andiamo per gradi. Per ora, ci accontentiamo principalmente di essere presenti sul web. Possiamo (vogliamo) trasmettere i nostri programmi in streaming, creare podcast, fare cose, vedere gente. Possiamo (vogliamo) iniziare come radio a basso costo finanziario, e poi, un giorno, magari, vedere come va a finire. Riuscire a trasmettere via web è già una bella scommessa da vincere; allargarsi nell'etere è un sogno ancora più grande.
+					<h2>Quindi sarà un idea senza soldi e senza autorizzazioni?</h2>
+						Ovviamente <strong>No</strong> a entrambe le domande. I soldi vanno trovati, tramite autofinanziamento e richieste di fondi, che serviranno per mantenere la struttura sia nella parte legale che nella parte tecnica. Certo, deve essere un costo ragionevolmente proporzionato alla difficoltà dell'impresa. L'essere un progetto senza scopo di lucro è al tempo stesso un pregio, perché ci permette di abbassare i costi legali, ed una limitazione per quanto riguarda gli introiti che possiamo ricavare anche al solo scopo di mantenimento delle strutture.
+					<h2>Ma dove sta tutta questa difficoltà nella radio web? Basta un pc!</h2>
+						Se hai solo qualcosa da dire una mezz'ora al giorno una volta alla settimana o al mese, è probabilmente vero. Ma un progetto più ampio, a cui possono partecipare molte persone, ha bisogno di  basi più solide. C'è bisogno di una buona strumentazione, di locali preparati, di un piano di gestione di (eventuali) fondi. Senza dimenticare poi che il broadcasting ed il webcasting sono regolati a livello nazionale dallo stato in modo più o meno blando. Inoltre vanno considerati i costi per ottenere i diritti di trasmissione dei brani da parte delle associazioni di categoria, e via dicendo. Andare in onda legalmente ogni giorno è molto più oneroso di quanto si possa pensare.
+</div>
+{% endblock %}
+{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
+{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}
