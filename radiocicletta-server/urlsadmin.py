@@ -3,9 +3,6 @@ from django.contrib import admin
 from django.http import HttpResponse
 admin.autodiscover()
 
-
-
-
 def my_view(request): 
 	return HttpResponse("Hello!")
 

@@ -7,38 +7,29 @@ from django.shortcuts import redirect
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 from django.db.models import *
+from django.conf.urls import patterns, url, include
+from django.contrib import admin
 handler500 = 'djangotoolbox.errorviews.server_error'
+admin.autodiscover()
 
 sitemaps = {
     'posts': PostsSitemap,
     'pages': PagesSitemap,
 }
 
-
-def logout_user(request):
-     muser=request.user
-     logout(request)
-     if(not muser or not muser.is_superuser):
-	return HttpResponsePermanentRedirect("/amministra/")
-     else:
-	return HttpResponsePermanentRedirect("/admin/")
-     
-
-
 urlpatterns = patterns('',
     ('^_ah/warmup$', 'djangoappengine.views.warmup'),
-    (r'^admin/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    (r'^admin/logout/$', logout_user),
-    (r'^admin/', include('urlsadmin')),
+    #(r'^admin/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
+    #(r'^admin/logout/$', logout_user),
+    (r'^admin/', include(admin.site.urls)),
     (r'^blog/', include('blog.urls')),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',{'sitemaps': sitemaps}),
     (r'^search$', 'google_cse.views.search'),
     (r'^robots\.txt$', 'robots.views.robots'),
-    (r'^amministra/*', include('amministra.urls')),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    (r'^accounts/logout/$','django.contrib.auth.views.logout'),
+    #(r'^amministra/*', include('amministra.urls')),
+    #(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
+    #(r'^accounts/logout/$','django.contrib.auth.views.logout'),
     (r'^favicon\.ico$',redirect_to, {'url': 'http://radiocicletta-static.appspot.com/images/favicon.ico'}),
-    (r'^grappelli/', include('grappelli.urls')),
     (r'^home/', 'blog.views.oldhome'),
     (r'^/', 'blog.views.oldhome'),
     (r'^foto/', 'blog.views.foto'),
