@@ -3,10 +3,21 @@ from programmi.models import Programmi
 from django.contrib import admin
 from minicms.admin import BaseAdmin
 
+
+
+g-
+
 class BlogAdmin(BaseAdmin):
-    list_display = ('title', 'url')
-    search_fields = ('url',)
+    list_display = ('title', 'url','utente')
+    search_fields = ('title',)
     ordering = ('url',)
+
+
+    def queryset(self, request):
+        qs = super(MyModelAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(utente=request.user.id)
 
 class PostAdmin(BaseAdmin):
     fieldsets = (
@@ -47,6 +58,12 @@ class ProgrammiAdmin(BaseAdmin):
     list_display = ('title', 'descr')
     search_fields = ('title',)
     ordering = ('title',)
+
+    def queryset(self, request):
+        qs = super(MyModelAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(author=request.user)
 
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Post, PostAdmin)

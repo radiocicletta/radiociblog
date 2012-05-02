@@ -66,7 +66,6 @@ INSTALLED_APPS = (
     'autoload',
     'dbindexer',
     'permission_backend_nonrel',
-    'amministra',
     'programmi',
     'authority',
 
