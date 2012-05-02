@@ -117,7 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
-    'minicms.context_processors.cms',
+    'minicms.context_processors.cms'
 )
 
 USE_I18N = False
@@ -158,6 +158,7 @@ GLOBAL_MEDIA_DIRS = (
 
 ADMIN_MEDIA_PREFIX ='/media/admin/'
 ROOT_URLCONF = 'urls'
+DISTRIBUITED_CONTENT_URL = 'http://localhost:8081'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
 
