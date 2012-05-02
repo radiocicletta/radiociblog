@@ -5,8 +5,6 @@ from minicms.admin import BaseAdmin
 
 
 
-g-
-
 class BlogAdmin(BaseAdmin):
     list_display = ('title', 'url','utente')
     search_fields = ('title',)
