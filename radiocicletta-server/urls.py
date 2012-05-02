@@ -7,7 +7,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponsePermanentRedirect
 from django.conf import settings
 from django.db.models import *
-from django.conf.urls import patterns, url, include
+#from django.conf.urls import patterns, url, include
+from django.conf.urls import *
 from django.contrib import admin
 handler500 = 'djangotoolbox.errorviews.server_error'
 admin.autodiscover()
