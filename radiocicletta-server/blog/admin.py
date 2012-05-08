@@ -12,7 +12,7 @@ class BlogAdmin(BaseAdmin):
 
 
     def queryset(self, request):
-        qs = super(MyModelAdmin, self).queryset(request)
+        qs = super(BaseAdmin, self).queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(utente=request.user.id)
@@ -58,7 +58,7 @@ class ProgrammiAdmin(BaseAdmin):
     ordering = ('title',)
 
     def queryset(self, request):
-        qs = super(MyModelAdmin, self).queryset(request)
+        qs = super(BaseAdmin, self).queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(author=request.user)
