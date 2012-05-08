@@ -1,19 +1,15 @@
 {% extends "blog/default.html" %}
-{% block pagetitle %}Aiutaci{% endblock %}
+{% block pagetitle %}Blogs{% endblock %}
 {% block bodybaronair %}
 {% endblock %}
 
 {% block bodyheader %}{% endblock %}
 
 {% block bodyleft %}
-<div class="content">
 {% for b in blogs %}
-<div class="post" id={{ p.id }}>
+<section>
 <h3><a href="{{ b.get_absolute_url }}">{{ b.title }}</a></h3>
-<div class="postcontent">
 {{ b.description }}
-</div>
-</div>
+</section>
 {% endfor %}
-</div>
 {% endblock %}
