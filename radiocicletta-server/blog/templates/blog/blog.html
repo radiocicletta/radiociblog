@@ -1,33 +1,15 @@
-{% extends "blog/one.html" %}
-{% block pagetitle %}Radiocicletta{% endblock %}
-{% block headstyle %}
-<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
-{% endblock %}
+{% extends "blog/default.html" %}
+{% block pagetitle %}Blogs{% endblock %}
 {% block bodybaronair %}
-<div id="onair">
- <h2>Ora in onda:</h2>
- <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
-</div>
-<div id="playnow">
-    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
-</div>
-
 {% endblock %}
 
-{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
-
+{% block bodyheader %}{% endblock %}
 
 {% block bodyleft %}
-<div class="content">
 {% for b in blogs %}
-<div class="post" id={{ p.id }}>
+<section>
 <h3><a href="{{ b.get_absolute_url }}">{{ b.title }}</a></h3>
-<div class="postcontent">
 {{ b.description }}
-</div>
-</div>
+</section>
 {% endfor %}
-</div>
 {% endblock %}
-{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
-{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}

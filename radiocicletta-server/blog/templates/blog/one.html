@@ -1,51 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+{% load blog %}
+<!DOCTYPE HTML>
+<html lang="it">
   <head>
-	<title>{% block pagetitle %}{% endblock %}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="content-language" content="it" />
-    {% block headmeta %}{% endblock %}
-    <link rel="shortcut icon" href="http://radiocicletta-static.appspot.com/images/favicon.ico">
+	<title>{% block pagetitle %}{% endblock %} — Radiocicletta</title>
+	<meta charset="UTF-8">
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.2.0/build/cssreset/reset-min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/css/style.css" />
+    <link rel="stylesheet" href="{% cdnmediaurl %}/css/layout.css"/>
+    <link rel="stylesheet" href="{% cdnmediaurl %}/css/media.css"/>
+
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/zepto.js"></script>
+<!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="jquip.js"></script>
+    <script type="text/javascript" src="jquip.events.js"></script>
+    <script type="text/javascript" src="jquip.docready.js"></script>
+    <script type="text/javascript" src="jquip.css.js"></script>
+<style>
+    #content{
+
+    }
+</style>
+<![endif]-->
+    <script type="text/javascript" async src="{% cdnmediaurl %}/js/mediaelement.js"></script>
+    <script type="text/javascript" async src="{% cdnmediaurl %}/js/bike.js"></script>
+
+    {% block headmeta %}{% endblock %}
     {% block headstyle %}{% endblock %}
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-    <script type="text/javascript" src="http://radiocicletta-static.appspot.com/js/date.js"></script>
-    <script type='text/javascript' src='http://radiocicletta-static.appspot.com/js/jquery.corner.js'></script>
-    <script type="text/javascript" src="http://radiocicletta-static.appspot.com/js/progutil.js"></script>
     {% block headscript %}{% endblock %}
-    <script type="text/javascript">
-    	$("footer").corner(20);
-		$(".box").corner(20);
-		$(".sum").corner('bevelfold');
-    </script>
   </head>
   <body>
-    {% block prebody %}{% endblock %}
-    {% block bodyheader %}{% endblock %}
-    <div id="bar_onair">
-    {% block bodybaronair %}{% endblock %}
-	</div>
-    <!------ NEWS ------> 
-    {% block bodynewsbox %}{% endblock %}
-
-    <div id="body">	
-        {% block bodybody %}{% endblock %}
-		<div id="bodyleft">
-        {% block bodyleft %}{% endblock %}
-		</div>
-        
-		<div id="bodyright">
-        {% block bodyright %}{% endblock %}
-        </div>
-
-  		<div class="visualclear">{% block bodyvisualclear %}{% endblock %}</div>
-      	
-     </div>
-      <footer>
-         {% block bodyfooter %}{% endblock %}
-      </footer>
-   </body>
+    {% block body %}{% endblock %}
   </body>
 </html>

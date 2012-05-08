@@ -1,78 +1,38 @@
-{% extends "blog/one.html" %}
-{% block pagetitle %}Radiocicletta{% endblock %}
-{% block headstyle %}
-<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
-{% endblock %}
-{% block headscript %}
-<script type="text/javascript" src="http://radiocicletta-static.appspot.com/bxSlider/jquery.bxSlider.min.js" ></script>
-<script type='text/javascript' src='http://radiocicletta-static.appspot.com/libs/jquery-ui-1.8.4.custom.min.js'></script>
-<script type="text/javascript">
-	//----------News---------->
-		$(document).ready(function(){
-        	$('#slider1').bxSlider({
-            	infiniteLoop: false,
-            	auto: true,
-            	pager: true,
-            	pause: 10000
-        	});
-    	});
-
-	//---------google analyst-->
-		var _gaq = _gaq || [];
- 		_gaq.push(['_setAccount', 'UA-26545450-1']);
-  		_gaq.push(['_trackPageview']);
-		(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
- 		})();
-
-	</script>
-
-
-{% endblock %}
+{% extends "blog/default.html" %}
+{% block pagetitle %}Home{% endblock %}
 {% block bodybaronair %}
-<div id="onair">
- <h2>Ora in onda:</h2>
- <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
-</div>
-<div id="playnow">
-    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
-</div>
-
 {% endblock %}
 
-{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
-{% block bodynewsbox %}
-<div class="box" style="width:925px; margin:20px auto; background-color:#ffffff; border:solid 0px #CC0033;">
-<ul id="slider1">
-  <li>    			
-	<img src="http://radiocicletta-static.appspot.com/images/download/SCR_andr1.png" height="270" style="float: left;margin-right: 6px;"/>	
-	<img src="http://radiocicletta-static.appspot.com/images/download/SCR_andr3.png" height="270" style="float: left;margin-right: 36px;"/>	
-	<h3>Porta con te Radiocicletta!!</h3>
-	<p>Da oggi sara più facile ascoltare radiocicletta con i nuovi software per Android, Mac OSX e Windows<br/>
-	Vai nella sezione download per scaricare l'app</p>
-    <p><br/>
-    <img src="http://radiocicletta-static.appspot.com/images/download/AndroidSH.png" width="100px" style="margin-left:26px">
-	<img src="http://radiocicletta-static.appspot.com/images/download/Apple.png" width="100px" style="margin-left:26px">
-	<img src="http://radiocicletta-static.appspot.com/images/download/Windows.png" width="100px" style="margin-left:26px">
-    </p>
-   </li>
-   <li>			
-	<img src="http://radiocicletta-static.appspot.com/images/loghiprog/phi.jpg"height="270"style="float:left;margin-right:36px;">					
-	<h3>PHI^3<span>ogni lunedi alle 21</span></h3>
-    <p>PHI^3 E' un programma di "collegamento" tra argomenti che sembrano separati ma non lo sono, si parla infatti di fisica e scienza in genere, filosofia, libri, fumetti, film, videogiochi, e naturalmente musica.<br/>
-    In ogni puntata c'è un tema principale a cui tutto ciò è collegato in modo evidente o meno.</p>
-   </li> 
-   <li>			
-    <img src="http://radiocicletta-static.appspot.com/images/loghiprog/cinemando.jpg" height="270" style="float: left;margin-right: 36px;"/>					
-	<h3>Cinemando<span>ogni mercoledi alle 19</span></h3>
-	<p>Cinemando! Un programma mai visto o meglio..mai ascoltato! Due tra i più importanti critici di cinema "al mondo" vi accompagneranno in un viaggio lungo un'ora..(appena il tempo di avere qualche problema tecnico!) si certo!<br/>
-	Tizio a caso e Nina la caravella vi aspettano, per curiosare insieme tra cinema, film, recensioni e tante colonne sonore, il mercoledì alle 19 solo su RadioCicletta :: Ascoltala a manetta!</p>
-   </li>
-</ul>
-</div>
-{% endblock %}
+{% block bodyheader %}{% endblock %}
 
-{% block bodyleft %}{% include "blog/leftbar.html" %}{% endblock %}
-{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
-{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}
+{% block bodyleft %}
+    {% for post in recent_posts %}
+        <section>
+        <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
+            <ul class="articleinfo">
+                <li>Di: <a href="">Author</a></li>
+                <li>
+                    22 Apr 1979
+                </li>
+                <li>
+                	<a href="">Commenti</a>
+                </li>
+            </ul>
+            <p><img src="http://userserve-ak.last.fm/serve/126/61192749.jpg"/>I'm in the shizzle ipsizzle dolor sit amizzle, consectetuer i saw beyonces tizzles and my pizzle went crizzle pimpin'. Nullam fo shizzle velizzle, bow wow wow volutpizzle, suscipizzle quizzle, hizzle vizzle, arcu. Cool eget mah nizzle.</p> <p><a href="http://www.facebook.com">Sed erizzle</a>. Fusce izzle da bomb fo shizzle <a href="http://www.gino.com">mah nizzle</a> fo rizzle, mah home g-dizzle turpis tempus dizzle. Maurizzle mammasay mammasa mamma oo sa ghetto izzle sheezy. Dizzle izzle tortizzle. Sure mofo rhoncus mah nizzle. In brizzle gangster ass dictumst. Ma nizzle dapibizzle. Curabitizzle break yo neck, yall urna, pretium shiz, mattizzle ghetto, fizzle gangsta, nunc. Shit shiznit. Gangster semper fo shizzle sizzle purus. <a href="" class="readmore">Leggi l'articolo completo»</a></p>
+        </section>
+    {% endfor %}
+        <section>
+            <h2><a href="">Blog Article 2 test</a></h2>
+            <ul class="articleinfo">
+                <li>Di: <a href="">Author</a></li>
+                <li>
+                    22 Apr 1979
+                </li>
+                <li>
+                	<a href="">Commenti</a>
+                </li>
+            </ul>
+            <p><img src="http://userserve-ak.last.fm/serve/126/61192749.jpg"/>I'm in the shizzle ipsizzle dolor sit amizzle, consectetuer i saw beyonces tizzles and my pizzle went crizzle pimpin'. Nullam fo shizzle velizzle, bow wow wow volutpizzle, suscipizzle quizzle, hizzle vizzle, arcu. Cool eget mah nizzle.</p> <p><a href="http://www.facebook.com">Sed erizzle</a>. Fusce izzle da bomb fo shizzle <a href="http://www.gino.com">mah nizzle</a> fo rizzle, mah home g-dizzle turpis tempus dizzle. Maurizzle mammasay mammasa mamma oo sa ghetto izzle sheezy. Dizzle izzle tortizzle. Sure mofo rhoncus mah nizzle. In brizzle gangster ass dictumst. Ma nizzle dapibizzle. Curabitizzle break yo neck, yall urna, pretium shiz, mattizzle ghetto, fizzle gangsta, nunc. Shit shiznit. Gangster semper fo shizzle sizzle purus. <a href="" class="readmore">Leggi l'articolo completo»</a></p>
+        </section>
+{% endblock %}
+{% block bodyright %}{% endblock %}

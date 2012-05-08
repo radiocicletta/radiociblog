@@ -7,14 +7,19 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
 from simplesocial.api import wide_buttons, narrow_buttons
+from programmi.models import Programmi
 
 ### pagine "statiche"
 def oldhome(request):
-    return render(request, 'blog/index.html')
+    blogs = Blog.objects.all()
+    recent_posts = Post.objects.filter(published=True)
+    recent_posts = recent_posts.order_by('-published_on')[:6]
+    return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts})
 def foto(request):
     return render(request, 'blog/foto.html')
 def programmi(request):
-    return render(request, 'blog/programmi.html')
+    programmi = Programmi.objects.all()
+    return render(request, 'blog/programmi.html', {'programmi': programmi})
 def chi(request):
     return render(request, 'blog/chi.html')
 def aiuta(request):
@@ -25,7 +30,9 @@ def down(request):
 ### pagine bloggose
 def tuttib(request):
     blogs = Blog.objects.all()
-    return render(request, 'blog/blog.html',{'blogs':blogs})
+    recent_posts = Post.objects.filter(published=True)
+    recent_posts = recent_posts.order_by('-published_on')[:6]
+    return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts})
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)

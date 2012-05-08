@@ -1,0 +1,148 @@
+{% extends "blog/one.html" %}
+{% block body %}
+<h1><a href="/">Radiocicletta &mdash; Web Radio</a></h1>
+<nav class="toplevel">
+    
+    <ul>
+        <li><a href="/home" class="home">Home</a></li>
+    	<li><a href="/programmi" class="schedule">Programmi</a></li>
+    	<li><a href="/blogs" class="blogs">Blogs</a></li>
+    	<li><a href="/chisiamo" class="faq">Chi siamo</a></li>
+    	<li><a href="/downloads" class="downloads">Download</a></li>
+    	<li><a href="/aiutaci" class="help">Aiutaci</a></li>
+    </ul>
+</nav>
+<div id="playercontainer">
+    <div id="player">
+        <audio id="audiosrc" preload="none" src="http://www.radiocicletta.it:8000/stream"></audio>
+    </div>
+</div>
+
+<div id="body">
+<div id="content">
+    <div class="fluid">
+        <nav class="adjustablemenu">
+            <h2>Programmi</h2>
+            <ul>
+                <li><a href="">lunedì</a>
+                <ul class="submenu">
+                    <li><a href="">Eclettica</a></li>
+                    <li><a href="">Mai dire cicletta</a></li>
+                    <li><a href="">Il Triciclo</a></li>
+                    <li><a href="">TRENINTRANSITO</a></li>
+                    <li><a href="">PLUG tutte le correnti della musica</a></li>
+                </ul></li>
+                <li><a href="">martedì</a>
+                <ul class="submenu">
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                </ul></li>
+                <li><a href="">mercoledì</a>
+                <ul class="submenu">
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                </ul></li>
+                <li><a href="">giovedì</a>
+                <ul class="submenu">
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                </ul></li>
+                <li><a href="">venerdì</a>
+                <ul class="submenu">
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                </ul></li>
+                <li><a href="">domenica</a>
+                <ul class="submenu">
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                    <li><a href="">Programma1</a></li>
+                </ul></li>
+            </ul>
+        </nav>
+        <div class="main">
+        {% block bodyleft %}{% endblock %}
+        </div>
+    </div>
+</div>
+<div id="sidebar">
+    <div class="side">
+        <div class="now">
+            <p>
+                <em>Ora in onda:</em>
+                <a href="">Musica No Stop</a>
+            </p>
+        </div>
+        {%block bodyright %}{% endblock %}
+        <section id="todayschedule">
+            <h2>Oggi in onda</h2>
+        </section>
+        <section>
+            <h2>Replicanda</h2>
+            <p>Gli ultimi podcast</p>
+        </section>
+        <section>
+            <h2>Socializzanda</h2>
+            <p>Che si dice nella rete</p>
+        </section>
+        <section>
+            <h2>Propaganda</h2>
+            <p>Dacci €Danaro! We need $Money! ¢Dinero Por Favor!</p>
+        </section>
+    </div>
+</div>
+</div>
+<footer>
+    <nav class="foot">
+        <div class="menu">
+            <h2>Radiocicletta</h2>
+            <ul>
+            	<li><a href="">Home</a></li>
+            	<li><a href="">Programmi</a></li>
+            	<li><a href="">Blogs</a></li>
+            	<li><a href="">Chi siamo</a></li>
+                <li><a href="">Aiutaci</a></li>
+            </ul>
+        </div>
+        <div class="menu">
+        	<h2>Social</h2>
+        	<ul>
+                <li><a href="">Facebook</a></li>
+                <li><a href="">Twitter</a></li>
+                <li><a href="">Mixcloud</a></li>
+                <li><a href="">Google+</a></li>
+                <li><a href="">Last.fm</a></li>
+                <li><a href="">Myspace</a></li>
+                <li><a href="">Tumblr</a></li>
+                <li><a href="">Youtube</a></li>
+            </ul>
+        </div>
+        <div class="menu">
+        	<h2>Sviluppatori</h2>
+        	<ul>
+                <li><a href="">Radiocicletta on Github</a></li>
+        		<li><a href="">IceCast</a></li>
+        		<li><a href="http://ross.sourceforge.net/">Linux Broadcasting</a></li>
+        	</ul>
+        </div>
+        <div class="menu">
+        	<h2>Robe noiose</h2>
+        	<ul>
+        		<li><a href="">Valid HTML5</a></li>
+        	</ul>
+        </div>
+    </nav>
+    <address>
+        Associazione culturale Radiocicletta &mdash; via Cecco di Pietro 6
+    </address>
+</footer>
+{% endblock %}

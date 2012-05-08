@@ -1,0 +1,278 @@
+@media all and (min-width: 1920px) {
+    #body {
+        max-width: 1920px!important;
+    }
+    #content {
+        max-width: 1920px !important;
+    }
+    #content .fluid section{
+        width: 33%;
+        max-width: 50%;
+        float: left;
+        vertical-align: top;
+        clear: none;
+    }
+}
+
+@media all and (min-width: 1440px) {
+    #body {
+        max-width: 1440px;
+    }
+    #content {
+        max-width: 1440px;
+    }
+}
+
+@media all and (min-width: 1120px) {
+
+    #body {
+        max-width: 1280px; 
+    }
+    #content {
+        max-width: 1280px;
+    }
+    #content .fluid .adjustablemenu {
+        /*max-width: 240px;*/
+        width: 22%;
+        float: left;
+        border: none;
+        text-align: left;
+    }
+    #content .fluid .adjustablemenu ul {
+        display: block;
+    }
+
+    .adjustablemenu > ul > li {
+        display: list-item;
+    }
+
+    .adjustablemenu li  ul {
+        margin-bottom: 20px;
+    }
+
+    .adjustablemenu .submenu a {
+        padding: 7px 20px 7px 30px !important;
+        font-size: 75%;
+        line-height: 20px !important;
+        height: auto !important;
+        letter-spacing: 0.1em;
+    }
+
+    .adjustablemenu a {
+        display: block !important;
+    }
+
+    .adjustablemenu > ul > li > a {
+        border-bottom: solid 1px white !important;
+        padding-left: 30px;
+    }
+
+    .adjustablemenu > ul > li:hover > a {
+        border-bottom: solid 1px red !important;
+    }
+
+    #content .fluid {
+        margin-left: 10px;
+    }
+
+    #content .fluid .main {
+        /*max-width: 640px;*/
+        width: 78%;
+        float: right;
+    }
+    .fluid:after {
+        content: "";
+        clear: both;
+        display: block;
+        height: 0px;
+    }
+}
+
+@media all and (max-width: 960px) {
+    #content .fluid {
+        border-left: none;
+    }
+}
+
+@media all and (max-width: 880px) {
+    .toplevel {
+        height: 100%;
+    }
+
+    .toplevel ul{
+        height: 100%;
+        border-bottom: solid 1px #404040;
+    }
+
+    .toplevel li {
+        display: inline;
+    }
+
+    .toplevel li:first-child {
+        display: block;
+        height: 79px;
+        overflow: hidden;
+    }
+    
+
+    .toplevel li a:not(.home) {
+        /*display: inline-block;*/
+        /*width: 50%;*/
+        display: block;
+        float: left;
+        text-decoration: none;
+        /*background: rgba(0,0,0,0.8);*/
+        overflow: hidden;
+        margin: 0px -2px;
+        text-align: center;
+        /*border-top: solid 1px #404040;*/
+        height: 50px;
+    }
+    .toplevel li a:not(.home):hover {
+        background-color: rgba(0,0,0,0.8);
+    }
+}
+
+@media all and (max-width: 840px) {
+
+
+    #content {
+        width: 100%;
+        margin-right: -240px;    
+    }
+    #content .fluid {
+        margin-right: 240px;
+    }
+    footer nav .menu h2 {
+        letter-spacing: 0.1em;
+    }
+    #sidebar .side {
+        width:240px;
+    }
+    #sidebar .side section {
+        margin: 0px;
+    -webkit-border-radius: 0px;
+       -moz-border-radius: 0px;
+            border-radius: 0px;
+    }
+    .side section:not(:first-of-type) {
+        border-top: 0px;
+    }
+
+}
+
+@media all and (max-width: 640px) {
+    #player {
+        width: 320px;
+        height: 47px;
+        margin: auto;
+        margin-bottom: 12px;
+    }
+
+
+    #playermetadata {
+        max-width: 240px;
+    }
+    #playerexternal,
+    #playerdetach {
+        display: none;
+    }
+
+    #content {
+        width: 100%;
+        margin-right: 0px;    
+    }
+    #content .fluid {
+        margin-right: 0px;
+        border-radius: 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+    }
+
+    .toplevel li a.home {
+        width: 403px;
+        text-decoration: none;
+        background: url(logo_head_big.png) no-repeat -90px 0px;
+        overflow: hidden;
+        padding-top: 79px;
+        height: 79px;
+        display: block;
+    }
+
+    .toplevel li a:not(.home):hover {
+        background-color: rgba(0,0,0,0.8);
+    }
+
+    footer nav .menu {
+        width: 50%;
+        margin-left: -2px;
+    }
+
+    #sidebar .side{
+        width:100%;
+    }
+    #sidebar .side section {
+                border-radius: 2px;
+        -webkit-border-radius: 2px;
+           -moz-border-radius: 2px;
+    }
+
+    #content .fluid section img {
+        margin: 10px 10px 10px -10px;
+    };
+}
+
+
+@media all and (max-width: 440px) {
+
+
+    .toplevel ul {
+        background-position: 0px -16px;
+    }
+
+    .toplevel li {
+        display: block;
+    }
+    .toplevel li:first-child {
+        height: 63px;
+    }
+    .toplevel li a.home {
+        width: 403px;
+        overflow: hidden;
+        padding-top: 63px;
+        height: 63px;
+        background-position: 0px -79px;
+    }
+    .toplevel li a:not(.home) {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        overflow: hidden;
+        margin: 0px;
+        text-align: center;
+        border-top: solid 1px #404040;
+        height: 40px;
+        line-height: 40px;
+    }
+    #playervolume {
+        display: none;
+    }
+    footer nav .menu {
+        width: 100%;
+        text-align: center;
+    }
+
+    #content .fluid section img {
+        width: 100%;
+    }
+}
+
+@media all and (max-width: 320px) {
+}
+
+@media all and (max-width: 280px) {
+}
+
+@media all and (max-width: 239px) {
+}
+
