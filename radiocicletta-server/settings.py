@@ -66,7 +66,7 @@ INSTALLED_APPS = (
     'autoload',
     'dbindexer',
     'permission_backend_nonrel',
-   # 'object_permission_backend_nonrel',
+    'object_permission_backend_nonrel',
     'programmi',
     'authority',
 
@@ -80,7 +80,7 @@ else:
 
 
 AUTHENTICATION_BACKENDS = (
-    'permission_backend_nonrel.backends.NonrelPermissionBackend',#'object_permission_backend_nonrel.backends.ObjectPermBackend',
+    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
 
 )
 

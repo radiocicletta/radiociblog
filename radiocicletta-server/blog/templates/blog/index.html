@@ -10,15 +10,15 @@
         <section>
         <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
             <ul class="articleinfo">
-                <li>Di: <a href="">Author</a></li>
+                <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
                 <li>
-                    22 Apr 1979
+                    {{ post.published_on }}
                 </li>
                 <li>
                 	<a href="">Commenti</a>
                 </li>
             </ul>
-            <p><img src="http://userserve-ak.last.fm/serve/126/61192749.jpg"/>I'm in the shizzle ipsizzle dolor sit amizzle, consectetuer i saw beyonces tizzles and my pizzle went crizzle pimpin'. Nullam fo shizzle velizzle, bow wow wow volutpizzle, suscipizzle quizzle, hizzle vizzle, arcu. Cool eget mah nizzle.</p> <p><a href="http://www.facebook.com">Sed erizzle</a>. Fusce izzle da bomb fo shizzle <a href="http://www.gino.com">mah nizzle</a> fo rizzle, mah home g-dizzle turpis tempus dizzle. Maurizzle mammasay mammasa mamma oo sa ghetto izzle sheezy. Dizzle izzle tortizzle. Sure mofo rhoncus mah nizzle. In brizzle gangster ass dictumst. Ma nizzle dapibizzle. Curabitizzle break yo neck, yall urna, pretium shiz, mattizzle ghetto, fizzle gangsta, nunc. Shit shiznit. Gangster semper fo shizzle sizzle purus. <a href="" class="readmore">Leggi l'articolo completo»</a></p>
+            {{ post.rendered_content }}
         </section>
     {% endfor %}
         <section>
