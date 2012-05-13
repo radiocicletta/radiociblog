@@ -37,6 +37,9 @@
         float: left;
         border: none;
         text-align: left;
+        background: #323232;
+        margin-right: -1px;
+        border-right: solid 1px #494949;
     }
     #content .fluid .adjustablemenu ul {
         display: block;
