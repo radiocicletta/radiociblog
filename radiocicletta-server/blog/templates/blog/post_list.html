@@ -1,9 +1,5 @@
 {% extends "blog/default.html" %}
-{% block pagetitle %}Aiutaci{% endblock %}
-{% block bodybaronair %}
-{% endblock %}
-
-{% block bodyheader %}{% endblock %}
+{% block pagetitle %}{% endblock %}
 
 {% block bodyleft %}
 {% for post in object_list %}
@@ -18,3 +14,4 @@
     </div>
   </div>
 {% endfor %}
+{% endblock %}

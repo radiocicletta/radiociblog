@@ -1,5 +1,6 @@
 {% extends "blog/one.html" %}
 {% block body %}
+{% load blog %}
 <h1><a href="/">Radiocicletta &mdash; Web Radio</a></h1>
 <nav class="toplevel">
     
@@ -24,49 +25,14 @@
         <nav class="adjustablemenu">
             <h2>Programmi</h2>
             <ul>
-                <li><a href="">lunedì</a>
-                <ul class="submenu">
-                    <li><a href="">Eclettica</a></li>
-                    <li><a href="">Mai dire cicletta</a></li>
-                    <li><a href="">Il Triciclo</a></li>
-                    <li><a href="">TRENINTRANSITO</a></li>
-                    <li><a href="">PLUG tutte le correnti della musica</a></li>
+            {% for day, order, list in schedule %}
+                <li><a href="">{{day}}</a>
+                    <ul class="submenu">
+                    {% for p in list %}
+                        <li><a href="{{ p.blog.url }}">{{ p.title }}</a></li>
+                    {% endfor %}
                 </ul></li>
-                <li><a href="">martedì</a>
-                <ul class="submenu">
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                </ul></li>
-                <li><a href="">mercoledì</a>
-                <ul class="submenu">
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                </ul></li>
-                <li><a href="">giovedì</a>
-                <ul class="submenu">
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                </ul></li>
-                <li><a href="">venerdì</a>
-                <ul class="submenu">
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                </ul></li>
-                <li><a href="">domenica</a>
-                <ul class="submenu">
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                    <li><a href="">Programma1</a></li>
-                </ul></li>
+             {% endfor %}
             </ul>
         </nav>
         <div class="main">
@@ -142,7 +108,10 @@
         </div>
     </nav>
     <address>
-        Associazione culturale Radiocicletta &mdash; via Cecco di Pietro 6
+        Associazione culturale Radiocicletta &mdash; Centro Passi, Pisa
+        Powered by <a href="http://www.allbuttonspressed.com/projects/django-nonrel">Django-nonrel</a>,
+        <a href="http://code.google.com/appengine/">App Engine</a>, and
+        <a href="http://www.allbuttonspressed.com/projects/allbuttonspressed">All Buttons Pressed</a>
     </address>
 </footer>
 {% endblock %}

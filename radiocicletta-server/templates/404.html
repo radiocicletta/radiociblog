@@ -1,30 +1,8 @@
-{% extends "blog/one.html" %}
-{% block pagetitle %}Radiocicletta login{% endblock %}
-{% block headstyle %}
-<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
-{% endblock %}
-{% block bodybaronair %}
-<div id="onair">
- <h2>Ora in onda:</h2>
- <div id="nellaria"></div><h2 style=" margin-left:40px; margin-right:10px;"> A seguire:</h2><div id="offair-prog"></div>
-</div>
-<div id="playnow">
-    <a onclick="openPopUp('http://s5.histats.com/stats/r.php?1686508&100&29542&urlr=&www.radiocicletta.it/jPlayer/player.htm','_new','channelmode=no,directories=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=520,height=550')" href="javascript:void(0)">play now</a>
-</div>
-
-{% endblock %}
-
-{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
-
-
+{% extends "blog/default.html" %}
+{% block pagetitle %}Non trovato{% endblock %}
 {% block bodyleft %}
-<div class="content">
-{% block title %}Page not found{% endblock %}
-
-{% block content %}
-The page you requested could not be found.
+<article>
+    <h2>Ooops!</h2>
+    <p>Per me si va nella città dolente, per me si va nell'etterno dolore.</p>
+</article>
 {% endblock %}
-</div>
-{% endblock %}
-{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
-{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}

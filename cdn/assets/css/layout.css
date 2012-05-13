@@ -471,7 +471,8 @@ footer address {
             border-bottom-right-radius: 5px;
 }
 
-#content .fluid section {
+#content .fluid section,
+#content .fluid article {
     padding: 10px 25px;
     margin: 10px 0px;
     text-shadow: 1px 1px 1px #000000;
@@ -480,8 +481,11 @@ footer address {
     font-weight: 300;
     letter-spacing: 0.5pt;
     clear: both;
-    border-bottom: solid 4px #c13952;
     font-weight: 400;
+}
+
+#content .fluid section{
+    border-bottom: solid 4px #c13952;
 }
 
 .fluid .adjustablemenu {
@@ -544,7 +548,8 @@ footer address {
     color: #ddd!important;
 }
 
-#content .fluid section img {
+#content .fluid section img,
+#content .fluid article img { 
     margin: 10px 10px 10px 0px;
     display: block;
     padding: 10px;
@@ -677,7 +682,8 @@ footer address {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
 }
 
-.fluid section ul.articleinfo {
+.fluid section ul.articleinfo,
+.fluid article ul.articleinfo {
     margin-bottom: 2em;
 }
 

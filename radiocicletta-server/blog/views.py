@@ -8,31 +8,63 @@ from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
+import logging
+logger = logging.getLogger(__name__)
 
 ### pagine "statiche"
 def oldhome(request):
     blogs = Blog.objects.all()
     recent_posts = Post.objects.filter(published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts})
+    return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
 def foto(request):
-    return render(request, 'blog/foto.html')
+    return render(request, 'blog/foto.html', {'schedule':schedule()})
 def programmi(request):
     programmi = Programmi.objects.all()
-    return render(request, 'blog/programmi.html', {'programmi': programmi})
+    return render(request, 'blog/programmi.html', {'programmi': programmi, 'schedule':schedule()})
 def chi(request):
-    return render(request, 'blog/chi.html')
+    return render(request, 'blog/chi.html', {'schedule':schedule()})
 def aiuta(request):
-    return render(request, 'blog/aiuta.html')
+    return render(request, 'blog/aiuta.html', {'schedule':schedule()})
 def down(request):
-    return render(request, 'blog/download.html')
+    return render(request, 'blog/download.html', {'schedule':schedule()})
 
 ### pagine bloggose
 def tuttib(request):
     blogs = Blog.objects.all()
     recent_posts = Post.objects.filter(published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts})
+    return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
+
+
+def schedule():
+    progs = Programmi.objects.all().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    cal = {"lu":('Lunedi',      0, []),
+            "ma":('Martdi',     1, []),
+            "me":("Mercoledi",  2, []),
+            "gi":("Giovedi",    3, []),
+            "ve":("Venerdi",    4, []),
+            "sa":("Sabato",     5, []),
+            "do":("Domenica",   6, []) }
+    for p in progs:
+        cal[p.startgiorno][2].append(p)
+
+    for day in cal.keys():
+        cal[day][2].sort(
+                lambda x,y: (-1 and x.startora < y.startora) or
+                            (0 and x.startora == y.startora) or 1)
+    orderedcal = cal.values()
+    orderedcal.sort(lambda x,y: x[1] - y[1])
+    return orderedcal
+
+def blog_browse(request, url):
+    logger.warn(url)
+    blog = get_object_or_404(Blog, url='/' + url)
+    recent_posts = Post.objects.filter(blog=blog, published=True)
+    recent_posts = recent_posts.order_by('-published_on')[:6]
+    return render(request, 'blog/post_list.html',
+        {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule()})
+
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
@@ -42,8 +74,7 @@ def show_post(request, post, review=False):
     recent_posts = Post.objects.filter(blog=post.blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/post_detail.html',
-        {'post': post, 'blog': post.blog, 'recent_posts': recent_posts,
-         'review': review})
+        {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
 
 class BrowseView(ListView):
     paginate_by = 8

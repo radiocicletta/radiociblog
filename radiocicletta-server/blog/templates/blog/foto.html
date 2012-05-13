@@ -13,9 +13,6 @@ jQuery(document).ready(function() {
  				jQuery("#pics").EmbedPicasaGallery('radiocicletta',{
     			matcher: /./,
     			size: 130,
-			//  auto_open: true,
-			//  hide_back: true,
-			//  show_more: 5,
     			loading_animation: 'http://radiocicletta-static.appspot.com/picasa/css/loading.gif',
     			album_title_tag: '<h3/>',
  				})
@@ -50,5 +47,3 @@ jQuery(document).ready(function() {
  <div id="pics"></div>
 </div>
 {% endblock %}
-{% block bodyright %}{% include "blog/rightbar.html" %}{% endblock %}
-{% block bodyfooter %}{% include "blog/footer.html" %}{% endblock %}

@@ -41,7 +41,7 @@ class Programmi(models.Model):
         return self.title
     #preparo il json e scalo il giorno se il programma scavalla la mezzanotte (il js che renderizza se n'ha a male altrimenti)
     def tojson(self):
-         return {"id":self.id,
+        return {"id":self.id,
                  "start": [self.startgiorno,self.startora.hour,self.startora.minute],
                  "end": [self.endgiorno if not self.successivo else PRIMA[self.endgiorno],self.endora.hour,self.endora.minute],
                  "title":self.title,
@@ -49,6 +49,6 @@ class Programmi(models.Model):
 
     def mynext(self):
         if self.next:
-         return (str(self.id),str(self.next.id))
+            return (str(self.id),str(self.next.id))
         else:
-         return None
+            return None
