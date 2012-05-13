@@ -93,6 +93,7 @@ class BrowseView(ListView):
         # Call the base implementation first to get a context
         context = super(BrowseView, self).get_context_data(**kwargs)
         context.update({'blog': self.kwargs['blog'],
+                        'schedule': schedule(),
                         'recent_posts': self.get_queryset()[:6],
                         'browse_posts': True})
         return context

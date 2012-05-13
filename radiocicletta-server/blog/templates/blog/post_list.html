@@ -2,16 +2,19 @@
 {% block pagetitle %}{% endblock %}
 
 {% block bodyleft %}
-{% for post in object_list %}
-  <div class="post post-in-list">
-    {% include 'blog/post.html' %}
-    <div class="post-footer">
-      <a href="{{ post.get_absolute_url }}">Continue &raquo;</a>
-      |
-      By {{ post.author.get_full_name }} on {{ post.published_on|date }}
-      |
-      <a href="{{ post.get_absolute_url }}#disqus_thread">Comments</a>
-    </div>
-  </div>
-{% endfor %}
+    {% for post in recent_posts %}
+        <section>
+        <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
+            <ul class="articleinfo">
+                <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
+                <li>
+                    {{ post.published_on }}
+                </li>
+                <li>
+                	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
+                </li>
+            </ul>
+            {{ post.rendered_content }}
+        </section>
+    {% endfor %}
 {% endblock %}

@@ -15,7 +15,7 @@
                     {{ post.published_on }}
                 </li>
                 <li>
-                	<a href="">Commenti</a>
+                	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
                 </li>
             </ul>
             {{ post.rendered_content }}
