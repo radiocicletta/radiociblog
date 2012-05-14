@@ -1,25 +1,10 @@
 {% extends "blog/default.html" %}
 {% block pagetitle %}{{post.title}}{% endblock %}
-{% block bodybaronair %}
-{% endblock %}
-
-{% block bodyheader %}{% endblock %}
-
-{% block bodyleft %}
-<article>
-    {% load disqus_tags media simplesocial %}
-    {% block title %}<h2>{{ post.title }}</h2>{% endblock %}
+{% load disqus_tags media simplesocial %}
+        
     
-    {% block extra-head %}
-        {{ block.super }}
-        <meta name="description" content="{{ post.rendered_content|striptags|truncatewords:20 }}" />
-        {% if review %}
-        <meta name="robots" content="noindex, noarchive" />
-        {% endif %}
-    {% endblock %}
-    
-    {% block content %}
-    <div class="post post-detail">
+    {% block bodyleft %}
+    <article class="post post-detail">
         {% if review %}
         <div class="info"><strong>Review mode: Don't tweet this!!!</strong></div>
         {% endif %}
@@ -34,24 +19,11 @@
             {% narrow_social_buttons request post.title post.get_absolute_url %}
         </div>
             
-        <div class="post-footer">
-            {% block post-footer %}
-            By {{ post.author.get_full_name }} on {{ post.published_on|date }}
-            |
-            <a href="{{ blog.get_absolute_url }}">Browse all posts &raquo;</a>
-            {% endblock %}
-        </div>
+        {% disqus_num_replies %}
+        {% disqus_show_comments %}
+        {% include 'blog/recent_posts.html' %}
+        <a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a>
             
-            {% disqus_num_replies %}
-            {% disqus_show_comments %}
-            {% include 'blog/recent_posts.html' %}
-            <a href="{{ blog.get_absolute_url }}">Browse all posts &raquo;</a>
-            
-        <div class="finished-reading">
-            <strong>Finished reading?</strong> <a href="{{ blog.get_absolute_url }}">Browse all posts &raquo;</a>
-        </div>
-    </div>
+    </article>
     {% endblock %}
-</article>
-{% endblock %}
 

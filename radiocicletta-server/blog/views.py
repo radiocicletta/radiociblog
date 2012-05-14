@@ -40,7 +40,7 @@ def tuttib(request):
 def schedule():
     progs = Programmi.objects.all().exclude(status = 0) # see Programmi.models.PROGSTATUS
     cal = {"lu":('Lunedi',      0, []),
-            "ma":('Martdi',     1, []),
+            "ma":('Martedi',     1, []),
             "me":("Mercoledi",  2, []),
             "gi":("Giovedi",    3, []),
             "ve":("Venerdi",    4, []),
@@ -58,7 +58,6 @@ def schedule():
     return orderedcal
 
 def blog_browse(request, url):
-    logger.warn(url)
     blog = get_object_or_404(Blog, url='/' + url)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
@@ -67,6 +66,7 @@ def blog_browse(request, url):
 
 
 def review(request, review_key):
+    logger.warn(review_key)
     post = get_object_or_404(Post, review_key=review_key)
     return show_post(request, post, review=True)
 
@@ -126,7 +126,7 @@ class LatestEntriesFeed(Feed):
         return blog.description
 
     def item_title(self, post):
-        return post.title
+        return post.title 
 
     def item_description(self, post):
         url = 'http%s://%s%s' % ('s' if self._request.is_secure() else '',

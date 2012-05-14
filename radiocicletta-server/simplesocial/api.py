@@ -19,7 +19,7 @@ PLUS_ONE_BUTTON = """
 WIDE_BUTTONS_DIV = '<div class="wide-share-buttons" style="overflow:hidden; margin-bottom: 8px;">%s</div>'
 NARROW_BUTTONS_DIV = '<div class="narrow-share-buttons" style="overflow:hidden">%s</div>'
 
-BASE_BUTTON = '<a class="simplesocial" target="_blank" title="%(title)s" style="margin-right:5px;" href="%(url)s"><img src="%(icon)s" alt="%(title)s" width="32" height="32" /></a>'
+BASE_BUTTON = '<a class="simplesocial" target="_blank" title="%(title)s" style="margin-right:5px;" href="%(url)s">%(title)s</a>'
 
 DEFAULT_TITLE = 'Share on %s'
 
@@ -55,12 +55,7 @@ def narrow_buttons(request, title, url, buttons=SHOW_SOCIAL_BUTTONS):
             button = {'url': button}
         title = escape(button.get('title', DEFAULT_TITLE % name))
         url = escape(button['url'] % data)
-        icon = escape(button.get('icon',
-                                 media_url('simplesocial/icons32/%s.png'
-                                           % name.lower())))
-        if not icon.startswith(('http://', 'https://')):
-            icon = base_url + icon
-        code.append(BASE_BUTTON % {'title': title, 'url': url, 'icon': icon})
+        code.append(BASE_BUTTON % {'title': title, 'url': url})
     return NARROW_BUTTONS_DIV % '\n'.join(code)
 
 def wide_buttons(request, title, url,
