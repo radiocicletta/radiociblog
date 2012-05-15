@@ -196,7 +196,7 @@
     .toplevel li a.home {
         width: 403px;
         text-decoration: none;
-        background: url(logo_head_big.png) no-repeat -90px 0px;
+        background: url(/images/layout/logo_head_big.png) no-repeat -90px 0px;
         overflow: hidden;
         padding-top: 79px;
         height: 79px;
