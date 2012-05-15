@@ -17,20 +17,20 @@ PLUS_ONE_BUTTON = """
 """
 
 WIDE_BUTTONS_DIV = '<div class="wide-share-buttons" style="overflow:hidden; margin-bottom: 8px;">%s</div>'
-NARROW_BUTTONS_DIV = '<div class="narrow-share-buttons" style="overflow:hidden">%s</div>'
+NARROW_BUTTONS_DIV = '<ul class="narrow-share-buttons">%s</ul>'
 
-BASE_BUTTON = '<a class="simplesocial" target="_blank" title="%(title)s" style="margin-right:5px;" href="%(url)s">%(title)s</a>'
+BASE_BUTTON = '<li><a class="simplesocial" title="%(title)s" href="%(url)s">%(title)s</a></li>'
 
-DEFAULT_TITLE = 'Share on %s'
+DEFAULT_TITLE = 'Condividi su %s'
 
 NARROW_BUTTONS = {
     'Twitter': {
-        'title': 'Tweet this!',
+        'title': 'Retweet',
         'url': 'http://twitter.com/share?text=%(title)s&url=%(url)s%(opttwitteruser)s',
     },
     'Facebook': 'http://www.facebook.com/share.php?u=%(url)s&t=%(title)s',
     'Email': {
-        'title': 'Email a friend',
+        'title': 'Invia per email',
         'url': 'http://feedburner.google.com/fb/a/emailFlare?itemTitle=%(title)s&uri=%(url)s',
     },
     'Delicious': 'http://del.icio.us/post?url=%(url)s&title=%(title)s',
