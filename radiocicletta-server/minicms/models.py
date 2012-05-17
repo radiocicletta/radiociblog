@@ -16,7 +16,7 @@ class BaseContent(models.Model):
     def rendered_content(self):
         from django.utils.safestring import mark_safe
 	#print self.content
-        return mark_safe('<div class="userhtml" id="post">'+self.content+'</div>')
+        return mark_safe('<div class="userhtml">'+self.content+'</div>')
 	#return type(self.pre_rendered_content)
         #context = self.resolve_context(self.context_data)
 	#print self.pre_rendered_content

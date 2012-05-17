@@ -473,7 +473,7 @@ footer address {
 
 #content .fluid section,
 #content .fluid article {
-    padding: 10px 25px;
+    padding: 10px 35px;
     margin: 10px 0px;
     text-shadow: 1px 1px 1px #000000;
     -moz-text-shadow: 1px 1px 1px #000000;
@@ -483,6 +483,7 @@ footer address {
     clear: both;
     font-weight: 400;
 }
+
 
 #content .fluid section{
     border-bottom: solid 4px #c13952;
@@ -682,9 +683,42 @@ footer address {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
 }
 
+#disqus_thread {
+    margin-top: 45px;
+    padding-top: 45px;
+    margin-bottom: 45px !important;
+    padding-bottom: 45px;
+    border-top: solid 1px #3f3f3f;
+}
+
+#disqus_thread a {
+    border-bottom: none !important;
+    padding-left: 0px !important;
+    background: none !important;
+}
+
 .fluid section ul.articleinfo,
 .fluid article ul.articleinfo {
     margin-bottom: 2em;
+}
+
+.fluid article .userhtml {
+    border-bottom: solid 4px #C13952;
+}
+
+.fluid ul.narrow-share-buttons {
+    font-size: 80%;
+    text-align: right;
+    margin: 45px 0px 45px 30px;
+}
+
+.fluid ul.narrow-share-buttons li {
+    display: inline;
+}
+
+.fluid ul.narrow-share-buttons li a {
+    line-height: 110%;
+    display: inline-block;
 }
 
 .fluid ul.articleinfo li {

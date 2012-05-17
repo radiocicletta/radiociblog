@@ -34,7 +34,7 @@ AUTOLOAD_SITECONF = 'dbindexes'
 SITE_NAME = 'radiocicletta-server'
 SITE_DESCRIPTION = ''
 SITE_COPYRIGHT = ''
-DISQUS_SHORTNAME = ''
+DISQUS_SHORTNAME = 'radiocicletta'
 GOOGLE_ANALYTICS_ID = ''
 # Get the ID from the CSE "Basics" control panel ("Search engine unique ID")
 GOOGLE_CUSTOM_SEARCH_ID = ''
