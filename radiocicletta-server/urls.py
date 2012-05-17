@@ -20,16 +20,12 @@ sitemaps = {
 
 urlpatterns = patterns('',
     ('^_ah/warmup$', 'djangoappengine.views.warmup'),
-    #(r'^admin/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    #(r'^admin/logout/$', logout_user),
+    (r'^admin/blog/report/$', 'blog.admin_views.report'),
     (r'^admin/', include(admin.site.urls)),
     (r'^blog/', include('blog.urls')),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',{'sitemaps': sitemaps}),
     (r'^search$', 'google_cse.views.search'),
     (r'^robots\.txt$', 'robots.views.robots'),
-    #(r'^amministra/*', include('amministra.urls')),
-    #(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    #(r'^accounts/logout/$','django.contrib.auth.views.logout'),
     (r'^favicon\.ico$',redirect_to, {'url': 'http://radiocicletta-static.appspot.com/images/favicon.ico'}),
     (r'^home/', 'blog.views.oldhome'),
     (r'^$', 'blog.views.oldhome'),
@@ -40,4 +36,5 @@ urlpatterns = patterns('',
     (r'^download/', 'blog.views.down'),
     (r'^programmi.json', 'programmi.views.progjson'),
     (r'^blogs/', 'blog.views.tuttib'),
+
 )

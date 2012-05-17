@@ -25,6 +25,7 @@ except ImportError:
 
 import os
 
+
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
@@ -54,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'urlrouter',
     'minicms',
+    'plogo',
     'blog',
     'disqus',
     'djangotoolbox',

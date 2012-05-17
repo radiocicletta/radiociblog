@@ -7,6 +7,7 @@ from django.db.models import permalink
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
+from plogo.models import Plogo
 import re
 
 
@@ -23,7 +24,8 @@ class Blog(models.Model):
                   'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
                   'If you use FeedBurner this will also enable FeedFlares.')
     default_user=""
-    utente=models.ForeignKey(User, related_name='utenti', default=default_user) 
+    utente=models.ForeignKey(User, related_name='utenti', default=default_user)
+    logo=models.ForeignKey(Plogo, related_name='logo', blank=True, null=True) 
 
     def __unicode__(self):
         return self.title
@@ -49,6 +51,9 @@ class Blog(models.Model):
 
     def get_internal_feed_url(self):
         return self.url_prefix + 'feed/latest'
+    
+    def get_logo(self):
+        return self.logo.to_json()
 
 def default_blog():
     blogs = Blog.objects.all()[:1]
