@@ -1,0 +1,50 @@
+{% extends "admin/base_site.html" %}
+{% load mieifiltrini %}
+{% block title %}Riepilogo Blog{% endblock %}
+
+{% block content %}
+
+
+
+<div id="content" class="flex">
+<h1>Riepilogo Blog:</h1>
+<div id="content-main">
+    <div class="module" id="changelist">
+        <form id="changelist-form">
+            <div class="results">
+            <table style="width: 100%;">
+            <thead>
+                <tr>
+                <th scope="col">Title</th>
+                <th scope="col" class="sorted ascending">Programmi</th>
+                <th scope="col">Utente</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in blog_list %}
+                <tr class="row">
+                <td><a href="../blog/{{ b.id }}">{{ b.title }}</a></td>
+                <td>
+                    {% with prog_dict|lookupint:b.id as prog %}
+                        {% include "admin/blog/row.html" %}
+                    {% endwith %}
+
+
+                </td>
+                <td>{{ b.utente }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            </div>
+            <p class="paginator">#Blog: {{ blog_list|length }}</p>
+      </form>
+      </div>
+  </div>
+  <br class="clear">
+</div>
+
+
+
+
+{% endblock %}

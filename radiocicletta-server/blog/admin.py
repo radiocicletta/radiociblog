@@ -1,5 +1,6 @@
 from .models import Blog, Post
 from programmi.models import Programmi
+from plogo.models import Plogo
 from django.contrib import admin
 from minicms.admin import BaseAdmin
 
@@ -63,9 +64,18 @@ class ProgrammiAdmin(BaseAdmin):
             return qs
         return qs.filter(author=request.user)
 
+
+class PlogoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'descr')
+    search_fields = ('title',)
+
+
+
+
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Programmi, ProgrammiAdmin)
+admin.site.register(Plogo, PlogoAdmin)
 o='''
     def queryset(self, request):
     	if request.user.is_superuser:

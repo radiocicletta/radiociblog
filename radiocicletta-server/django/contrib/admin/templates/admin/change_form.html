@@ -21,9 +21,13 @@
      {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &rsaquo;
      {% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
 </div>
-{% endif %}{% endblock %}
+{% endif %}
 
-{% block content %}<div id="content-main">
+
+
+{% endblock %}
+
+{% block content %}<div id="content-main">{% block cima %}{% endblock %}
 {% block object-tools %}
 {% if change %}{% if not is_popup %}
   <ul class="object-tools">
@@ -67,5 +71,9 @@
 {% prepopulated_fields_js %}
 
 </div>
-</form></div>
+</form>
+
+
+</div>
 {% endblock %}
+{% block finediv %}{% endblock %}

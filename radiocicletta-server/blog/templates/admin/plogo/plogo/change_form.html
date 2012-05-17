@@ -1,0 +1,102 @@
+{% extends "admin/change_form.html" %}
+{% block extrahead %}
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+    /* Drag'n drop stuff */
+    window.ondragover = function(e) {e.preventDefault()}
+    window.ondrop = function(e) {e.preventDefault(); upload(e.dataTransfer.files[0]); }
+    function upload(file) {
+        $('.drop').html('<img src="http://i.imgur.com/wehtr.gif" width="104" height="104" style="margin:4px 20px auto;"></a><p>Loading</p>');
+        $('#holder').css({'border':'none'});
+        $('#imgup').css({'background':'#FFF'});
+    
+
+        /* Is the file an image? */
+        if (!file || !file.type.match(/image.*/)) return;
+
+        /* It is! */
+        document.body.className = "uploading";
+
+        /* Lets build a FormData object*/
+        var fd = new FormData(); // I wrote about it: https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
+        fd.append("image", file); // Append the file
+        fd.append("key", "6528448c258cff474ca9701c5bab6927"); // Get your own key http://api.imgur.com/
+        var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
+        xhr.open("POST", "http://api.imgur.com/2/upload.json"); // Boooom!
+        xhr.onload = function() {
+
+            // Big win!
+            imgurl=JSON.parse(xhr.responseText).upload.links.original;
+            $('#id_url').attr("disabled",false);
+            $('#id_url').val(imgurl);
+            $('#imgup').html('<img src="'+imgurl+'" width="128" height="128"></a><br><label class="required">Fatto!11!ONE!!!</label>');
+            document.body.className = "uploaded";
+        }
+        // Ok, I don't handle the errors. An exercice for the reader.
+
+        /* And now, we send the formdata */
+        xhr.send(fd);
+    }
+
+$(document).ready(function() {
+$('#id_url').attr("disabled",true);
+});
+
+</script>
+<style>
+    #imgup {height: 180px; background: #EEE url(../img/admin/default-bg.gif);}
+    .drop { margin: 10px; text-align: center; margin: auto; display: inline-block;}
+    .precontent div {display: inline-block;}
+    .precontent #link {display: inline}
+    .precontent #link {display: none}
+    #holder {
+        border: 6px dashed #CCC;
+        width: 150px;
+        min-height: 150px;
+        margin: 10px;
+    .drop img{margin: auto;}
+}
+
+</style>
+{% endblock %}
+
+
+{% block cima %}
+<div class="precontent">
+<div style="float: left; width: 100%;">
+<fieldset class="module aligned ">
+    
+    
+    
+        <div class="form-row title">
+            
+            
+                <div>
+                    
+                    
+                        <label for="id_uppa" class="required">Uppa:</label>
+                        
+                            <div id="imgup">
+<div id="holder" class=""><div class="drop"><br>Dragga e Droppa qui dentro, oppure se sei impedito o il tuo browser &egrave; vecchio come il cucco pigia il bottone e scegli il file<br><button onclick="document.querySelector('input').click()">pigiami</button></div>
+<input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"> </div>
+<a id="link">It's online!!!</a>
+
+
+</div>
+                        
+                    
+                    
+               </div>
+            
+        </div>
+    
+    
+</fieldset>
+</div>
+</form>
+
+</div>
+
+
+{% endblock %}

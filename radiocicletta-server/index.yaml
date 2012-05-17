@@ -80,3 +80,8 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: plogo_plogo
+  properties:
+  - name: __key__
+    direction: desc
