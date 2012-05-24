@@ -1,5 +1,5 @@
 {% extends "blog/default.html" %}
-{% block pagetitle %}{% endblock %}
+{% block pagetitle %}{{ blog }}{% endblock %}
 
 {% block bodyleft %}
     {% for post in recent_posts %}

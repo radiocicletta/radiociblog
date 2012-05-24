@@ -717,8 +717,10 @@ footer address {
 }
 
 .fluid ul.narrow-share-buttons li a {
-    line-height: 110%;
+    line-height: 17px;
     display: inline-block;
+    margin-top: 2px;
+    border-color: #3f3f3f !important;
 }
 
 .fluid ul.articleinfo li {
