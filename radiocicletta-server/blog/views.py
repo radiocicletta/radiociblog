@@ -1,5 +1,5 @@
 from .models import Blog, Post
-from datetime import datetime
+from datetime import datetime, time
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.http import HttpResponseRedirect, Http404
@@ -50,9 +50,10 @@ def schedule():
         cal[p.startgiorno][2].append(p)
 
     for day in cal.keys():
-        cal[day][2].sort(
-                lambda x,y: (-1 and x.startora < y.startora) or
-                            (0 and x.startora == y.startora) or 1)
+        cal[day][2].sort(key=lambda x: x.startora)
+        if len(cal[day][2]) and cal[day][2][0].startora == time(0, 0): # hack per programmi che cominciano a mezzanotte del giorno dopo
+            cal[day][2].append(cal[day][2].pop(0))
+
     orderedcal = cal.values()
     orderedcal.sort(lambda x,y: x[1] - y[1])
     return orderedcal
