@@ -223,7 +223,7 @@
 
     #content .fluid section img {
         margin: 10px 10px 10px -10px;
-    };
+    }
 }
 
 
@@ -260,6 +260,9 @@
     }
     #playervolume {
         display: none;
+    }
+    #playermetadata {
+        margin: 0px;
     }
     footer nav .menu {
         width: 100%;
