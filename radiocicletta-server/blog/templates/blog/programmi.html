@@ -9,13 +9,13 @@
 <article>
     <h2>Palinsesto settimanale</h2>
     <table class="schedule">
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
-        <colgroup span="1"></colgroup>
+        <colgroup class="even"></colgroup>
+        <colgroup class="odd" ></colgroup>
+        <colgroup class="even"></colgroup>
+        <colgroup class="odd" ></colgroup>
+        <colgroup class="even"></colgroup>
+        <colgroup class="odd" ></colgroup>
+        <colgroup class="even"></colgroup>
         <thead>
             <tr>
             	<th>Lunedì</th>
@@ -29,12 +29,12 @@
         </thead>
         <tbody>
             {% for row in rowschedule %}
-            <tr class={% cycle 'even' 'odd' %}>
+            <tr>
                 {% for evt in row %}
                 {% if evt.title %}
                     <td rowspan="{{ evt.rowspan }}">
                         <em>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</em>
-                        {{ evt.title }}
+                        <a href="{{ evt.url }}">{{ evt.title }}</a>
                     </td>
                 {% else%}
                     {% if not evt.busy %}

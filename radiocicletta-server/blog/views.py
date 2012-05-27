@@ -79,6 +79,8 @@ def orderedschedule():
         else:
             i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
                             i['endora'].hour * 60 + i['endora'].minute) / 30
+        
+        i['url'] = Blog.objects.filter(id=i['blog_id'])[0].url
 
         i['startgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['startgiorno']]
         i['endgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['endgiorno']]
