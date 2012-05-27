@@ -6,10 +6,52 @@
 {% block bodyheader %}{% endblock %}
 
 {% block bodyleft %}
-{% for p in programmi %}
-<section>
-<h3><a href="{{ p.id}}">{{ p.title }}</a></h3>
-{{ p.description }}
-</section>
-{% endfor %}
+<article>
+    <h2>Palinsesto settimanale</h2>
+    <table class="schedule">
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <colgroup span="1"></colgroup>
+        <thead>
+            <tr>
+            	<th>Lunedì</th>
+            	<th>Martedì</th>
+            	<th>Mercoledì</th>
+            	<th>Giovedì</th>
+            	<th>Venerdì</th>
+            	<th>Sabato</th>
+            	<th>Domenica</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rowschedule %}
+            <tr class={% cycle 'even' 'odd' %}>
+                {% for evt in row %}
+                {% if evt.title %}
+                    <td rowspan="{{ evt.rowspan }}">
+                        <em>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</em>
+                        {{ evt.title }}
+                    </td>
+                {% else%}
+                    {% if not evt.busy %}
+                        <td>&nbsp;</td>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Tutti i programmi</h2>
+    <ul>
+        {% for p in programmi %}
+        <li><a href="">{{ p.title }}</a></li>
+        {{ p.description }}
+        {% endfor %}
+    </ul>
+</article>
 {% endblock %}

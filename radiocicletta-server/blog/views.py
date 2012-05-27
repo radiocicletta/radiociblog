@@ -21,7 +21,7 @@ def foto(request):
     return render(request, 'blog/foto.html', {'schedule':schedule()})
 def programmi(request):
     programmi = Programmi.objects.all()
-    return render(request, 'blog/programmi.html', {'programmi': programmi, 'schedule':schedule()})
+    return render(request, 'blog/programmi.html', {'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
 def chi(request):
     return render(request, 'blog/chi.html', {'schedule':schedule()})
 def aiuta(request):
@@ -57,6 +57,67 @@ def schedule():
     orderedcal = cal.values()
     orderedcal.sort(lambda x,y: x[1] - y[1])
     return orderedcal
+
+def orderedschedule():
+    progs = Programmi.objects.all().exclude(status = 0) # see Programmi.models.PROGSTATUS
+
+    orderedcal = list(progs.values())
+    orderedcal.sort(key = lambda x: x["startora"])
+
+    groupedcal = []
+    group = [ {"startgiorno":x} for x in range(0,7) ]
+    tick = orderedcal[0]["startora"]
+
+    for i in orderedcal:
+        if i["startora"] != tick:
+            group.sort(key=lambda x: x["startgiorno"])
+            groupedcal.append(group)
+            group = [ {"startgiorno":x} for x in range(0,7) ]
+            tick = i["startora"]
+        if i["startora"] < i["endora"]:
+            i['rowspan'] = ((i["endora"].hour * 60 + i["endora"].minute) - (i["startora"].hour * 60 + i["startora"].minute)) / 30
+        else:
+            i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
+                            i['endora'].hour * 60 + i['endora'].minute) / 30
+
+        i['startgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['startgiorno']]
+        i['endgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['endgiorno']]
+        group[i['startgiorno']] = i
+
+    group.sort(key=lambda x: x["startgiorno"])
+    groupedcal.append(group)
+
+    for i in groupedcal[0]:
+        if i.has_key("startora") and i["startora"] == time(0,0):
+            groupedcal.append(groupedcal.pop(0))
+            break
+
+    for i in groupedcal[-1]:
+        i["rowspan"] = 1
+
+    row = 0
+    while row < len(groupedcal):
+        recheck = False
+        for col in range(0,7):
+            i = groupedcal[row][col]
+            if i.has_key("rowspan") and i["rowspan"] > 1:
+                j = row + 1
+                while j < min(row + i["rowspan"], len(groupedcal)):
+                    if groupedcal[j][col].has_key("endora"): # COLLISION
+                        groupedcal.insert(j, [ {"startgiorno":x} for x in range(0,7) ])
+                        recheck = True
+                        break
+                    else:
+                        groupedcal[j][col]["busy"] = True
+                    j = j + 1
+            if recheck:
+                break
+        if not recheck:
+            row = row + 1
+
+    return groupedcal
+
+
 
 def blog_browse(request, url):
     blog = get_object_or_404(Blog, url='/' + url)
