@@ -28,6 +28,8 @@ def aiuta(request):
     return render(request, 'blog/aiuta.html', {'schedule':schedule()})
 def down(request):
     return render(request, 'blog/download.html', {'schedule':schedule()})
+def standalone(request):
+    return render(request, 'blog/standalone.html')
 
 ### pagine bloggose
 def tuttib(request):

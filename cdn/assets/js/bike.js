@@ -224,10 +224,7 @@ $(window).ready(function(evt) {
                 if (!me.paused)
                     $("#playercmd").trigger("click");
 
-                wnd = window.open("about:blank", "_blank", "menubar=no,location=no,toolbar=no,resize=no,resizable=no,scrollbars=no,status=no,height=31,width=420");
-                for (var ch = document.head.children, j = 0; j < ch.length; j++)
-                    wnd.document.head.appendChild(ch[j].cloneNode(true));
-                wnd.document.body.appendChild(document.getElementById("playercontainer").cloneNode(true));
+                wnd = window.open("/standalone", "_blank", "menubar=no,location=no,toolbar=no,resize=no,resizable=no,scrollbars=no,status=no,height=31,width=420");
             }
 
             wnd.focus();
