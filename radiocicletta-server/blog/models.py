@@ -8,6 +8,7 @@ from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
 from plogo.models import Plogo
+from djangotoolbox import fields
 import re
 
 
@@ -25,7 +26,11 @@ class Blog(models.Model):
                   'If you use FeedBurner this will also enable FeedFlares.')
     default_user=""
     utente=models.ForeignKey(User, related_name='utenti', default=default_user)
+    #partecipanti=fields.ListField('User')
     logo=models.ForeignKey(Plogo, related_name='logo', blank=True, null=True) 
+    mixcloud_playlist = models.CharField(max_length=200, blank=True,help_text='Optional: Add a mixcloud playlist')
+    twitter = models.CharField(max_length=200, blank=True,help_text='Optional: Add a twitter account')
+    facebook_page_or_user = models.CharField(max_length=200, blank=True,help_text='Optional: Add a facebook username/page id')
 
     def __unicode__(self):
         return self.title
