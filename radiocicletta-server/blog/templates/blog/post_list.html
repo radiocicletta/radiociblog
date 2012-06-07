@@ -1,7 +1,25 @@
 {% extends "blog/default.html" %}
-{% block pagetitle %}{{ blog }}{% endblock %}
+{% block pagetitle %}{{ blog.title }}{% endblock %}
 
 {% block bodyleft %}
+    <article class="blog_show_header" style="
+    background: url({{ blog.logo.url|default_if_none:'none' }}) no-repeat 35px 10px">
+        <header>
+            <h2 class="blogtitle">{{ blog.title }}</h2>
+            <p class="onair">
+            {% for airtime in onair %}
+            {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Attualmente non in programmazione.
+            {% endfor %}
+            </p>
+            <p class="desc">{{ blog.description }}</p>
+            <div class="external_social"></div>
+        </header>
+        {% if not recent_posts %}
+        <p>Nessun articolo è stato ancora scritto. :(</p>
+        {% endif %}
+    </article>
     {% for post in recent_posts %}
         <section>
         <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
