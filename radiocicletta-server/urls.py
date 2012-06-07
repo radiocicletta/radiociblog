@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     (r'^chisiamo/', 'blog.views.chi'),
     (r'^aiutaci/', 'blog.views.aiuta'),
     (r'^download/', 'blog.views.down'),
+    (r'^standalone/', 'blog.views.standalone'),
     (r'^programmi.json', 'programmi.views.progjson'),
     (r'^blogs/', 'blog.views.tuttib'),
 
