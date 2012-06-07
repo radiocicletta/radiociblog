@@ -127,8 +127,11 @@ def blog_browse(request, url):
     blog = get_object_or_404(Blog, url='/' + url)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
+    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in Programmi.objects.filter(blog=blog)]
+    for p in onair:
+        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
     return render(request, 'blog/post_list.html',
-        {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule()})
+            {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
 
 
 def review(request, review_key):
