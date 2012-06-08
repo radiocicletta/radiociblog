@@ -8,19 +8,41 @@ from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
+from django.core.cache import cache
 import logging
 logger = logging.getLogger(__name__)
 
+def cached_blogs():
+    b = cache.get('blogs')
+    if not b:
+        b = Blog.objects.all()
+        cache.add('blogs', b)
+    return b
+
+def cached_programmi():
+    p = cache.get('programmi')
+    if not p:
+        p = Programmi.objects.all()
+        cache.add('programmi', p)
+    return p
+
+def cached_posts():
+    p = cache.get('published_posts')
+    if not p:
+        p = Post.objects.filter(published=True)
+        cache.add('published_posts', p)
+    return p
+
 ### pagine "statiche"
 def oldhome(request):
-    blogs = Blog.objects.all()
-    recent_posts = Post.objects.filter(published=True)
+    blogs = cached_blogs()
+    recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
 def foto(request):
     return render(request, 'blog/foto.html', {'schedule':schedule()})
 def programmi(request):
-    programmi = Programmi.objects.all()
+    programmi = cached_programmi()
     return render(request, 'blog/programmi.html', {'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
 def chi(request):
     return render(request, 'blog/chi.html', {'schedule':schedule()})
@@ -33,14 +55,14 @@ def standalone(request):
 
 ### pagine bloggose
 def tuttib(request):
-    blogs = Blog.objects.all()
-    recent_posts = Post.objects.filter(published=True)
+    blogs = cached_blogs()
+    recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
 
 
 def schedule():
-    progs = Programmi.objects.all().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
     cal = {"lu":('Lunedi',      0, []),
             "ma":('Martedi',     1, []),
             "me":("Mercoledi",  2, []),
@@ -61,7 +83,7 @@ def schedule():
     return orderedcal
 
 def orderedschedule():
-    progs = Programmi.objects.all().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
 
     orderedcal = list(progs.values())
     orderedcal.sort(key = lambda x: x["startora"])
