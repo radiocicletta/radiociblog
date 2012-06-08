@@ -876,6 +876,11 @@ table.schedule th {
     padding-top: 10px;
     text-transform: uppercase;
     font-family: Oxygen, Gill Sans, Helvetica, sans-serif;
+    border-spacing: 2px;
+}
+
+table.schedule thead {
+    border-bottom: #C13952;
 }
 
 table.schedule tbody{
@@ -883,8 +888,12 @@ table.schedule tbody{
     font-weight: 300;
 }
 
-table.schedule colgroup.odd {
-    background-color: #3f3f3f;
+table.schedule tr.odd {
+    background-color: #303030;
+    border-left: dashed 1px black;
+}
+
+table.schedule tr.even {
 }
 
 table.schedule em {
@@ -898,6 +907,7 @@ table.schedule em {
     padding: 2px;
 }
 
+<<<<<<< HEAD
 table.schedule td {
     padding: 10px 2px;
     width: 14%;
