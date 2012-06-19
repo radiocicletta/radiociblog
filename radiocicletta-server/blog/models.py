@@ -1,4 +1,5 @@
 from .utils import slugify
+from .fields import ModelListField
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.sitemaps import Sitemap
@@ -14,6 +15,15 @@ import re
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 
+# Alcune soluzioni prese in considerazione per i ManyToManyFields:
+# https://bitbucket.org/legutierr/django-manytomany-nonrel/src/881ad974bb42/manytomany/models.py
+# https://gist.github.com/1200165
+
+from exceptions import NotImplementedError, TypeError
+
+from django.db import models
+from djangotoolbox.fields import ListField
+
 
 class Blog(models.Model):
     title = models.CharField(max_length=200,help_text='This will also be your feed title')
@@ -25,7 +35,9 @@ class Blog(models.Model):
                   'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
                   'If you use FeedBurner this will also enable FeedFlares.')
     default_user=""
-    utente=models.ForeignKey(User, related_name='utenti', default=default_user, null=True, blank=True)
+    utente = models.ForeignKey(User, related_name='utenti', default=default_user, null=True, blank=True)
+    #utenti = ManyToManyField(User, default=default_user, help_text="Collaboratori", null=True, blank=True)
+    utenti = ModelListField(models.ForeignKey(User, null=True, blank=True))
     #partecipanti=fields.ListField('User')
     logo=models.ForeignKey(Plogo, related_name='logo', blank=True, null=True) 
     mixcloud_playlist = models.CharField('Mixcloud playlist', max_length=200, blank=True, null=True, help_text='Optional: Add a mixcloud playlist')

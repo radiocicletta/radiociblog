@@ -3,14 +3,34 @@ from programmi.models import Programmi
 from plogo.models import Plogo
 from django.contrib import admin
 from minicms.admin import BaseAdmin
+from django import forms
+import logging
+logger = logging.getLogger(__name__)
 
 
+class BlogForm(forms.ModelForm):
+
+    # many thanks to https://github.com/tingletech/collengine/blob/master/items/admin.py
+    utenti = forms.ModelMultipleChoiceField(queryset = User.objects.all(), required=False)
+    class Meta:
+        model = Blog
+
+    def save(self, commit=True):
+        logger.warning('Save method called')
+        model = super(BlogForm, self).save(commit=False)
+        logger.warning('super')
+        model.utenti = [ utenti.id for utenti in model.utenti ]
+        logger.warning('list(model.utenti)')
+        if commit:
+            logging.warning('saving with commit')
+            model.save()
+        return model
 
 class BlogAdmin(BaseAdmin):
     list_display = ('title', 'url','utente')
     search_fields = ('title',)
     ordering = ('url',)
-
+    form = BlogForm
 
     def queryset(self, request):
         qs = super(BaseAdmin, self).queryset(request)
