@@ -9,8 +9,6 @@ from django.views.generic import ListView
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
-import logging
-logger = logging.getLogger(__name__)
 
 def cached_blogs():
     b = cache.get('blogs')
@@ -157,7 +155,6 @@ def blog_browse(request, url):
 
 
 def review(request, review_key):
-    logger.warn(review_key)
     post = get_object_or_404(Post, review_key=review_key)
     return show_post(request, post, review=True)
 

@@ -35,10 +35,8 @@ class Blog(models.Model):
                   'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
                   'If you use FeedBurner this will also enable FeedFlares.')
     default_user=""
-    utente = models.ForeignKey(User, related_name='utenti', default=default_user, null=True, blank=True)
-    #utenti = ManyToManyField(User, default=default_user, help_text="Collaboratori", null=True, blank=True)
+    #utente = models.ForeignKey(User, related_name='utenti', default=default_user, null=True, blank=True)
     utenti = ModelListField(models.ForeignKey(User, null=True, blank=True))
-    #partecipanti=fields.ListField('User')
     logo=models.ForeignKey(Plogo, related_name='logo', blank=True, null=True) 
     mixcloud_playlist = models.CharField('Mixcloud playlist', max_length=200, blank=True, null=True, help_text='Optional: Add a mixcloud playlist')
     twitter = models.CharField('Account twitter', max_length=200, blank=True, null=True, help_text='Optional: Add a twitter account')

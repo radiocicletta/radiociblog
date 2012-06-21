@@ -4,8 +4,7 @@ from plogo.models import Plogo
 from django.contrib import admin
 from minicms.admin import BaseAdmin
 from django import forms
-import logging
-logger = logging.getLogger(__name__)
+from django.core.cache import cache
 
 
 class BlogForm(forms.ModelForm):
@@ -16,18 +15,14 @@ class BlogForm(forms.ModelForm):
         model = Blog
 
     def save(self, commit=True):
-        logger.warning('Save method called')
         model = super(BlogForm, self).save(commit=False)
-        logger.warning('super')
         model.utenti = [ utenti.id for utenti in model.utenti ]
-        logger.warning('list(model.utenti)')
         if commit:
-            logging.warning('saving with commit')
             model.save()
         return model
 
 class BlogAdmin(BaseAdmin):
-    list_display = ('title', 'url','utente')
+    list_display = ('title', 'url')
     search_fields = ('title',)
     ordering = ('url',)
     form = BlogForm
@@ -65,8 +60,13 @@ class PostAdmin(BaseAdmin):
         return Post.objects.filter(author=request.user)
 #filtro di forza nella dropdown i blog che non competono all'utente
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'blog':
-            kwargs['queryset'] = Blog.objects.filter(utente=request.user.id)
+        if db_field.name == 'blog' and request.method == 'GET':
+            qs_blog_user = cache.get('qs_blog_%s' % request.user.id)
+            if not qs_blog_user: 
+                qs_blog_user = Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
+                cache.add('qs_blog_%s' % request.user.id, qs_blog_user)
+
+            kwargs['queryset'] = qs_blog_user
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
