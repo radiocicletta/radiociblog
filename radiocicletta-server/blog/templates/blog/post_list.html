@@ -2,9 +2,9 @@
 {% block pagetitle %}{{ blog.title }}{% endblock %}
 
 {% block bodyleft %}
-    <article class="blog_show_header" style="
-    background: url({{ blog.logo.url|default_if_none:'none' }}) no-repeat 35px 10px">
+    <article class="blog_show_header">
         <header>
+            <span class="blogimg"><img src="{{ blog.logo.url|default_if_none:'none' }}"/></span>
             <h2 class="blogtitle">{{ blog.title }}</h2>
             <p class="onair">
             {% for airtime in onair %}

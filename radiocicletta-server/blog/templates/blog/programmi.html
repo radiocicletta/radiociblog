@@ -48,9 +48,8 @@
     </table>
     <h2>Tutti i programmi</h2>
     <ul>
-        {% for p in programmi %}
-        <li><a href="">{{ p.title }}</a></li>
-        {{ p.description }}
+        {% for b in blogs %}
+        <li><a href="{{b.url}}">{{ b.title }}</a></li>
         {% endfor %}
     </ul>
 </article>

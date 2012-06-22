@@ -33,6 +33,14 @@ def cached_posts():
         cache.add('published_posts', p)
     return p
 
+def cached_blog_posts(blog):
+    p = cache.get('blog_posts_%s' % blog.id)
+    if not p:
+        p = Post.objects.filter(blog=blog, published=True)
+        cache.add('blog_posts_%s' % blog.id, p)
+    return p
+
+
 ### pagine "statiche"
 def oldhome(request):
     blogs = cached_blogs()
@@ -43,7 +51,8 @@ def foto(request):
     return render(request, 'blog/foto.html', {'schedule':schedule()})
 def programmi(request):
     programmi = cached_programmi()
-    return render(request, 'blog/programmi.html', {'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
+    blogs = cached_blogs()
+    return render(request, 'blog/programmi.html', {'blogs': blogs, 'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
 def chi(request):
     return render(request, 'blog/chi.html', {'schedule':schedule()})
 def aiuta(request):
@@ -59,6 +68,13 @@ def tuttib(request):
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
+
+def cached_onair(blog):
+
+    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
+    for p in onair:
+        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
+    return onair
 
 
 def schedule():
@@ -104,7 +120,7 @@ def orderedschedule():
             i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
                             i['endora'].hour * 60 + i['endora'].minute) / 30
         
-        i['url'] = Blog.objects.filter(id=i['blog_id'])[0].url
+        i['url'] = cached_blogs().filter(id=i['blog_id'])[0].url
 
         i['startgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['startgiorno']]
         i['endgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['endgiorno']]
@@ -149,18 +165,9 @@ def blog_browse(request, url):
     blog = get_object_or_404(Blog, url='/' + url)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    onair = cached_onair(blog) 
+    onair = cached_onair(blog)
     return render(request, 'blog/post_list.html',
             {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
-
-def cached_onair(blog):
-
-    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in Programmi.objects.filter(blog=blog)]
-    logger.warning(onair)
-    logger.warning(blog)
-    for p in onair:
-        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
-    return onair
 
 
 def review(request, review_key):
@@ -182,7 +189,7 @@ class BrowseView(ListView):
         return super(BrowseView, self).dispatch(request, blog=blog)
 
     def get_queryset(self):
-        query = Post.objects.filter(blog=self.kwargs['blog'], published=True)
+        query = cached_blog_posts(self.kwargs['blog'])
         # TODO: add select_related('author')
         return query.order_by('-published_on')
 
