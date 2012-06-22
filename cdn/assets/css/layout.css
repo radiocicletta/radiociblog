@@ -855,6 +855,10 @@ footer address {
     overflow: hidden;
 }
 
+.me-cannotplay {
+    display: none;
+}
+
 .todayschedule li{
     padding: 5px;
     border-bottom: dashed 1px black;
@@ -907,7 +911,6 @@ table.schedule em {
     padding: 2px;
 }
 
-<<<<<<< HEAD
 table.schedule td {
     padding: 10px 2px;
     width: 14%;
