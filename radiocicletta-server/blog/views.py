@@ -9,6 +9,8 @@ from django.views.generic import ListView
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
+import logging
+logger = logging.getLogger(__name__)
 
 def cached_blogs():
     b = cache.get('blogs')
@@ -147,11 +149,18 @@ def blog_browse(request, url):
     blog = get_object_or_404(Blog, url='/' + url)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in Programmi.objects.filter(blog=blog)]
-    for p in onair:
-        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
+    onair = cached_onair(blog) 
     return render(request, 'blog/post_list.html',
             {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
+
+def cached_onair(blog):
+
+    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in Programmi.objects.filter(blog=blog)]
+    logger.warning(onair)
+    logger.warning(blog)
+    for p in onair:
+        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
+    return onair
 
 
 def review(request, review_key):
@@ -182,6 +191,7 @@ class BrowseView(ListView):
         context = super(BrowseView, self).get_context_data(**kwargs)
         context.update({'blog': self.kwargs['blog'],
                         'schedule': schedule(),
+                        'onair': cached_onair(self.kwargs['blog']),
                         'recent_posts': self.get_queryset()[:6],
                         'browse_posts': True})
         return context
