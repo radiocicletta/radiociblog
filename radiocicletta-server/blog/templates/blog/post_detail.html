@@ -15,11 +15,13 @@
         </div>
         <p><a class="join-button" href="{{ blog.get_feed_url }}" rel="alternate" title="Receive updates (it's free!)" type="application/rss+xml">Iscriviti al feed RSS</a></p>
             
+            
+    </article>
+    <section class="social">
         {% disqus_num_replies %}
         {% disqus_show_comments %}
         {% include 'blog/recent_posts.html' %}
         <a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a>
-            
-    </article>
+    </section>
     {% endblock %}
 

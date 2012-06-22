@@ -14,8 +14,10 @@
 {% endif %}
 
 
+<div class="articlecontent">
 {% if browse_posts %}
-{{ post.rendered_content|truncatewords_html:150 }}
+    {{ post.rendered_content|truncatewords_html:150 }}
 {% else %}
-{{ post.rendered_content }}
+    {{ post.rendered_content }}
 {% endif %}
+</div>

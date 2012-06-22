@@ -29,6 +29,9 @@ def disqus_num_replies():
     <script type="text/javascript">
     //<![CDATA[
     var disqus_shortname = '%(shortname)s';
+    var disqus_config = function () { 
+      this.language = "it";
+    };
     (function () {
       var s = document.createElement('script'); s.async = true;
       s.src = 'http://disqus.com/forums/%(shortname)s/count.js';
@@ -58,8 +61,8 @@ def disqus_show_comments():
       })();
     //]]>
     </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=%(shortname)s">comments powered by Disqus.</a></noscript>
-    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    <noscript>Abilita (se puoi) Javascript per visualizzare i <a href="http://disqus.com/?ref_noscript=%(shortname)s">commenti</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">Funzionalit&agrave; offerta da <span class="logo-disqus">Disqus</span></a>
     """ % dict(shortname=SHORTNAME)
 
 def disqus_recent_comments(num_items=3, avatar_size=32):

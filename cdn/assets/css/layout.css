@@ -549,7 +549,6 @@ footer address {
     color: #ddd!important;
 }
 
-#content .fluid section img,
 #content .fluid article img { 
     margin: 10px 10px 10px 0px;
     display: block;
@@ -593,8 +592,9 @@ footer address {
 #content .fluid a{
     color: pink;
     text-decoration: none;
-    border-bottom: solid 1px #c0c0c0;
+    border-bottom: solid 1px #3F3F3F;
     padding-bottom: 1px;
+
 }
 
 #content .fluid a:hover {
