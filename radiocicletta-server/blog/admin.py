@@ -22,14 +22,17 @@ class BlogForm(forms.ModelForm):
         return model
 
 class BlogAdmin(BaseAdmin):
-    list_display = ('title', 'url')
+    list_display = ('title', 'url', 'related_utenti')
     search_fields = ('title',)
-    ordering = ('url',)
+    ordering = ('title', 'url')
     form = BlogForm
 
     def queryset(self, request):
-        qs = super(BaseAdmin, self).queryset(request)
-        return qs
+        if request.user.is_superuser:
+            qs = super(BaseAdmin, self).queryset(request)
+            return qs
+        return Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
+
 
 class PostAdmin(BaseAdmin):
     fieldsets = (
@@ -42,8 +45,8 @@ class PostAdmin(BaseAdmin):
         #}),
     )
     #exclude = ('author',)
-    list_display = ('title', 'author', 'published_on', 'published')
-    search_fields = ('url',)
+    list_display = ('title', 'in_blog', 'author', 'published_on', 'published')
+    search_fields = ('title', 'url', 'author')
     ordering = ('-last_update',)
 
 
@@ -63,7 +66,10 @@ class PostAdmin(BaseAdmin):
         if db_field.name == 'blog' and request.method == 'GET':
             qs_blog_user = cache.get('qs_blog_%s' % request.user.id)
             if not qs_blog_user: 
-                qs_blog_user = Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
+                if request.user.is_superuser:
+                    qs_blog_user = Blog.objects.all()
+                else:
+                    qs_blog_user = Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
                 cache.add('qs_blog_%s' % request.user.id, qs_blog_user)
 
             kwargs['queryset'] = qs_blog_user

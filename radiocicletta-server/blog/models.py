@@ -10,6 +10,7 @@ from random import choice
 from string import ascii_letters, digits
 from plogo.models import Plogo
 from djangotoolbox import fields
+import caching.base
 import re
 
 
@@ -25,12 +26,13 @@ from django.db import models
 from djangotoolbox.fields import ListField
 
 
-class Blog(models.Model):
+class Blog(caching.base.CachingMixin, models.Model):
     title = models.CharField(max_length=200,help_text='This will also be your feed title')
     #proprietario = models.CharField(max_length=200,help_text='This will also be your feed title')
     keywords = models.CharField(max_length=200, blank=True,help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
     url = models.CharField('URL', max_length=200, help_text='Example: /blog')
     description = models.CharField(max_length=500, blank=True, help_text='This will also be your feed description.')
+    blog_generic = models.BooleanField(default=False, help_text ='questo blog non &egrave; associato ad alcun programma' )
     feed_redirect_url = models.URLField('Feed redirect URL', verify_exists=False, blank=True, help_text='Optional (use this to publish feeds via FeedBurner)<br />'
                   'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
                   'If you use FeedBurner this will also enable FeedFlares.')
@@ -44,6 +46,9 @@ class Blog(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def related_utenti(self):
+        return ', '.join([x.username for x in User.objects.filter(id__in = self.utenti)])
 
     @property
     def url_prefix(self):
@@ -80,7 +85,7 @@ def generate_review_key():
     charset = ascii_letters + digits
     return ''.join(choice(charset) for i in range(32))
 
-class Post(BaseContent):
+class Post(caching.base.CachingMixin, BaseContent):
     blog = models.ForeignKey(Blog, related_name='posts', default=default_blog)
     published = models.BooleanField(default=False)
     author = models.ForeignKey(User, related_name='posts', null=True, blank=True,
@@ -102,6 +107,9 @@ class Post(BaseContent):
         if not self.published:
             return self.get_review_url()
         return self.url
+
+    def in_blog(self):
+        return self.blog.title
 
     @permalink
     def get_review_url(self):
