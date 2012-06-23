@@ -10,3 +10,19 @@ handlers:
 
 - url: /
   static_dir: assets
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?ckeditor_src/.*
+- ^(.*/)?ckeditor/_source/.*
+- ^(.*/)?ckeditor/ckeditor\.pack
+- ^(.*/)?ckeditor/.*\.html
+- ^(.*/)?ckeditor/.*_source\.js
