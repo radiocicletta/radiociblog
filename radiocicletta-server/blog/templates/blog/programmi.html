@@ -49,7 +49,9 @@
     <h2>Tutti i programmi</h2>
     <ul>
         {% for b in blogs %}
-        <li><a href="{{b.url}}">{{ b.title }}</a></li>
+            {% if not b.blog_generic %}
+                <li><a href="{{b.url}}">{{ b.title }}</a></li>
+            {% endif %}
         {% endfor %}
     </ul>
 </article>

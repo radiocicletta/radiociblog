@@ -38,7 +38,7 @@ class Blog(caching.base.CachingMixin, models.Model):
                   'If you use FeedBurner this will also enable FeedFlares.')
     default_user=""
     #utente = models.ForeignKey(User, related_name='utenti', default=default_user, null=True, blank=True)
-    utenti = ModelListField(models.ForeignKey(User, null=True, blank=True))
+    utenti = ModelListField(models.ForeignKey(User, null=True, blank=True, help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno'))
     logo=models.ForeignKey(Plogo, related_name='logo', blank=True, null=True) 
     mixcloud_playlist = models.CharField('Mixcloud playlist', max_length=200, blank=True, null=True, help_text='Optional: Add a mixcloud playlist')
     twitter = models.CharField('Account twitter', max_length=200, blank=True, null=True, help_text='Optional: Add a twitter account')
