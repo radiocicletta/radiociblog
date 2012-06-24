@@ -993,3 +993,7 @@ article.blog_show_header .onair{
     font-size: 70% !important;
     margin: 0px 0px 0px 158px !important;
 }
+
+iframe[src^="http://www.youtube.com"]{
+    max-width: 100%;
+}
