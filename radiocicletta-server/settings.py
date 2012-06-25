@@ -39,7 +39,7 @@ GOOGLE_ANALYTICS_ID = ''
 # Get the ID from the CSE "Basics" control panel ("Search engine unique ID")
 GOOGLE_CUSTOM_SEARCH_ID = ''
 # Set RT username for retweet buttons
-TWITTER_USERNAME = ''
+TWITTER_USERNAME = 'radiocicletta'
 # In order to always have uniform URLs in retweets and FeedBurner we redirect
 # any access to URLs that are not in ALLOWED_DOMAINS to the first allowed
 # domain. You can have additional domains for testing.

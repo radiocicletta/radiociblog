@@ -7,7 +7,7 @@
 
 {% block bodyleft %}
     {% for post in recent_posts %}
-        <article>
+        <article class="bloglist">
         <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
             <ul class="articleinfo">
                 <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>

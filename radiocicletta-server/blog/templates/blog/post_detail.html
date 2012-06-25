@@ -11,17 +11,21 @@
         {% include 'blog/post.html' %}
         
         <div class="share-this">
+            {% wide_social_buttons request post.title post.get_absolute_url %}
             {% narrow_social_buttons request post.title post.get_absolute_url %}
+            <p><strong><a class="join-button" href="{{ blog.get_feed_url }}" rel="alternate" title="Receive updates (it's free!)" type="application/rss+xml">Iscriviti al feed RSS del blog "{{ blog.title }}"</a><strong></p>
         </div>
-        <p><a class="join-button" href="{{ blog.get_feed_url }}" rel="alternate" title="Receive updates (it's free!)" type="application/rss+xml">Iscriviti al feed RSS</a></p>
             
             
     </article>
     <section class="social">
         {% disqus_num_replies %}
         {% disqus_show_comments %}
+    </section>
+    <section class="more-blog">
+        <h3>Ultimi articoli di questo blog</h3>
         {% include 'blog/recent_posts.html' %}
-        <a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a>
+        <p><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></p>
     </section>
     {% endblock %}
 

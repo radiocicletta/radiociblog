@@ -3,18 +3,40 @@ from django.utils.html import escape
 from django.utils.http import urlquote
 from mediagenerator.utils import media_url
 
-#TODO: commentone twitterone che fa cacare l'iframone.
-#WIDE_TWITTER_BUTTON = """
-#<iframe src="http://platform.twitter.com/widgets/tweet_button.html?count=horizontal&amp;lang=en&amp;text=%(title)s&amp;url=%(url)s%(opttwitteruser)s" style="width: 135px; height: 20px; border: none; overflow: hidden;"></iframe>
-#"""
-WIDE_TWITTER_BUTTON = ""
-FACEBOOK_LIKE_BUTTON = """
-<iframe src="http://www.facebook.com/plugins/like.php?href=%(url)s&amp;layout=button_count&amp;show_faces=false&amp;width=100&amp;height=21&amp;action=like&amp;colorscheme=light" style="width: 100px; height: 21px; border: none; overflow: hidden; align: left; margin: 0px 0px 0px 0px;"></iframe>
+WIDE_TWITTER_BUTTON = """
+<a href="https://twitter.com/share" class="twitter-share-button" data-via="%(opttwitteruser)s" data-lang="it" data-dnt="true">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 """
 
+FACEBOOK_LIKE_BUTTON = """
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-href="%(url)s" data-send="false" data-layout="button_count" data-width="90" data-show-faces="true" data-colorscheme="dark"></div>"""
+
 PLUS_ONE_BUTTON = """
-<div class="g-plusone" data-size="standard" data-count="true" data-href="%(rawurl)s"></div>
+<script type="text/javascript">
+  window.___gcfg = {lang: 'it'};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+    </script>
+<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="80"></div>
 """
+
+
+LINKEDIN_BUTTON = """
+<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/Share" data-url="%(url)s" data-counter="right"></script>"""
+
+WIDE_BUTTONS=(WIDE_TWITTER_BUTTON, PLUS_ONE_BUTTON, FACEBOOK_LIKE_BUTTON, LINKEDIN_BUTTON)
 
 WIDE_BUTTONS_DIV = '<div class="wide-share-buttons" style="overflow:hidden; margin-bottom: 8px;">%s</div>'
 NARROW_BUTTONS_DIV = '<ul class="narrow-share-buttons">%s</ul>'
@@ -22,6 +44,7 @@ NARROW_BUTTONS_DIV = '<ul class="narrow-share-buttons">%s</ul>'
 BASE_BUTTON = '<li><a class="simplesocial" title="%(title)s" href="%(url)s">%(title)s</a></li>'
 
 DEFAULT_TITLE = 'Condividi su %s'
+
 
 NARROW_BUTTONS = {
     'Twitter': {
@@ -58,11 +81,10 @@ def narrow_buttons(request, title, url, buttons=SHOW_SOCIAL_BUTTONS):
         code.append(BASE_BUTTON % {'title': title, 'url': url})
     return NARROW_BUTTONS_DIV % '\n'.join(code)
 
-def wide_buttons(request, title, url,
-                 buttons=(WIDE_TWITTER_BUTTON, PLUS_ONE_BUTTON, FACEBOOK_LIKE_BUTTON)):
+def wide_buttons(request, title, url):
     data = _get_url_data(request, title, url)
     data['opttwitteruser'] = escape(data['opttwitteruser'])
-    code = [button % data for button in buttons]
+    code = [button % data for button in WIDE_BUTTONS]
     return WIDE_BUTTONS_DIV % '\n'.join(code)
 
 def _get_url_data(request, title, url):
@@ -74,7 +96,5 @@ def _get_url_data(request, title, url):
         data['opttwitteruser'] = twitter_username
     for key in data:
         data[key] = urlquote(data[key])
-    if twitter_username:
-        data['opttwitteruser'] = '&via=' + data['opttwitteruser']
     data['rawurl'] = url
     return data

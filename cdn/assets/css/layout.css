@@ -485,7 +485,7 @@ footer address {
 }
 
 
-#content .fluid section{
+#content .fluid article.bloglist{
     border-bottom: solid 4px #c13952;
 }
 
@@ -568,13 +568,22 @@ footer address {
     clear: both;
 }
 
-#content .fluid h2 {
+#content .fluid h2,
+#content .fluid h3 {
     font-family: "Open Sans Condensed", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva",  sans-serif;
     font-stretch: condensed;
     font-weight: bold;
-    font-size: 30pt;
     color: #c13952;
     margin: 2px 0px 20px 0px;
+}
+
+#content .fluid h2 {
+    font-size: 30pt;
+}
+
+#content .fluid h3 {
+    font-size: 25pt;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 .fluid h2 a{
@@ -582,7 +591,7 @@ footer address {
     border: none !important;
 }
 
-#content .fluid p {
+#content .fluid article p {
     text-align: left;
     font-size: 10.2pt;
     line-height: 16pt;
@@ -601,93 +610,93 @@ footer address {
     border-bottom-color: #c13952;
 }
 
-#content .fluid a[href^="http://"]{
+.fluid article a[href^="http://"],
+.fluid a.join-button {
     padding-left: 18px;
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAYAAAC9vt6cAAAAu0lEQVQoFWP8//8/AzFAoIgBu0KQAYSw1Kpb/4tX3gQqQwX8hURoBmoBWwBSDDIIGYDEWHA5n7H8LoqT+RmUGbq0VTGVw2xApxnK7sAtA9m05CqEC6JhLsHrAphVwMBjmJrCwBCtxcCw9BoDQ/YckIwqQ8n/W0BajQGnF2AGgDSfvwJRDNL8kfUuw/9OZUbp1Yz/P/QxMOKMAWQvgJwNci4IQMXh+phgNuGjQc4H2oYV4PUCMCawakIWBACPkOZEnuNlIQAAAABJRU5ErkJggg==) no-repeat 0 0;
 }
-#content .fluid a[href*="blinklist.com"] {
+.fluid article a[href*="blinklist.com"] {
      background: transparent url(/images/layout/socialmedia.png) no-repeat 0 0;
 } 
-#content .fluid a[href*="delicious.com"],
-#content .fluid a[href*="del.icio.us"] {
+.fluid article a[href*="delicious.com"],
+.fluid article a[href*="del.icio.us"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -36px;
 }
-#content .fluid a[href*="designfloat.com"] {
+.fluid article a[href*="designfloat.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -54px;
 }
-#content .fluid a[href*="digg.com"] {
+.fluid article a[href*="digg.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -72px;
 }
-#content .fluid a[href*="dopplr.com"] {
+.fluid article a[href*="dopplr.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
 }
-#content .fluid a[href^="mailto:"] {
+.fluid article a[href^="mailto:"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
 }
-#content .fluid a[href*="facebook.com"] {
+.fluid article a[href*="facebook.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -126px;
 }
-#content .fluid a[href^="feed://"] {
+.fluid article a[href^="feed://"],
+.fluid article a.join-button {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -144px;
 }
-#content .fluid a[href*="flickr.com"] {
+.fluid article a[href*="flickr.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -162px;
 }
-#content .fluid a[href*="friendfeed.com"] {
+.fluid article a[href*="friendfeed.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -180px;
 }
-#content .fluid a[href*="furl"] {
+.fluid article a[href*="furl"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -198px;
 }
-#content .fluid a[href*="gamespot"] {
+.fluid article a[href*="gamespot"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -216px;
 }
-#content .fluid a[href*="lastfm"],
-#content .fluid a[href*="last.fm"] {
+.fluid article a[href*="lastfm"],
+.fluid article a[href*="last.fm"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -234px;
 }
-#content .fluid a[href*="linkedin.com"] {
+.fluid article a[href*="linkedin.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -252px;
 }
-#content .fluid a[href*="myspace"] {
+.fluid article a[href*="myspace"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -306px;
 }
-#content .fluid a[href*="newsvine.com"] {
+.fluid article a[href*="newsvine.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -324px;
 }
-#content .fluid a[href*="posterous.com"] {
+.fluid article a[href*="posterous.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -342px;
 }
-#content .fluid a[href*="reddit.com"] {
+.fluid article a[href*="reddit.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -360px;
 }
-#content .fluid a[href*="stumbleupon"] {
+.fluid article a[href*="stumbleupon"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -414px;
 }
-#content .fluid a[href*="technorati"] {
+.fluid article a[href*="technorati"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -432px;
 }
-#content .fluid a[href*="tripadvisor"] {
+.fluid article a[href*="tripadvisor"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -450px;
 }
-#content .fluid a[href*="tumblr.com"] {
+.fluid article a[href*="tumblr.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -468px;
 }
-#content .fluid a[href*="twitter.com"] {
+.fluid article a[href*="twitter.com"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -486px;
 }
-#content .fluid a[href*="vimeo"] {
+.fluid article a[href*="vimeo"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -504px;
 }
-#content .fluid a[href*="youtube"] {
+.fluid article a[href*="youtube"] {
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
 }
 
 #disqus_thread {
     margin-top: 45px;
     padding-top: 45px;
-    margin-bottom: 45px !important;
-    padding-bottom: 45px;
     border-top: solid 1px #3f3f3f;
 }
 
@@ -707,11 +716,29 @@ footer address {
 }
 
 
-.fluid article .userhtml {
+.fluid article .articlecontent {
     border-bottom: solid 4px #C13952;
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+}
+
+.fluid section.more-blog {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.fluid div.wide-share-buttons {
+    clear: both;
+}
+
+.fluid div.wide-share-buttons > *{
+    float: left;
+    width: 90px !important;
+    margin: auto;
 }
 
 .fluid ul.narrow-share-buttons {
+    clear: both;
     font-size: 80%;
     text-align: right;
     margin: 45px 0px 45px 30px;
