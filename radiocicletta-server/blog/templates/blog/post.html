@@ -17,6 +17,7 @@
 <div class="articlecontent">
 {% if browse_posts %}
     {{ post.rendered_content|truncatewords_html:150 }}
+    <a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
 {% else %}
     {{ post.rendered_content }}
 {% endif %}

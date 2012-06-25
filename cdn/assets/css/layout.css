@@ -598,6 +598,10 @@ footer address {
     margin: 20px auto;
 }
 
+#content .fluid article strong {
+    font-weight: bold;
+}
+
 #content .fluid a{
     color: pink;
     text-decoration: none;
@@ -740,19 +744,30 @@ footer address {
 .fluid ul.narrow-share-buttons {
     clear: both;
     font-size: 80%;
-    text-align: right;
-    margin: 45px 0px 45px 30px;
+    margin: 45px 0px;
+    border-top: solid 1px #606060;
+    box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+    background: #404040;
+    border-radius: 8px;
+    padding: 6px;
 }
 
 .fluid ul.narrow-share-buttons li {
     display: inline;
+    padding: 6px;
 }
 
 .fluid ul.narrow-share-buttons li a {
     line-height: 17px;
     display: inline-block;
     margin-top: 2px;
-    border-color: #3f3f3f !important;
+    border: none!important;
+    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
+    color: #707070 !important;
+    font-size: 85%;
+    width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .fluid ul.articleinfo li {

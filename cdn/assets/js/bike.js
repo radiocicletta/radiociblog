@@ -32,7 +32,7 @@ $(window).ready(function(evt) {
         enablePluginDebug: true,
         plugins: ['flash', 'silverlight'],
         type: 'audio/mp3',
-        pluginPath: 'http://cdn.radiocicletta.it/js/',
+        pluginPath: 'http://cdn.radiocicletta.it/js/me/',
         flashName: 'flashmediaelement.swf',
         silverlightName: 'silverlightmediaelement.xap',
         pluginWidth: -1,
