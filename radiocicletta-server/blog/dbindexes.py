@@ -4,4 +4,4 @@ from dbindexer import autodiscover
 
 autodiscover()
 register_index(Blog, {'title': 'icontains'})
-register_index(Post, {'title': 'icontains', 'url': 'icontains', 'author':'iexact'})
+#register_index(Post, {'title': 'icontains', 'url': 'icontains', 'author':'iexact'})
