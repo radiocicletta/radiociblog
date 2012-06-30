@@ -6,14 +6,14 @@
     {% block bodyleft %}
     <article class="post post-detail">
         {% if review %}
-        <div class="info"><strong>Review mode: Don't tweet this!!!</strong></div>
+        <div class="info"><strong>Quella che vedi &egrave; una anteprima dell'articolo</strong></div>
         {% endif %}
         {% include 'blog/post.html' %}
         
         <div class="share-this">
             {% wide_social_buttons request post.title post.get_absolute_url %}
             {% narrow_social_buttons request post.title post.get_absolute_url %}
-            <p><strong><a class="join-button" href="{{ blog.get_feed_url }}" rel="alternate" title="Receive updates (it's free!)" type="application/rss+xml">Iscriviti al feed RSS del blog "{{ blog.title }}"</a><strong></p>
+            <p><strong><a class="join-button" href="{{ blog.get_feed_url }}" rel="alternate" title="Receive updates (it's free!)" type="application/rss+xml">Iscriviti al feed RSS del blog "{{ blog.title }}"</a></strong></p>
         </div>
             
             

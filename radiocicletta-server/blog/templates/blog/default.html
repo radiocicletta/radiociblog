@@ -26,12 +26,14 @@
             <h2>Programmi</h2>
             <ul>
             {% for day, order, list in schedule %}
+                {% if list %}
                 <li><a href="">{{day}}</a>
                     <ul class="submenu">
                     {% for p in list %}
                         <li><a href="{{ p.blog.url }}">{{ p.title }}</a></li>
                     {% endfor %}
                 </ul></li>
+                {% endif %}
              {% endfor %}
             </ul>
         </nav>
@@ -72,38 +74,38 @@
         <div class="menu">
             <h2>Radiocicletta</h2>
             <ul>
-            	<li><a href="">Home</a></li>
-            	<li><a href="">Programmi</a></li>
-            	<li><a href="">Blogs</a></li>
-            	<li><a href="">Chi siamo</a></li>
-                <li><a href="">Aiutaci</a></li>
+            	<li><a href="/">Home</a></li>
+            	<li><a href="/programmi">Programmi</a></li>
+            	<li><a href="/blogs">Blogs</a></li>
+            	<li><a href="/chisiamo">Chi siamo</a></li>
+                <li><a href="/aiutaci">Aiutaci</a></li>
             </ul>
         </div>
         <div class="menu">
         	<h2>Social</h2>
         	<ul>
-                <li><a href="">Facebook</a></li>
-                <li><a href="">Twitter</a></li>
-                <li><a href="">Mixcloud</a></li>
-                <li><a href="">Google+</a></li>
-                <li><a href="">Last.fm</a></li>
+                <li><a href="http://www.facebook.com/radiocicletta">Facebook</a></li>
+                <li><a href="http://twitter.com/#!/radiocicletta">Twitter</a></li>
+                <li><a href="http://www.mixcloud.com/radiocicletta/">Mixcloud</a></li>
+                <li><a href="https://plus.google.com/u/0/102138918057452969670/posts">Google+</a></li>
+                <li><a href="http://www.lastfm.it/user/radiocicletta">Last.fm</a></li>
                 <li><a href="">Myspace</a></li>
-                <li><a href="">Tumblr</a></li>
-                <li><a href="">Youtube</a></li>
+                <li><a href="http://radiocicletta.tumblr.com/">Tumblr</a></li>
+                <li><a href="www.youtube.com/user/radiocicletta">Youtube</a></li>
             </ul>
         </div>
         <div class="menu">
         	<h2>Sviluppatori</h2>
         	<ul>
-                <li><a href="">Radiocicletta on Github</a></li>
-        		<li><a href="">IceCast</a></li>
+                <li><a href="http://github.com/radiocicletta">Radiocicletta on Github</a></li>
+        		<li><a href="http://www.icecast.org">IceCast</a></li>
         		<li><a href="http://ross.sourceforge.net/">Linux Broadcasting</a></li>
         	</ul>
         </div>
         <div class="menu">
         	<h2>Robe noiose</h2>
         	<ul>
-        		<li><a href="">Valid HTML5</a></li>
+        		<li><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fradiocicletta.it%2F">Valid HTML5</a></li>
         	</ul>
         </div>
     </nav>

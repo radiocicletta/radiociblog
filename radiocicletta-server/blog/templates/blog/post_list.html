@@ -7,11 +7,13 @@
             <span class="blogimg"><img src="{{ blog.logo.url|default_if_none:'none' }}"/></span>
             <h2 class="blogtitle">{{ blog.title }}</h2>
             <p class="onair">
-            {% for airtime in onair %}
-            {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-                Attualmente non in programmazione.
-            {% endfor %}
+            {% if not blog.blog_generic %}
+                {% for airtime in onair %}
+                {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    Attualmente non in programmazione.
+                {% endfor %}
+            {% endif $}
             </p>
             <p class="desc">{{ blog.description }}</p>
             <div class="external_social"></div>

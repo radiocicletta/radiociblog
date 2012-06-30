@@ -461,7 +461,7 @@ footer address {
          -o-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     /*background: #303030;*/
     /*background: black;*/
-    background: #202020;
+    background: #323232;
     border: solid 1px #494949;
     -webkit-border-top-right-radius: 5px;
         -moz-border-radius-topright: 5px;
@@ -469,6 +469,10 @@ footer address {
     -webkit-border-bottom-right-radius: 5px;
         -moz-border-radius-bottomright: 5px;
             border-bottom-right-radius: 5px;
+}
+
+#content .fluid .main {
+    background: #202020;
 }
 
 #content .fluid section,
@@ -487,6 +491,7 @@ footer address {
 
 #content .fluid article.bloglist{
     border-bottom: solid 4px #c13952;
+    margin-bottom: 20px;
 }
 
 .fluid .adjustablemenu {
@@ -614,87 +619,112 @@ footer address {
     border-bottom-color: #c13952;
 }
 
-.fluid article a[href^="http://"],
+/*.fluid article a[href^="http://"],*/
 .fluid a.join-button {
     padding-left: 18px;
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAYAAAC9vt6cAAAAu0lEQVQoFWP8//8/AzFAoIgBu0KQAYSw1Kpb/4tX3gQqQwX8hURoBmoBWwBSDDIIGYDEWHA5n7H8LoqT+RmUGbq0VTGVw2xApxnK7sAtA9m05CqEC6JhLsHrAphVwMBjmJrCwBCtxcCw9BoDQ/YckIwqQ8n/W0BajQGnF2AGgDSfvwJRDNL8kfUuw/9OZUbp1Yz/P/QxMOKMAWQvgJwNci4IQMXh+phgNuGjQc4H2oYV4PUCMCawakIWBACPkOZEnuNlIQAAAABJRU5ErkJggg==) no-repeat 0 0;
 }
 .fluid article a[href*="blinklist.com"] {
+    padding-left: 18px;
      background: transparent url(/images/layout/socialmedia.png) no-repeat 0 0;
 } 
 .fluid article a[href*="delicious.com"],
 .fluid article a[href*="del.icio.us"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -36px;
 }
 .fluid article a[href*="designfloat.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -54px;
 }
 .fluid article a[href*="digg.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -72px;
 }
 .fluid article a[href*="dopplr.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
 }
 .fluid article a[href^="mailto:"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
 }
 .fluid article a[href*="facebook.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -126px;
 }
 .fluid article a[href^="feed://"],
 .fluid article a.join-button {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -144px;
 }
 .fluid article a[href*="flickr.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -162px;
 }
 .fluid article a[href*="friendfeed.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -180px;
 }
 .fluid article a[href*="furl"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -198px;
 }
 .fluid article a[href*="gamespot"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -216px;
 }
 .fluid article a[href*="lastfm"],
 .fluid article a[href*="last.fm"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -234px;
 }
 .fluid article a[href*="linkedin.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -252px;
 }
 .fluid article a[href*="myspace"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -306px;
 }
 .fluid article a[href*="newsvine.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -324px;
 }
 .fluid article a[href*="posterous.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -342px;
 }
 .fluid article a[href*="reddit.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -360px;
 }
 .fluid article a[href*="stumbleupon"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -414px;
 }
 .fluid article a[href*="technorati"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -432px;
 }
 .fluid article a[href*="tripadvisor"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -450px;
 }
 .fluid article a[href*="tumblr.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -468px;
 }
 .fluid article a[href*="twitter.com"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -486px;
 }
 .fluid article a[href*="vimeo"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -504px;
 }
 .fluid article a[href*="youtube"] {
+    padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
 }
 
@@ -721,9 +751,33 @@ footer address {
 
 
 .fluid article .articlecontent {
-    border-bottom: solid 4px #C13952;
     margin-bottom: 60px;
     padding-bottom: 30px;
+}
+
+.fluid article.bloglist .articlecontent {
+    border-bottom: none;
+}
+
+.articlecontent {
+    border-bottom: solid 4px #C13952;
+}
+
+.fluid article .articlecontent {
+    text-align: left;
+    font-size: 10.2pt;
+    line-height: 16pt;
+}
+
+.articlecontent ul {
+    margin-left: 20px;
+    list-style-type: disc;
+    list-style-position: outside;
+    padding: 10px;
+}
+
+.articlecontent li {
+   margin: 10px auto;
 }
 
 .fluid section.more-blog {
@@ -746,7 +800,10 @@ footer address {
     font-size: 80%;
     margin: 45px 0px;
     border-top: solid 1px #606060;
-    box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+       -moz-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+         -o-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
     background: #404040;
     border-radius: 8px;
     padding: 6px;
@@ -1001,6 +1058,7 @@ article.blog_show_header h2{
             box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
 }
 
+article.bloglist .blogimg,
 article.blog_show_header .blogimg{
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
@@ -1014,6 +1072,7 @@ article.blog_show_header .blogimg{
          -o-box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
     border-top: solid 1px;
 }
+article.bloglist .blogimg img,
 article.blog_show_header .blogimg img{
     border-radius: 5px;
     border: none !important;
@@ -1021,10 +1080,23 @@ article.blog_show_header .blogimg img{
     margin: 0px !important;
 }
 
+article.bloglist .blogimg-thumb,
+article.blog_show_header .blogimg-humb{
+    max-width: 80px;
+}
+
+article.bloglist h2 a:first-child {
+    margin-right: 8px;
+    margin-top: 10px;
+}
+
 article.blog_show_header .desc{
     clear: both;
-    background: rgba(0,0,0,0.5);
     padding: 3px;
+            border-radius: 6px;
+       -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-bottom: solid 1px #666;
             box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
     -webkit-box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
        -moz-box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
@@ -1036,6 +1108,6 @@ article.blog_show_header .onair{
     margin: 0px 0px 0px 158px !important;
 }
 
-iframe[src^="http://www.youtube.com"]{
+object{
     max-width: 100%;
 }
