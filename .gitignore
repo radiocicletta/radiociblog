@@ -1,3 +1,4 @@
 *.pyc
 *.swo
 *.swp
+/cdn/assets/js/ckeditor_src/_dev/releaser/release/*.*
