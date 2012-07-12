@@ -27,7 +27,7 @@ return e;};
 
 function inonda(){
 	$('#nellaria').html("Musica NO STOP");
-	$('#onair').css({"background":"transparent url(http://radiocicletta-static.appspot.com/images/layout/onair.png) no-repeat 0px -46px"});
+	$('#onair').css({"background":"transparent url(http://cdn.radiocicletta.it/images/layout/onair.png) no-repeat 0px -46px"});
 	$('#offair h1').html(" ");
 	dn=Date.parse('now');
 	dnh=dn.getHours();
@@ -48,7 +48,7 @@ function inonda(){
 				if (item.stato!=0){
 					if ((elem.id!=0)&&(dn.toString('ddd MMM d') == elem.start.toString('ddd MMM d'))&&(dnh>=h1)&&(dnh<=h2)&&((dnh==h2)?(dnm<=elem.end.getMinutes()):(1==1))){
 						$('#nellaria').html((elem.title).split("<br/>")[0]);
-						$('#onair').css({"background":"transparent url(http://radiocicletta-static.appspot.com/images/layout/onair.png) no-repeat top left"});
+						$('#onair').css({"background":"transparent url(http://cdn.radiocicletta.it/images/layout/onair.png) no-repeat top left"});
 						$('#offair-prog').html("Musica NO STOP");
 						if(d.next[elem.id]!=undefined){
 						$.each(d.events,function(i,item){

@@ -1,19 +1,19 @@
 {% extends "blog/one.html" %}
 {% block pagetitle %}Radiocicletta{% endblock %}
 {% block headstyle %}
-<link rel="stylesheet" type="text/css" href="http://radiocicletta-static.appspot.com/bxSlider/bx_styles/bx_styles.css" />
+<link rel="stylesheet" type="text/css" href="http://cdn.radiocicletta.it/bxSlider/bx_styles/bx_styles.css" />
 {% endblock %}
 {% block headscript %}
-<script type="text/javascript" src="http://radiocicletta-static.appspot.com/bxSlider/jquery.bxSlider.min.js" ></script>
-<script type='text/javascript' src='http://radiocicletta-static.appspot.com/libs/jquery-ui-1.8.4.custom.min.js'></script>
-<script type="text/javascript" src="http://radiocicletta-static.appspot.com/picasa/slimbox2.js"></script>
-<script type="text/javascript" src="http://radiocicletta-static.appspot.com/picasa/jquery.EmbedPicasaGallery.js"></script>
+<script type="text/javascript" src="http://cdn.radiocicletta.it/bxSlider/jquery.bxSlider.min.js" ></script>
+<script type='text/javascript' src='http://cdn.radiocicletta.it/libs/jquery-ui-1.8.4.custom.min.js'></script>
+<script type="text/javascript" src="http://cdn.radiocicletta.it/picasa/slimbox2.js"></script>
+<script type="text/javascript" src="http://cdn.radiocicletta.it/picasa/jquery.EmbedPicasaGallery.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
  				jQuery("#pics").EmbedPicasaGallery('radiocicletta',{
     			matcher: /./,
     			size: 130,
-    			loading_animation: 'http://radiocicletta-static.appspot.com/picasa/css/loading.gif',
+    			loading_animation: 'http://cdn.radiocicletta.it/picasa/css/loading.gif',
     			album_title_tag: '<h3/>',
  				})
 			}) 
