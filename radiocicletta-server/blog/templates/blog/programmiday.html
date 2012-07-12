@@ -1,0 +1,15 @@
+{% extends "blog/default.html" %}
+{% block pagetitle %}Programmi{% endblock %}
+{% block bodybaronair %}
+{% endblock %}
+
+{% block bodyheader %}{% endblock %}
+
+{% block bodyleft %}
+<h2>Programmi</h2>
+{% for p in programmi %}
+<section>
+<h3><a href="">{{ p.title }}</a></h3>
+</section>
+{% endfor %}
+{% endblock %}
