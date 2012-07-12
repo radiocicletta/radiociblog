@@ -49,9 +49,14 @@ def oldhome(request):
     return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
 def foto(request):
     return render(request, 'blog/foto.html', {'schedule':schedule()})
-def programmi(request):
-    programmi = cached_programmi()
+def programmi(request, day):
     blogs = cached_blogs()
+    logger.warning(day)
+    if day[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
+        programmi = set(cached_programmi().filter(startgiorno=day[:2].lower())).union(set(cached_programmi().filter(endgiorno=day[:2].lower())))
+        return render(request, 'blog/programmiday.html', {'blogs': blogs, 'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
+        
+    programmi = cached_programmi()
     return render(request, 'blog/programmi.html', {'blogs': blogs, 'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
 def chi(request):
     return render(request, 'blog/chi.html', {'schedule':schedule()})
@@ -160,12 +165,16 @@ def orderedschedule():
     return groupedcal
 
 
-
+import logging
+logger = logging.getLogger(__name__)
 def blog_browse(request, url):
+    logger.warning("blog_browse")
     blog = get_object_or_404(Blog, url='/' + url)
+    logger.warning(blog)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     onair = cached_onair(blog)
+    logger.warning(onair)
     return render(request, 'blog/post_list.html',
             {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
 
