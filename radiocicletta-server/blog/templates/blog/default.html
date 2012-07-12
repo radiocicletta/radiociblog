@@ -15,9 +15,13 @@
 </nav>
 <div id="playercontainer">
     <div id="player">
-        <audio id="audiosrc" preload="none" src="http://www.radiocicletta.it:8000/stream"></audio>
+        <audio id="audiosrc" preload="none" src="http://radiocicletta.it:8000/stream"></audio>
+        <noscript><a href="http://radiocicletta.it:8000/stream">Ascolta radiocicletta da questo link sul tuo player</a></noscript>
     </div>
 </div>
+<noscript>
+    Per poter usare tutte le funzionalità del sito devi abilitare Javascript sul tuo browser.
+</noscript>
 
 <div id="body">
 <div id="content">
@@ -27,7 +31,7 @@
             <ul>
             {% for day, order, list in schedule %}
                 {% if list %}
-                <li><a href="">{{day}}</a>
+                <li><a href="/programmi/{{day}}">{{day}}</a>
                     <ul class="submenu">
                     {% for p in list %}
                         <li><a href="{{ p.blog.url }}">{{ p.title }}</a></li>
@@ -45,10 +49,13 @@
 <div id="sidebar">
     <div class="side">
         <div class="now">
-            <p>
+            <!--<p>
                 <em>Ora in onda:</em>
                 <a href="">Musica No Stop</a>
-            </p>
+                </p>-->
+                <p><a   onclick="window.open('http://webchat.freenode.net/?channels=radiocicletta&uio=MT1mYWxzZSYxMT02Mg8d', '_blank', 'menubar=no,location=no,toolbar=no,resize=no,resizable=no,scrollbars=no,status=no,width=647,height=400'); return false;"
+                    href="http://webchat.freenode.net/?channels=radiocicletta&uio=MT1mYWxzZSYxMT02Mg8d">
+                Entra in chat</a></p>
         </div>
         {%block bodyright %}{% endblock %}
         <section id="todayschedule">

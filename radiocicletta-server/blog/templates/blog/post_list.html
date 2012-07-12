@@ -9,11 +9,11 @@
             <p class="onair">
             {% if not blog.blog_generic %}
                 {% for airtime in onair %}
-                {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
+                    {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
                 {% empty %}
                     Attualmente non in programmazione.
                 {% endfor %}
-            {% endif $}
+            {% endif %}
             </p>
             <p class="desc">{{ blog.description }}</p>
             <div class="external_social"></div>
