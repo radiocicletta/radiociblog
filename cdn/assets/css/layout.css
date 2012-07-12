@@ -160,7 +160,7 @@ h1 {
        -moz-box-shadow: 0px 0px 9px rgba(0,0,0,0.9);
             box-shadow: 0px 0px 9px rgba(0,0,0,0.9);
     height: 50px;
-    margin-bottom: 55px;
+    margin-bottom: 27px;
     border-bottom: solid 1px #555;
 }
 
@@ -204,6 +204,10 @@ h1 {
        -moz-box-shadow: 0px 0px 8px  rgba(0,0,0,0.8);
             box-shadow: 0px 0px 8px  rgba(0,0,0,0.8);
 */
+}
+
+#player audio {
+    display: none;
 }
 
 #commands {
@@ -327,6 +331,7 @@ h1 {
 
 #body {
 margin: auto;
+margin-top: 27px;
 max-width: 960px;
 }
 
@@ -477,8 +482,8 @@ footer address {
 
 #content .fluid section,
 #content .fluid article {
-    padding: 10px 35px;
-    margin: 10px 0px;
+    padding: 20px 35px;
+    margin: 0px;
     text-shadow: 1px 1px 1px #000000;
     -moz-text-shadow: 1px 1px 1px #000000;
     color: #e0e0e0;
@@ -598,7 +603,7 @@ footer address {
 
 #content .fluid article p {
     text-align: left;
-    font-size: 10.2pt;
+    font-size: 11pt;
     line-height: 16pt;
     margin: 20px auto;
 }
@@ -742,7 +747,7 @@ footer address {
 
 .fluid section ul.articleinfo,
 .fluid article ul.articleinfo {
-    margin-bottom: 2em;
+    margin-bottom: 6ex;
 }
 
 .fluid article li {
@@ -752,6 +757,8 @@ footer address {
 
 .fluid article .articlecontent {
     margin-bottom: 60px;
+}
+.fluid article.post .articlecontent{
     padding-bottom: 30px;
 }
 
@@ -765,7 +772,7 @@ footer address {
 
 .fluid article .articlecontent {
     text-align: left;
-    font-size: 10.2pt;
+    font-size: 11pt;
     line-height: 16pt;
 }
 
@@ -879,7 +886,7 @@ footer address {
     margin: -10px 20px 10px 10px;
     border-top: solid 1px #666;
     border-left: solid 1px #666;
-     border-right: solid 1px #eee;
+    border-right: solid 1px #eee;
     border-bottom: solid 1px #eee;
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
@@ -892,7 +899,7 @@ footer address {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-     border-top: solid 1px #eee;
+    border-top: solid 1px #eee;
     border-left: solid 1px #eee;
     border-right: solid 1px #666;
     border-bottom: solid 1px #666;
@@ -920,11 +927,11 @@ footer address {
             border-bottom-right-radius: 3px;
     color: #fff59b;
     color: #526A79;
-    color: #324A59;
+    color: #324A66;
     /*     text-shadow: 1px 1px 0px rgba(0,0,0,0.6);
     -moz-text-shadow: 1px 1px 0px rgba(0,0,0,0.6);*/
     vertical-align: top;
-    font-size: 10.2pt;
+    font-size: 11pt;
             box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
     -webkit-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
        -moz-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
@@ -1086,7 +1093,7 @@ article.blog_show_header .blogimg-humb{
 }
 
 article.bloglist h2 a:first-child {
-    margin-right: 8px;
+    margin-right: 20px;
     margin-top: 10px;
 }
 
@@ -1110,4 +1117,22 @@ article.blog_show_header .onair{
 
 object{
     max-width: 100%;
+}
+
+noscript {
+    margin: auto;
+    display: block;
+    width: 90%;
+            box-shadow: 0px 0px 2px rgba(10,10,10, 0.5);
+    -webkit-box-shadow: 0px 0px 2px rgba(10,10,10, 0.5);
+       -moz-box-shadow: 0px 0px 2px rgba(10,10,10, 0.5);
+         -o-box-shadow: 0px 0px 2px rgba(10,10,10, 0.5);
+    color: #f0f0f0;
+    text-shadow: -1px -1px 0px rgba(100, 0, 0, 0.5);
+    background: rgb(235, 0, 0);
+    padding: 10px;
+            border-radius: 6px;
+       -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    font-size: 80%;
 }

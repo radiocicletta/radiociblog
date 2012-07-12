@@ -4,7 +4,7 @@ var kPlayerBackgroundWaitPos = "0px -7px";
 var kPlayerBackgroundHaltPos = "0px -14px";
 
 $(window).ready(function(evt) {
-    var baseurl = "http://www.radiocicletta.it";
+    var baseurl = "http://api.radiocicletta.it";
     var player = document.createElement("div");
 
     player.id = "commands";
@@ -15,7 +15,7 @@ $(window).ready(function(evt) {
                             '<span id="playermetadata">...</span>' +
                         '</span>' +
                         '<a id="playerexternal" title="ascolta la diretta col tuo player (Winamp, iTunes, VLC...)"' +
-                            'href="http://www.radiocicletta.it:8000/stream"></a>' +
+                            'href="http://radiocicletta.it:8000/stream"></a>' +
                         '<a id="playerdetach" href=""></a>';
     document.getElementById("player").appendChild(player);
     var metadata = document.getElementById("playermetadata");
