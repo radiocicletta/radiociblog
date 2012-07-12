@@ -15,7 +15,7 @@ $(window).ready(function(evt) {
                             '<span id="playermetadata">...</span>' +
                         '</span>' +
                         '<a id="playerexternal" title="ascolta la diretta col tuo player (Winamp, iTunes, VLC...)"' +
-                            'href="http://radiocicletta.it:8000/stream"></a>' +
+                            'href="http://radiocicletta.it/listen.pls"></a>' +
                         '<a id="playerdetach" href=""></a>';
     document.getElementById("player").appendChild(player);
     var metadata = document.getElementById("playermetadata");

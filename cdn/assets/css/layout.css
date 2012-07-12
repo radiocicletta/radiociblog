@@ -129,7 +129,12 @@ h1 {
     background: url(/images/layout/logo_head_big.png) no-repeat left top;
 }
 
-.toplevel li a:not(.home) {
+.toplevel li a.blogs,
+.toplevel li a.schedule,
+.toplevel li a.faqs,
+.toplevel li a.downloads,
+.toplevel li a.help,
+.toplevel li a:not(.home) {  
     /*background: rgba(0,0,0, 0.5);*/
     padding-left: 10px;
     padding-right: 10px;
@@ -917,7 +922,7 @@ footer address {
     /*background: #58473a;*/
     /*background: rgb(88, 71, 58);
     background: rgba(88, 71, 58, 0.8);*/
-    background: rgb(77, 71, 68);
+    background: rgb(147, 147, 148);
     background: rgba(77, 77, 78, 0.5) url(/images/layout/bg4.png) repeat top left;
     -webkit-border-top-right-radius: 3px;
         -moz-border-radius-topright: 3px;
@@ -1115,7 +1120,7 @@ article.blog_show_header .onair{
     margin: 0px 0px 0px 158px !important;
 }
 
-object{
+object {
     max-width: 100%;
 }
 

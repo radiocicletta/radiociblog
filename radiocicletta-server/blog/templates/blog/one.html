@@ -13,10 +13,15 @@
     <script type="text/javascript" src="{% cdnmediaurl %}/js/zepto.js"></script>
 <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/es5-shim.js"></script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.js"></script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.events.js"></script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.docready.js"></script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.css.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.ajax.js"></script>
+    <script type="text/javascript">
+        window['$'] = jquip;
+    </script>
 <![endif]-->
     <script type="text/javascript" async src="{% cdnmediaurl %}/js/me/mediaelement.js"></script>
     <script type="text/javascript" async src="{% cdnmediaurl %}/js/bike.js"></script>
