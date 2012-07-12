@@ -133,9 +133,13 @@ h1 {
 .toplevel li a.schedule,
 .toplevel li a.faqs,
 .toplevel li a.downloads,
-.toplevel li a.help,
+.toplevel li a.help {  
+    padding-left: 10px;
+    padding-right: 10px;
+    margin:0px;
+}
+
 .toplevel li a:not(.home) {  
-    /*background: rgba(0,0,0, 0.5);*/
     padding-left: 10px;
     padding-right: 10px;
     margin:0px;
@@ -487,7 +491,7 @@ footer address {
 
 #content .fluid section,
 #content .fluid article {
-    padding: 20px 35px;
+    padding: 35px;
     margin: 0px;
     text-shadow: 1px 1px 1px #000000;
     -moz-text-shadow: 1px 1px 1px #000000;
@@ -1124,7 +1128,7 @@ object {
     max-width: 100%;
 }
 
-noscript {
+noscript > div {
     margin: auto;
     width: 90%;
             box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
