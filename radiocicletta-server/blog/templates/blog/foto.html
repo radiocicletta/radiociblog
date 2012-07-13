@@ -1,4 +1,4 @@
-{% extends "blog/one.html" %}
+{% extends "one.html" %}
 {% block pagetitle %}Radiocicletta{% endblock %}
 {% block headstyle %}
 <link rel="stylesheet" type="text/css" href="http://cdndev.radiocicletta.it/bxSlider/bx_styles/bx_styles.css" />
@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 
 {% endblock %}
 
-{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "blog/headmenu.html" %}{% endblock %}
+{% block bodyheader %}<script type='text/javascript'>$(document).ready(function(){inonda();});</script> {% include "headmenu.html" %}{% endblock %}
 
 
 {% block bodyleft %}

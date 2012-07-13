@@ -1,4 +1,4 @@
-{% extends "blog/default.html" %}
+{% extends "default.html" %}
 {% block pagetitle %}{{post.title}}{% endblock %}
 {% load disqus_tags media simplesocial %}
         
@@ -8,7 +8,7 @@
         {% if review %}
         <div class="info"><strong>Quella che vedi &egrave; una anteprima dell'articolo</strong></div>
         {% endif %}
-        {% include 'blog/post.html' %}
+        {% include 'post.html' %}
         
         <div class="share-this">
             {% wide_social_buttons request post.title post.get_absolute_url %}
@@ -24,7 +24,7 @@
     </section>
     <section class="more-blog">
         <h3>Ultimi articoli di questo blog</h3>
-        {% include 'blog/recent_posts.html' %}
+        {% include 'recent_posts.html' %}
         <p><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></p>
     </section>
     {% endblock %}

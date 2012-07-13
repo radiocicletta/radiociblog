@@ -23,10 +23,10 @@
             <tbody>
                 {% for b in blog_list %}
                 <tr class="row">
-                <td><a href="../blog/{{ b.id }}">{{ b.title }}</a></td>
+                <td><a href="../{{ b.id }}">{{ b.title }}</a></td>
                 <td>
                     {% with prog_dict|lookupint:b.id as prog %}
-                        {% include "admin/blog/row.html" %}
+                        {% include "admin/row.html" %}
                     {% endwith %}
 
 

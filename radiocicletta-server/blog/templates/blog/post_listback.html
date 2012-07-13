@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 {% load disqus_tags %}
 {% block title %}{{ block.super }}{% if blog.keywords.strip %} - {{ blog.keywords.strip }}{% endif %}{% endblock %}
 
@@ -12,7 +12,7 @@
 {% block content %}
 {% for post in object_list %}
   <div class="post post-in-list">
-    {% include 'blog/post.html' %}
+    {% include 'post.html' %}
     <div class="post-footer">
       <a href="{{ post.get_absolute_url }}">Continue &raquo;</a>
       |

@@ -51,7 +51,7 @@ height:"291", width:"400"
 {% block branding %}{% if not user.is_superuser %}<h1>Radiocicletta Blog Admin</h1>{% else %}<h1>Django administration</h1>{% endif %}{% endblock %}
 
 {% block breadcrumbs %}{% if not user.is_superuser %}<div class="breadcrumbs"><a href="/amministra">Home</a>{% if title %} &rsaquo; {{ title }}{% endif %}</div>{% else %}
-<div class="breadcrumbs"><a href="/admin/">Home</a> › <a href="/admin/blog/">Blog</a> › <a href="/admin/blog/post/">Posts</a> › {{ original.title }} </div>{% endif %}{% endblock %}
+<div class="breadcrumbs"><a href="/admin/">Home</a> › <a href="/admin/">Blog</a> › <a href="/admin/post/">Posts</a> › {{ original.title }} </div>{% endif %}{% endblock %}
 
 
 

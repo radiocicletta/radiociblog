@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 {% load disqus_tags media simplesocial %}
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
@@ -15,7 +15,7 @@
 {% if review %}
 <div class="info"><strong>Review mode: Don't tweet this!!!</strong></div>
 {% endif %}
-{% include 'blog/post.html' %}
+{% include 'post.html' %}
 
 <div class="like-it">
 <h4>Do you like this post?</h4>

@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 {% load media cms blog google_cse google_analytics %}
-<html dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
-      lang="{% firstof LANGUAGE_CODE 'en' %}">
+<!DOCTYPE HTML>
+<html lang="it">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{% block title %}{% endblock %} | {{ site_name }}</title>
-    {% block blogfeeds %}
-      {% blog_feeds %}
-    {% endblock %}
-    {% block css %}
-      {% include_media 'main.css' %}
-    {% endblock %}
+	<title>{% block pagetitle %}{% endblock %} — Radiocicletta</title>
+	<meta charset="UTF-8">
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
+    <link rel="stylesheet" href="{% cdnmediaurl %}/css/layout.css"/>
+    <link rel="stylesheet" href="{% cdnmediaurl %}/css/media.css"/>
+
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/zepto.js"></script>
+<!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/es5-shim.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.events.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.docready.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.css.js"></script>
+    <script type="text/javascript" src="{% cdnmediaurl %}/js/jquip/jquip.ajax.js"></script>
+    <script type="text/javascript">
+        window['$'] = jquip;
+    </script>
+<![endif]-->
+    <script type="text/javascript" async src="{% cdnmediaurl %}/js/me/mediaelement.js"></script>
+    <script type="text/javascript" async src="{% cdnmediaurl %}/js/bike.js"></script>
+
+    {% block headmeta %}{% endblock %}
+    {% block headstyle %}{% endblock %}
+    {% block headscript %}{% endblock %}
+    {% if not request.user.is_authenticated %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26545450-1']);
+        _gaq.push(['_setDomainName', 'radiocicletta.it']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    {% endif %}
+    </script>
     {% block preload_js %}
       {% google_analytics_code %}
     {% endblock %}
 
+    {% block blogfeeds %}
+      {% blog_feeds %}
+    {% endblock %}
     {% block extra-head %}{% endblock %}
   </head>
-
   <body>
-    <div id="header">
-      <a id="logo" href="/"><img alt="Radiocicletta Blog System" src="http://dev.radiocicletta.it/headlogo.png" /></a>
-      {% google_search_form %}
-      <ul class="menu">
-        {% show_menu %}
-      </ul>
-    </div>
-
-    <div class="columns">
-      <div id="content" class="column">
-        {% block content-header %}
-          {% if error %}<div class="error">{{ error }}</div>{% endif %}
-          {% if info %}<div class="info">{{ info }}</div>{% endif %}
-          {% if messages %}
+    {% block content-header %}
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        {% if info %}<div class="info">{{ info }}</div>{% endif %}
+        {% if messages %}
             {% for message in messages %}
-              <div class="info">{{ message }}</div>
+                <div class="info">{{ message }}</div>
             {% endfor %}
-          {% endif %}
-        {% endblock %}
-
-        <div id="cse" style="width:100%; display:inline;"></div>
-
-        {% block content %}{% endblock %}
-      </div>
-
-      <div id="sidebar" class="column">
-        {% block sidebar %}
-          {% show_block 'sidebar' %}
-        {% endblock %}
-      </div>
-    </div>
-
-    <div id="footer">
-      <p>
-        Copyright {% now "Y" %} {{ site_copyright }}<br />
-        Powered by <a href="http://www.allbuttonspressed.com/projects/django-nonrel">Django-nonrel</a>,
-        <a href="http://code.google.com/appengine/">App Engine</a>, and
-        <a href="http://www.allbuttonspressed.com/projects/allbuttonspressed">All Buttons Pressed</a>
-      </p>
-    </div>
-
-    {% block js %}
+        {% endif %}
     {% endblock %}
+    {% block body %}{% endblock %}
   </body>
 </html>
