@@ -1,23 +1,21 @@
 {% load simplesocial %}
 
 <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-{% if not browse_posts %}
-            <ul class="articleinfo">
-                <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
-                <li>
-                    {{ post.published_on }}
-                </li>
-                <li>
-                	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
-                </li>
-            </ul>
-{% endif %}
+    <ul class="articleinfo">
+        <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
+        <li>
+            {{ post.published_on }}
+        </li>
+        <li>
+        	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
+        </li>
+    </ul>
 
 
 <div class="articlecontent">
 {% if browse_posts %}
     {{ post.rendered_content|truncatewords_html:150 }}
-    <a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
+    <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
 {% else %}
     {{ post.rendered_content }}
 {% endif %}

@@ -24,17 +24,15 @@
     </article>
     {% for post in recent_posts %}
         <article>
-        <h2><a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
-            <ul class="articleinfo">
-                <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
-                <li>
-                    {{ post.published_on }}
-                </li>
-                <li>
-                	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
-                </li>
-            </ul>
-            {{ post.rendered_content|truncatewords_html:150 }}
+        {% include "blog/post.html" %}
         </article>
     {% endfor %}
+<div class="pagenav">
+  {% if page_obj.has_next %}
+    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&laquo; older</a>
+  {% endif %}
+  {% if page_obj.has_previous %}
+    <a href="{{ request.path }}{% if page_obj.previous_page_number != 1 %}?page={{ page_obj.previous_page_number }}{% endif %}">newer &raquo;</a>
+  {% endif %}
+</div>
 {% endblock %}
