@@ -35,7 +35,8 @@ SITE_NAME = 'radiocicletta-server'
 SITE_DESCRIPTION = ''
 SITE_COPYRIGHT = ''
 DISQUS_SHORTNAME = 'radiocicletta'
-GOOGLE_ANALYTICS_ID = ''
+GOOGLE_ANALYTICS_ID = 'UA-26545450-1'
+GOOGLE_ANALYTICS_DOMAIN = 'radiocicletta.it'
 # Get the ID from the CSE "Basics" control panel ("Search engine unique ID")
 GOOGLE_CUSTOM_SEARCH_ID = ''
 # Set RT username for retweet buttons
