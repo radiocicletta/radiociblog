@@ -864,7 +864,7 @@ footer address {
 
 
 #content .fluid .readmore {
-    display: block;
+    display: inline-block;
     text-align: center;
     font-weight: 900;
     font-size: 10pt; 
@@ -873,14 +873,18 @@ footer address {
     color: white;
     text-decoration: none;
     padding-top: 0.5ex;
-         text-shadow: 0px 0px 6px rgba(0,0,0,0.7);
-    -moz-text-shadow: 0px 0px 6px rgba(0,0,0,0.7);
+         text-shadow: 0px 0px 6px rgba(0,0,0,0.8);
+    -moz-text-shadow: 0px 0px 6px rgba(0,0,0,0.8);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-    padding: 10px 6px;
+    padding: 10px 15px;
     margin: 20px 5px;
-    width: 30%;
+    border: none;
+}
+
+#content .fluid .readmore:hover {
+    border: none;
 }
 
 #sidebar .side {

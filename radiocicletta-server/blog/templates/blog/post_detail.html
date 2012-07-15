@@ -1,9 +1,16 @@
 {% extends "default.html" %}
-{% block pagetitle %}{{post.title}}{% endblock %}
 {% load disqus_tags media simplesocial %}
-        
+{% block pagetitle %}{{post.title}}{% endblock %}
     
-    {% block bodyleft %}
+{% block extra-head %}
+    {{ block.super }}
+    <meta name="description" content="{{ post.rendered_content|striptags|truncatewords:20 }}" />
+    {% if review %}
+    <meta name="robots" content="noindex, noarchive" />
+    {% endif %}
+{% endblock %}
+
+{% block bodyleft %}
     <article class="post post-detail">
         {% if review %}
         <div class="info"><strong>Quella che vedi &egrave; una anteprima dell'articolo</strong></div>
@@ -27,5 +34,5 @@
         {% include "blog/recent_posts.html" %}
         <p><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></p>
     </section>
-    {% endblock %}
+{% endblock %}
 

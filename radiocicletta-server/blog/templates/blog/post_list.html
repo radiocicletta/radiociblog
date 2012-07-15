@@ -1,5 +1,11 @@
 {% extends "default.html" %}
 {% block pagetitle %}{{ blog.title }}{% endblock %}
+{% block extra-head %}
+    {{ block.super }}
+    {% if page_obj.number == 1 %}
+    <meta name="description" content="{{ blog.description|striptags|truncatewords:20 }}" />
+    {% endif %}
+{% endblock %}
 
 {% block bodyleft %}
     <article class="blog_show_header">
