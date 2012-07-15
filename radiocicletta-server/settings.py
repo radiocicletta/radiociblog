@@ -26,6 +26,7 @@ except ImportError:
 import os
 
 
+LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
@@ -54,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.sitemaps',
+    'django.contrib.messages',
     'urlrouter',
     'minicms',
     'plogo',
@@ -98,9 +100,9 @@ REST_BACKENDS = (
 MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
-
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'mediagenerator.middleware.MediaMiddleware',
-
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangotoolbox.middleware.RedirectMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
