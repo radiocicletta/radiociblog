@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 {% load media cms blog google_cse google_analytics %}
-<html lang="it">
+<html lang="it" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# blog: http://ogp.me/ns/blog#">
   <head>
 	<title>{% block pagetitle %}{% endblock %} — Radiocicletta</title>
 	<meta charset="UTF-8">
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta property="og:audio" content="http://radiocicletta.it:8000/stream" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content="Radiocicletta" />
+    {% block headmeta %}{% endblock %}
 
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,701italic,300italic,600italic,400,600,300,700" rel="stylesheet" type="text/css" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" type="text/css" />
     <link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{% cdnmediaurl %}/css/layout.css"/>
     <link rel="stylesheet" href="{% cdnmediaurl %}/css/media.css"/>
+    <link rel="dns-prefetch" href="api.radiocicletta.it"/>
 
     <script type="text/javascript" src="{% cdnmediaurl %}/js/zepto.js"></script>
 <!--[if lt IE 9]>
@@ -40,7 +45,6 @@
     <script type="text/javascript" async src="{% cdnmediaurl %}/js/me/mediaelement.js"></script>
     <script type="text/javascript" async src="{% cdnmediaurl %}/js/bike.js"></script>
 
-    {% block headmeta %}{% endblock %}
     {% block headstyle %}{% endblock %}
     {% block headscript %}{% endblock %}
     {% if not request.user.is_authenticated %}
