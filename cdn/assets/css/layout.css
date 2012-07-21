@@ -272,6 +272,7 @@ h1 {
     font-size: 9pt;
     overflow: hidden;
     text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
     text-shadow: 0px 0px 5px rgba(0,0,0,0.9);
     padding-left: 10px;
     white-space: nowrap;
@@ -415,7 +416,7 @@ footer nav .menu h2 {
     line-height: 20pt;
     font-weight: bolder;
             border-radius: 5px;
-       -mox-border-radius: 5px;
+       -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
          -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
     -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
@@ -987,6 +988,7 @@ footer address {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
 }
 
 table.schedule {
@@ -1044,6 +1046,7 @@ table.schedule a{
     padding: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
     max-width: 90px;
     margin-bottom: 10px;
     border: none !important;
@@ -1068,7 +1071,7 @@ article.blog_show_header h2{
     color: #DF577A!important;
     background: #C13952;
             border-radius: 5px;
-       -mox-border-radius: 5px;
+       -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
          -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
     -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
