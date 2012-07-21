@@ -49,9 +49,14 @@ table {
 
 body{
     text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    font-family: "Helvetica Neue", Gill Sans, Helvetica, sans-serif;
+    /*-webkit-font-smoothing: antialiased; <- NOPE.jpg */
+    font-family: "HelveticaNeue", "Helvetica Neue", "HelveticaNeueRoman", "HelveticaNeue-Roman", "Helvetica Neue Roman", "Gill Sans", Helvetica, sans-serif;
+    font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Gill Sans", Helvetica, "Tahoma", "Geneva", "Arial", sans-serif;
+    font-weight: 300;
+    font-stretch: normal;
+    letter-spacing: 1px;
     color: white;
+    font-size: 11pt;
     /*background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAMAAAAPK1hoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9QTFRFKioqKCgoKSkpJycnJiYmo673eQAAAvdJREFUeNqsWQmSwyAMi2T+/+btJm0KvsluZjqTFjBGvmR6HNeDY36of/g8IvcrxIyOa84RPJKMqecUTqvYrR7nyb8ffscONeYcEIfYub6EjYe4NkKgN2rpiETHUMz4BrCnsmURBXeavNejA874xYHBWXkLxOudEeiOEqOLGQAtNfQ7PjDEyzkRriKx501UHo3DhNhApSKOJOgcbbiOUwVGqS8KHGWeQ8YJZQ98ezYcf3sMPJKejN81TBWnNwQ7yMxDZNKGkX3k+XFrO27sQitTAsHs2hsd+0qlIHIEHMX5wFNZujGVJR0Mv2leouWZitdyjr2ixu4p8ZnL9zu9E1wxAuoUjMo25/tL+ZgnsI2EDUSW/oYdg8tfMhdyY3AiNJwzLlFFIML6kujg1wh8vmIdhYKTNhDY8i3sOyaTwQEki9mxx+IjiDgSFxpjN0BEotccSN8fYuyUfdnP0ViRWyYK2uiLAU1o4RNT74IyGGgNl1a5PJBzavKbiDhRqsrORnWLJ0VUpDLSyTjCMgfN8VBwrmmGZK7PpJSik7Fo+grkhaPDI+B9Rx4aYXcjKqGaHpZO1Prktk7qZnMw6DyjeEOLdPHGvejE0COBKOfTrCwiRfGpu14yKjC2bWtJH2c5RA8DlqT+cz4miDHfZJhUFTRZ5huSAwBtJ4QSKFHopuuBoMqiHxOVj9P2NUbDrcam2wcyA0DCItV3THMQyfrF9LJsIhmi2MRCkeFny4RlM9/cC8Q4OPFftnEJ3nmTIAiuFp7e4lRND/rOd6UtqQSjqrHPrx09ugm364bO32MvfiWqGnDNsnczwZZjILxtgHcElmqx7scWsiDFPc8U+fAxnc2UtepshV+ohiSmzGv42AhTtrvp0fL1IjKof8E7yRrazBALae+NuVtyaMsF42DBmLa9TjJOHQRCcdetdXw7lGAnGe+lrX4Zx+PCIVV9H0lT2bpBSv6JYCtzc3NEVvag4j/5U0zayI0iRUTeieYxRqOY2fsbOX4EGAD2uwR5Lfx+NQAAAABJRU5ErkJggg==) repeat left top; */
     background: white url(/images/layout/bg3.png) repeat left top;
 }
@@ -494,10 +499,7 @@ footer address {
     text-shadow: 1px 1px 1px #000000;
     -moz-text-shadow: 1px 1px 1px #000000;
     color: #e0e0e0;
-    font-weight: 300;
-    letter-spacing: 0.5pt;
     clear: both;
-    font-weight: 400;
 }
 
 
@@ -610,7 +612,6 @@ footer address {
 
 #content .fluid article p {
     text-align: left;
-    font-size: 11pt;
     line-height: 16pt;
     margin: 20px auto;
 }
@@ -779,7 +780,6 @@ footer address {
 
 .fluid article .articlecontent {
     text-align: left;
-    font-size: 11pt;
     line-height: 16pt;
 }
 
@@ -948,6 +948,9 @@ footer address {
        -moz-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
          -o-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
 }
+#sidebar .side:not(h2) {
+    text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
+}
 
 #sidebar .side a {
     color: rgb(255, 245, 155);
@@ -957,8 +960,8 @@ footer address {
 }
 
 #sidebar .side h2 {
-    font-family: "Helvetica Neue", "Droid Sans", Tahoma, sans-serif;
-    font-weight: 300;
+    font-family: "HelveticaNeueUltraLight", "HelveticaNeue-Ultra-Light", "HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue UltraLight", "HelveticaNeue", "Helvetica Neue", "TeXGyreHerosRegular", "Helvetica", "Droid Sans", Tahoma, "Geneva", "Arial", sans-serif;
+    font-weight: 100;
     margin: 10px 0px 25px 0px;
     padding: 5px;
     font-size: 16pt;
