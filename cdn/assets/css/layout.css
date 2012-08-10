@@ -58,10 +58,10 @@ body{
 
 .toplevel {
     height: 79px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.9);
        -moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.9);
     -webkit-box-shadow: 0px 0px 15px rgba(0,0,0,0.9);
          -o-box-shadow: 0px 0px 15px rgba(0,0,0,0.9);
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.9);
     background: rgb(0, 0, 0) url(/images/layout/headstrip.png) repeat-x left top;
     background: rgba(0, 0, 0, 0.8) url(/images/layout/headstrip.png) repeat-x left top;
     border-bottom: solid 1px #4a4a4a;
@@ -96,8 +96,8 @@ h1 {
     display: inline-block;
     color: white;
     text-decoration: none;
-    text-shadow: -1px -1px 0px black;
     -moz-text-shadow: 1px 1px 0px black;
+    text-shadow: -1px -1px 0px black;
     font-size: 9pt;
     letter-spacing: 0.5pt;
     line-height: 77px;
@@ -273,6 +273,7 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
+    -moz-text-shadow: 0px 0px 5px rgba(0,0,0,0.9);
     text-shadow: 0px 0px 5px rgba(0,0,0,0.9);
     padding-left: 10px;
     white-space: nowrap;
@@ -376,9 +377,9 @@ footer nav .menu {
     vertical-align: top;
     margin-left: -2px;
     margin-right: -2px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
+       -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+            border-radius: 5px;
     transition-property: color, border-top-color;
     transition-duration: 0.4s;  
     transition-timing-function: ease-out;  
@@ -393,6 +394,7 @@ footer nav .menu {
 
 footer nav .menu > * {
     margin: 20px;
+    -moz-text-shadow: 1px 1px 0px black;
     text-shadow: 1px 1px 0px black;
 }
 
@@ -411,13 +413,14 @@ footer nav .menu h2 {
     letter-spacing: 0.2em;
     /*color: #627a89;*/
     color: #728a99;
+    -moz-text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
     text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
     text-align: center;
     line-height: 20pt;
     font-weight: bolder;
-            border-radius: 5px;
        -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+            border-radius: 5px;
          -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
     -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
        -moz-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
@@ -447,31 +450,32 @@ footer nav .menu a {
     text-decoration: none;
     color: #f0f0f0;
     letter-spacing: 0.2pt;
+    -moz-text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
 }
 
 footer address {
     background: #797979;
-            box-shadow: inset 0px 10px 10px rgba(0,0,0,0.5);
        -moz-box-shadow: inset 0px 10px 10px rgba(0,0,0,0.5);
     -webkit-box-shadow: inset 0px 10px 10px rgba(0,0,0,0.5);
          -o-box-shadow: inset 0px 10px 10px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 10px 10px rgba(0,0,0,0.5);
     display: block;
     padding: 30px;
     color: #cecece;
     color: #999;
-    text-shadow: -1px -1px 0px #4f4f4f;
     -moz-text-shadow: -1px -1px 0px #4f4f4f;
+    text-shadow: -1px -1px 0px #4f4f4f;
     text-align: center;
     font-size: 8pt;
 }
 
 #content .fluid {
     margin-right: 320px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
        -moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
          -o-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     /*background: #303030;*/
     /*background: black;*/
     background: #323232;
@@ -492,8 +496,8 @@ footer address {
 #content .fluid article {
     padding: 35px;
     margin: 0px;
-    text-shadow: 1px 1px 1px #000000;
     -moz-text-shadow: 1px 1px 1px #000000;
+    text-shadow: 1px 1px 1px #000000;
     color: #e0e0e0;
     font-weight: 300;
     letter-spacing: 0.5pt;
@@ -563,6 +567,7 @@ footer address {
 
 .adjustablemenu  a:hover {
     background-color: #C13952; 
+    -moz-text-shadow: 0px 0px 4px rgba(0,0,0,0.5);
     text-shadow: 0px 0px 4px rgba(0,0,0,0.5);
     color: #ddd!important;
 }
@@ -575,10 +580,10 @@ footer address {
     background: #e0e0e0;
     max-width: 100%;
     vertical-align: top;
-            box-shadow: 0px 0px 5px rgba(0,0,0,0.9);
        -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.9);
     -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.9);
          -o-box-shadow: 0px 0px 5px rgba(0,0,0,0.9);
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.9);
 }
 
 
@@ -601,6 +606,7 @@ footer address {
 
 #content .fluid h3 {
     font-size: 25pt;
+    -moz-text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
@@ -815,12 +821,14 @@ footer address {
     font-size: 80%;
     margin: 45px 0px;
     border-top: solid 1px #606060;
-            box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
        -moz-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
          -o-box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0px -8px 18px rgba(0, 0, 0, 0.3), 0px 0px 4px rgba(0, 0, 0, 0.3);
     background: #404040;
-    border-radius: 8px;
+    -webkit-border-bottom: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
     padding: 6px;
 }
 
@@ -834,6 +842,7 @@ footer address {
     display: inline-block;
     margin-top: 2px;
     border: none!important;
+    -moz-text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
     text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
     color: #707070 !important;
     font-size: 85%;
@@ -848,6 +857,7 @@ footer address {
     margin: 0 -2px;
     padding-top: 0.4em;
     color: #a0a0a0;
+    -moz-text-shadow: none;
     text-shadow: none;
     font-size: 80%;
 }
@@ -874,8 +884,8 @@ footer address {
     color: white;
     text-decoration: none;
     padding-top: 0.5ex;
-         text-shadow: 0px 0px 6px rgba(0,0,0,0.8);
     -moz-text-shadow: 0px 0px 6px rgba(0,0,0,0.8);
+         text-shadow: 0px 0px 6px rgba(0,0,0,0.8);
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
@@ -903,8 +913,8 @@ footer address {
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-    text-shadow: 0px 0px 3px rgba(0,0,0,0.7);
     -moz-text-shadow: 0px 0px 3px rgba(0,0,0,0.7);
+    text-shadow: 0px 0px 3px rgba(0,0,0,0.7);
 }
 
 .side .now p {
@@ -944,10 +954,10 @@ footer address {
     -moz-text-shadow: 1px 1px 0px rgba(0,0,0,0.6);*/
     vertical-align: top;
     font-size: 11pt;
-            box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
     -webkit-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
        -moz-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
          -o-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
+            box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
 }
 
 #sidebar .side a {
@@ -965,11 +975,11 @@ footer address {
     font-size: 16pt;
     color: #cebca5;
     color: #fff59b;
-         text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
     -moz-text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+         text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
     background: rgba(30,30, 50, 0.15);
     -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
+       -moz-border-radius: 3px;
             border-radius: 3px;
 }
 
@@ -1028,6 +1038,7 @@ table.schedule em {
     display: block;
     background-color: #e0e0e0;
     color: #0f0f0f;
+    -moz-text-shadow: none;
     text-shadow: none;
     -webkit-border-radius: 2px;
        -moz-border-radius: 2px;
@@ -1067,6 +1078,7 @@ article.blog_show_header h2{
     padding: 2px;
     padding: 8px;
     border-top: solid 1px;
+    -moz-text-shadow: -1px -1px 0px rgba(119, 03, 08, 1) !important;
     text-shadow: -1px -1px 0px rgba(119, 03, 08, 1) !important;
     color: #DF577A!important;
     background: #C13952;
@@ -1087,15 +1099,17 @@ article.blog_show_header .blogimg{
     max-width: 148px;
     float: left;
     display: inline-block;
-            box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
     -webkit-box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
        -moz-box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
          -o-box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
+            box-shadow: 0px 0px 6px rgba(10,10,10, 0.5);
     border-top: solid 1px;
 }
 article.bloglist .blogimg img,
 article.blog_show_header .blogimg img{
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
     border: none !important;
     padding: 0px !important;
     margin: 0px !important;
@@ -1114,14 +1128,14 @@ article.bloglist h2 a:first-child {
 article.blog_show_header .desc{
     clear: both;
     padding: 3px;
-            border-radius: 6px;
        -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+            border-radius: 6px;
     border-bottom: solid 1px #666;
-            box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
     -webkit-box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
        -moz-box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
          -o-box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
+            box-shadow: 0px 2px 2px rgba(10,10,10, 0.5);
 }
 
 article.blog_show_header .onair{
@@ -1136,17 +1150,18 @@ object {
 noscript > div {
     margin: auto;
     width: 90%;
-            box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
     -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
        -moz-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
          -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
+            box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 2px rgba(10,10,10, 0.5);
     color: #f0f0f0;
+    -moz-text-shadow: -1px -1px 0px rgba(100, 0, 0, 0.5);
     text-shadow: -1px -1px 0px rgba(100, 0, 0, 0.5);
     background: rgb(235, 0, 0);
     padding: 10px;
-            border-radius: 6px;
        -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
+            border-radius: 6px;
     font-size: 80%;
     border-top: solid 1px #FF1E1E;
 }
