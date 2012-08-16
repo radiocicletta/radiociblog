@@ -2,7 +2,7 @@ from .models import Blog, Post
 from datetime import datetime, time
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
@@ -10,6 +10,11 @@ from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
 import logging
+try :
+    import simplejson as json
+except:
+    import json
+
 logger = logging.getLogger(__name__)
 
 def cached_blogs():
@@ -40,6 +45,16 @@ def cached_blog_posts(blog):
         cache.add('blog_posts_%s' % blog.id, p)
     return p
 
+def social(request):
+    result = {'twitter': [], 'facebook': [], 'mixcloud': []}
+    for b in cached_blogs():
+        if len(b.mixcloud_playlist):
+            result['mixcloud'].append(b.mixcloud_playlist)
+        if len(b.twitter):
+            result['twitter'].append(b.twitter)
+        if len(b.facebook_page_or_user):
+            result['facebook'].append(b.facebook_page_or_user)
+    return HttpResponse(json.dumps(result), mimetype='application/json')
 
 ### pagine "statiche"
 def oldhome(request):
