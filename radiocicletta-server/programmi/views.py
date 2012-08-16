@@ -17,5 +17,5 @@ def progjson(request):
         n=p.mynext()
         if n:
            next[n[0]]=n[1]   
-    return HttpResponse(simplejson.dumps({'programmi':events,'next':next,'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='text/plain')
+    return HttpResponse(simplejson.dumps({'programmi':events,'next':next,'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='application/json')
 
