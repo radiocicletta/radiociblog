@@ -245,6 +245,45 @@ $(window).ready(function(evt) {
         });
 
 
+        $.getJSON(baseurl + "/socialroot.json", function(data){
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            var ul, _li, _a; 
+            if (data.mixcloud) {
+                ul = document.createElement("ul");
+                for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
+                    _li = li.cloneNode(li);
+                    _a = a.cloneNode(a);
+                    _a.appendChild(document.createTextNode(items[i].name));
+                    _a.href = items[i].url;
+                    _li.appendChild(_a);
+                    ul.appendChild(_li);
+                }
+                document.getElementById("box_mixcloud").appendChild(ul);
+            }
+            var latestsocial = [];
+            if (data.facebook)
+                for (var j=0, fbitems = data.facebook.latest; j < fbitems.length; j++)
+                    latestsocial.push({href: fbitems[j].link,
+                                        text: fbitems[j].story,
+                                        time: fbitems[j].created_time});
+            if (data.twitter)
+                for (var k=0, twitems = data.twitter.latest; k < twitems.length; k++)
+                    latestsocial.push({href: "http://twitter.com/"+ twitems[k].user.screen_name + "/status/" + twitems[k].id_str,
+                                        text: twitems[k].text,
+                                        time: twitems[k].created_at});
+            ul = document.createElement("ul");
+            for (var q = 0; q < latestsocial.length; q++) {
+                _li = li.cloneNode(li);
+                _a = a.cloneNode(a);
+                _a.appendChild(document.createTextNode(latestsocial[q].text));
+                _a.href = latestsocial[q].href;
+                _li.appendChild(_a);
+                ul.appendChild(_li);
+            }
+            document.getElementById("box_social").appendChild(ul);
+        });
+
         // THIS THING WILL BE DELETED.
         $.getJSON(baseurl + "/programmi.json?_=" + new Date().getTime(), function(data){
             var daytable = ["do", "lu", "ma", "me", "gi", "ve", "sa"];
@@ -267,6 +306,7 @@ $(window).ready(function(evt) {
             }
             document.getElementById("todayschedule").appendChild(ul);
         });
+
     }
 
 });
