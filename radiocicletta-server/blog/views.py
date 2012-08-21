@@ -46,14 +46,15 @@ def cached_blog_posts(blog):
     return p
 
 def social(request):
-    result = {'twitter': [], 'facebook': [], 'mixcloud': []}
+    result = {'modules':['mixcloud', 'twitter', 'facebook'],
+            'modules_args':{'twitter': {'streams':[]}, 
+                            'facebook': {'items': []}, 
+                            'mixcloud': {'username': 'radiocicletta'}} }
     for b in cached_blogs():
-        if len(b.mixcloud_playlist):
-            result['mixcloud'].append(b.mixcloud_playlist)
         if len(b.twitter):
-            result['twitter'].append(b.twitter)
+            result['modules_args']['twitter']['streams'].append(b.twitter)
         if len(b.facebook_page_or_user):
-            result['facebook'].append(b.facebook_page_or_user)
+            result['modules_args']['facebook']['items'].append(b.facebook_page_or_user)
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 ### pagine "statiche"
