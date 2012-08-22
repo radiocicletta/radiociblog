@@ -293,7 +293,6 @@ $(window).ready(function(evt) {
                         el.start[0] == daytable[date.getDay()];
             });
             var ul = document.createElement("ul");
-            ul.className="todayschedule";
             var li = document.createElement("li");
 
             for (var i = 0; i < filtered.length; i++) {

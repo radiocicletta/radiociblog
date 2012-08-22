@@ -20,7 +20,7 @@
                 	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
                 </li>
             </ul>
-            <div class="articlecontent">
+            <div class="articlecontent socialicons">
                 {{ post.rendered_content|truncatewords_html:150 }}
                 <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
             </div>

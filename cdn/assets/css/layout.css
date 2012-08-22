@@ -644,106 +644,106 @@ footer address {
     padding-left: 18px;
     background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAYAAAC9vt6cAAAAu0lEQVQoFWP8//8/AzFAoIgBu0KQAYSw1Kpb/4tX3gQqQwX8hURoBmoBWwBSDDIIGYDEWHA5n7H8LoqT+RmUGbq0VTGVw2xApxnK7sAtA9m05CqEC6JhLsHrAphVwMBjmJrCwBCtxcCw9BoDQ/YckIwqQ8n/W0BajQGnF2AGgDSfvwJRDNL8kfUuw/9OZUbp1Yz/P/QxMOKMAWQvgJwNci4IQMXh+phgNuGjQc4H2oYV4PUCMCawakIWBACPkOZEnuNlIQAAAABJRU5ErkJggg==) no-repeat 0 0;
 }
-.fluid article a[href*="blinklist.com"] {
+.socialicons a[href*="blinklist.com"] {
     padding-left: 18px;
      background: transparent url(/images/layout/socialmedia.png) no-repeat 0 0;
 } 
-.fluid article a[href*="delicious.com"],
-.fluid article a[href*="del.icio.us"] {
+.socialicons a[href*="delicious.com"],
+.socialicons a[href*="del.icio.us"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -36px;
 }
-.fluid article a[href*="designfloat.com"] {
+.socialicons a[href*="designfloat.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -54px;
 }
-.fluid article a[href*="digg.com"] {
+.socialicons a[href*="digg.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -72px;
 }
-.fluid article a[href*="dopplr.com"] {
+.socialicons a[href*="dopplr.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
 }
-.fluid article a[href^="mailto:"] {
+.socialicons a[href^="mailto:"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
 }
-.fluid article a[href*="facebook.com"] {
+.socialicons a[href*="facebook.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -126px;
 }
-.fluid article a[href^="feed://"],
-.fluid article a.join-button {
+.socialicons a[href^="feed://"],
+.socialicons a.join-button {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -144px;
 }
-.fluid article a[href*="flickr.com"] {
+.socialicons a[href*="flickr.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -162px;
 }
-.fluid article a[href*="friendfeed.com"] {
+.socialicons a[href*="friendfeed.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -180px;
 }
-.fluid article a[href*="furl"] {
+.socialicons a[href*="furl"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -198px;
 }
-.fluid article a[href*="gamespot"] {
+.socialicons a[href*="gamespot"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -216px;
 }
-.fluid article a[href*="lastfm"],
-.fluid article a[href*="last.fm"] {
+.socialicons a[href*="lastfm"],
+.socialicons a[href*="last.fm"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -234px;
 }
-.fluid article a[href*="linkedin.com"] {
+.socialicons a[href*="linkedin.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -252px;
 }
-.fluid article a[href*="myspace"] {
+.socialicons a[href*="myspace"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -306px;
 }
-.fluid article a[href*="newsvine.com"] {
+.socialicons a[href*="newsvine.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -324px;
 }
-.fluid article a[href*="posterous.com"] {
+.socialicons a[href*="posterous.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -342px;
 }
-.fluid article a[href*="reddit.com"] {
+.socialicons a[href*="reddit.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -360px;
 }
-.fluid article a[href*="stumbleupon"] {
+.socialicons a[href*="stumbleupon"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -414px;
 }
-.fluid article a[href*="technorati"] {
+.socialicons a[href*="technorati"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -432px;
 }
-.fluid article a[href*="tripadvisor"] {
+.socialicons a[href*="tripadvisor"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -450px;
 }
-.fluid article a[href*="tumblr.com"] {
+.socialicons a[href*="tumblr.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -468px;
 }
-.fluid article a[href*="twitter.com"] {
+.socialicons a[href*="twitter.com"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -486px;
 }
-.fluid article a[href*="vimeo"] {
+.socialicons a[href*="vimeo"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -504px;
 }
-.fluid article a[href*="youtube"] {
+.socialicons a[href*="youtube"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
 }
@@ -927,10 +927,11 @@ footer address {
     border-bottom: solid 1px #666;
     text-align: center;
     padding: 15px 5px;
+    background: rgb(30,30,30);
     background: rgba(0,0,0,0.1);
 }
 
-#sidebar .side section {
+#sidebar .side section.panel {
     padding: 15px;
     margin: 10px 10px 10px 0px;
     /*border: solid 1px #90702b;*/
@@ -960,30 +961,43 @@ footer address {
             box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
 }
 #sidebar .side:not(h2) {
-    text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
+    -moz-text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
+         text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
 }
 
-#sidebar .side a {
+#sidebar .side .panel a {
     color: rgb(255, 245, 155);
+    color: rgba(255, 245, 155, 0.9);
     text-decoration: none;
-    border-bottom: solid 1px #f0f0f0;
+ /*   border-bottom: solid 1px #f0f0f0;*/
     padding-bottom: 2px;
+    -moz-text-shadow: -1px -1px 0px rgba(0,0,0,0.3);
+         text-shadow: -1px -1px 0px rgba(0,0,0,0.3);
+    line-height: 110%;
 }
 
 #sidebar .side h2 {
     font-family: "HelveticaNeueUltraLight", "HelveticaNeue-Ultra-Light", "HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue UltraLight", "HelveticaNeue", "Helvetica Neue", "TeXGyreHerosRegular", "Helvetica", "Droid Sans", Tahoma, "Geneva", "Arial", sans-serif;
-    font-weight: 100;
-    margin: 10px 0px 25px 0px;
-    padding: 5px;
     font-size: 16pt;
+}
+
+.side .panel h2 {
     color: #cebca5;
     color: #fff59b;
+    font-weight: 100;
+    margin: 10px 0px 5px 0px;
     -moz-text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
          text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
-    background: rgba(30,30, 50, 0.15);
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
+}
+
+.side .panel ul {
+    font-size: 90%;
+}
+.side .panel li{
+    margin: 10px 0px;
 }
 
 .me-plugin {
@@ -995,14 +1009,28 @@ footer address {
     display: none;
 }
 
+.todayschedule {
+    margin: 10px 10px 10px 0px;
+    padding: 10px;
+}
+
+.todayschedule h2 {
+    color: rgb(255, 255, 255);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    margin: 10px 0px 5px 5px;
+    -moz-text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+         text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+}
+
 .todayschedule li{
     padding: 5px;
-    border-bottom: dashed 1px black;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
 }
+
 
 table.schedule {
     table-layout:fixed;
@@ -1082,7 +1110,7 @@ article.blog_show_header h2{
     padding: 8px;
     border-top: solid 1px;
     -moz-text-shadow: -1px -1px 0px rgba(119, 03, 08, 1) !important;
-    text-shadow: -1px -1px 0px rgba(119, 03, 08, 1) !important;
+         text-shadow: -1px -1px 0px rgba(119, 03, 08, 1) !important;
     color: #DF577A!important;
     background: #C13952;
             border-radius: 5px;
