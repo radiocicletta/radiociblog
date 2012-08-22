@@ -30,7 +30,7 @@ $(window).ready(function(evt) {
 
     me = new MediaElement('audiosrc', {
         enablePluginDebug: true,
-        plugins: ['silverlight', 'flash'],
+        plugins: ['flash', 'silverlight'],
         type: 'audio/mp3',
         pluginPath: 'http://cdn.radiocicletta.it/js/me/',
         flashName: 'flashmediaelement.swf',
