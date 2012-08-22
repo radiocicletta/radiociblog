@@ -1,5 +1,6 @@
 $['plug']("ajax", function ($) {
 	var xhrs = [
+           function () { return new XDomainRequest(); },
            function () { return new XMLHttpRequest(); },
            function () { return new ActiveXObject("Microsoft.XMLHTTP"); },
            function () { return new ActiveXObject("MSXML2.XMLHTTP.3.0"); },
@@ -13,6 +14,11 @@ $['plug']("ajax", function ($) {
 				var f = xhrs[i], req = f();
 				if (req != null) {
 					_xhrf = f;
+                    if (!req.setRequestheader)
+                        req.setRequestHeader = function(h, v) {
+                            if (h == 'Content-Type')
+                                this.contentType = v;
+                        };
 					return req;
 				}
 			} catch (e){}
@@ -83,6 +89,25 @@ $['plug']("ajax", function ($) {
             }
             else if (o['progress']) o['progress'](++n);
         };
+        xhr.onload = function() {
+            if (timer) clearTimeout(timer);
+            var res, decode = true;
+            try{
+                res = _xhrResp(xhr, o.dataType, o);
+            }catch(e){
+                decode = false;
+                if (o.error)
+                o.error(xhr, xhr.status, xhr.statusText);
+            evtCtx['trigger'](cbCtx, "ajaxError", [xhr, xhr.statusText, o]);
+            }
+            if (o['success'] && decode && (o.dataType.indexOf('json')>=0 || !!res))
+                o['success'](res);
+            evtCtx['trigger'](cbCtx,"ajaxSuccess", [xhr, res, o]);
+
+            if (o['complete'])
+                o['complete'](xhr, xhr.statusText);
+            evtCtx['trigger'](cbCtx, "ajaxComplete", [xhr, o]);
+        }
         var url = o['url'], data = null;
         var isPost = o['type'] == "POST" || o['type'] == "PUT";
         if( o['data'] && o['processData'] && typeof o['data'] == 'object' )
