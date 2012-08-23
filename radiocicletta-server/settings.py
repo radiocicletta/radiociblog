@@ -165,7 +165,7 @@ GLOBAL_MEDIA_DIRS = (
 ADMIN_MEDIA_PREFIX ='/media/admin/'
 ROOT_URLCONF = 'urls'
 #DISTRIBUITED_CONTENT_URL = 'http://localhost:8081'
-DISTRIBUITED_CONTENT_URL = 'http://cdndev.radiocicletta.it'
+DISTRIBUITED_CONTENT_URL = 'http://cdn.radiocicletta.it'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
 
