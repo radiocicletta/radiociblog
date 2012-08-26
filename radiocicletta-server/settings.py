@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sitemaps',
     'django.contrib.messages',
+    'profiles',
     'urlrouter',
     'minicms',
     'plogo',
@@ -86,8 +87,9 @@ else:
 
 AUTHENTICATION_BACKENDS = (
     'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
-
 )
+
+AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
 
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
@@ -126,7 +128,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'minicms.context_processors.cms'
 )
 
-USE_I18N = False
+USE_I18N = True
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 

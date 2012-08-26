@@ -85,3 +85,8 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: profiles_userprofile
+  properties:
+  - name: __key__
+    direction: desc
