@@ -230,6 +230,7 @@ h1 {
     display: inline-block;
     width: 100%;
     max-width: 438px;
+	margin-top: 4px;
 }
 
 #playercmd {
@@ -262,7 +263,7 @@ h1 {
     width: 130px;
     vertical-align: top;
     background: transparent url(/images/layout/playersprite.png) no-repeat 0px -165px;
-    margin-left: 9px;
+    margin-left: 20px;
 }
 
 #playermetadata {
@@ -273,7 +274,7 @@ h1 {
     margin-right: -64px;
     margin-left: 64px;
     position: relative;
-    top: -22px;
+    top: -25px;
     font-size: 9pt;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -326,7 +327,7 @@ h1 {
     display: block;
     position: absolute;
     left: 53px;
-    top: 35px;
+    top: 39px;
     width: 6px;
     height: 6px;
     background: transparent url(/images/layout/dots.png) no-repeat 0px 0px;
