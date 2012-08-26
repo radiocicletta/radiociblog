@@ -1,1 +1,34 @@
-{% extends "base.html" %}
+{% extends "default.html" %}
+{% block bodyleft %}
+<article>
+    <h2>{{ profile.user.get_full_name|default:profile.user.username }}</h2>
+    <ul class="userdetails">
+        <li>{{ profile.user.get_full_name }}</li>
+        <li>{{ profile.blog }}</li>
+        <li>{{ profile.twitter }}</li>
+        <li>{{ profile.facebook }}</li>
+    </ul>
+    {% for line in profile.about.splitlines %}
+    <p>{{line|striptags}}</p>
+    {% endfor %}
+    <h2>Tutti i post di {{ profile.user.get_full_name|default:profile.user.username }}</h2>
+        {% for post in posts %}
+    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        <ul class="articleinfo">
+            <li>Di: {{ post.author.get_full_name|default:post.author.username  }}</li>
+            <li>
+                {{ post.published_on }}
+            </li>
+            <li>
+            	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
+            </li>
+        </ul>
+    
+    
+    <div class="articlecontent">
+        {{ post.rendered_content|truncatewords_html:40 }}
+        <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
+    </div>
+    {% endfor %}
+</article>
+{% endblock %}
