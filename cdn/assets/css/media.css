@@ -201,6 +201,7 @@
     }
     #content .fluid {
         margin-right: 0px;
+        margin-left: 0px;
         border-radius: 0px;
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
@@ -228,10 +229,11 @@
     #sidebar .side{
         width:100%;
     }
-    #sidebar .side section {
+    #sidebar .side section.panel {
                 border-radius: 2px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
+           margin: 0px;
     }
 
     #content .fluid section img {
@@ -284,6 +286,10 @@
 
     #content .fluid section img {
         width: 100%;
+    }
+
+    ul.articleinfo li {
+        width: 100%
     }
 }
 
