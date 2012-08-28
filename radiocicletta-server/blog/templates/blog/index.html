@@ -8,11 +8,14 @@
 {% block bodyleft %}
     {% for post in recent_posts %}
         <article class="bloglist">
-        <h2><a href="{{post.blog.url}}" class="blogimg blogimg-thumb">
-                <img src="{{ post.blog.logo.url|default_if_none:'none' }}" alt="{{post.blog.title}} - "/></a>
-            <a href="{{ post.get_absolute_url}}">{{ post.title }}</a></h2>
+        <h2><!--<a href="{{post.blog.url}}" class="blogimg blogimg-thumb">
+                <img src="{{ post.blog.logo.url|default_if_none:'none' }}" alt="{{post.blog.title}} - "/></a>-->
+            <a href="{{ post.get_absolute_url}}">
+                <span class="catch_headline">{{post.blog}}:</span>
+                <span class="headline">{{ post.title }}</span>
+            </a></h2>
             <ul class="articleinfo">
-                <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
+                <li>Di: <a href="/p/{{post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
                 <li>
                     {{ post.published_on }}
                 </li>

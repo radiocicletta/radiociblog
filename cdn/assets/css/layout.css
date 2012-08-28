@@ -607,6 +607,18 @@ footer address {
     font-size: 30pt;
 }
 
+#content .fluid h2 .catch_headline {
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-family: Oxygen, Gill Sans, Helvetica, sans-serif;
+    border-spacing: 2px;
+    font-size: 10pt;
+    color: #FFC0CB;
+    letter-spacing: 0.2em;
+    display:block;
+}
+
 #content .fluid h3 {
     font-size: 25pt;
     -moz-text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
