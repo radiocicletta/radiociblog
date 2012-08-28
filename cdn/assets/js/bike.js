@@ -265,7 +265,7 @@ $(window).ready(function(evt) {
             if (data.facebook)
                 for (var j=0, fbitems = data.facebook.latest; j < fbitems.length; j++)
                     latestsocial.push({href: fbitems[j].link,
-                                        text: fbitems[j].story,
+                                        text: fbitems[j].message || fbitems[j].story,
                                         time: fbitems[j].created_time});
             if (data.twitter)
                 for (var k=0, twitems = data.twitter.latest; k < twitems.length; k++)
