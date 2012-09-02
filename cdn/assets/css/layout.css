@@ -253,7 +253,7 @@ h1 {
     background-position: 0px -45px;
 }
 
-#playercmd.play:active{
+#playercmd.play:active {
     background-position: -43px -45px;
 }
 
@@ -638,6 +638,10 @@ footer address {
 
 #content .fluid article strong {
     font-weight: bold;
+}
+
+#content .fluid article em {
+    font-style: italic;
 }
 
 #content .fluid a{
