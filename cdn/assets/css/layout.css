@@ -682,6 +682,7 @@ footer address {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
 }
+.socialicons a[href*="emailFlare"],
 .socialicons a[href^="mailto:"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
@@ -819,8 +820,13 @@ footer address {
 }
 
 .fluid section.more-blog {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    line-height: 20pt;
+}
+
+.fluid section.more-blog small{
+    color:#777;
+    font-size: 75%;
+    text-shadow: none;
 }
 
 .fluid div.wide-share-buttons {
