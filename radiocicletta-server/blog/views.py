@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
+from django.core.paginator import Paginator
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
@@ -183,17 +184,35 @@ def orderedschedule():
 
 import logging
 logger = logging.getLogger(__name__)
-def blog_browse(request, url):
-    logger.warning("blog_browse")
+def blog_browse(request, url, page=1):
+    logger.warn("blog_browse")
+    logger.info(url)
     blog = get_object_or_404(Blog, url='/' + url)
-    logger.warning(blog)
     recent_posts = Post.objects.filter(blog=blog, published=True)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     onair = cached_onair(blog)
-    logger.warning(onair)
     return render(request, 'blog/post_list.html',
             {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
 
+
+def browse(request, **kwargs):
+    blog = kwargs.get('blog', None)
+    if not blog:
+        blog = get_object_or_404(Blog, request.path)
+        if not blog:
+            raise Http404('Not found')
+    page = abs(int(request.GET.get('page', 1)))
+    onair = cached_onair(blog)
+    posts = Post.objects.filter(blog=blog, published=True)
+    posts = posts.order_by('-published_on')
+    paged_posts = Paginator(posts, 6).page(page)
+    return render(  request, 'blog/post_list.html',
+                    {   'blog': blog,
+                        'recent_posts': paged_posts.object_list,
+                        'page_obj': paged_posts,
+                        'schedule':schedule(), 
+                        'onair':onair})
+    
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
@@ -205,30 +224,6 @@ def show_post(request, post, review=False):
     return render(request, 'blog/post_detail.html',
         {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
 
-class BrowseView(ListView):
-    paginate_by = 8
-
-    def dispatch(self, request, blog):
-        if request.GET.get('page') == '1':
-            return HttpResponseRedirect(request.path)
-        return super(BrowseView, self).dispatch(request, blog=blog)
-
-    def get_queryset(self):
-        query = cached_blog_posts(self.kwargs['blog'])
-        # TODO: add select_related('author')
-        return query.order_by('-published_on')
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(BrowseView, self).get_context_data(**kwargs)
-        context.update({'blog': self.kwargs['blog'],
-                        'schedule': schedule(),
-                        'onair': cached_onair(self.kwargs['blog']),
-                        'recent_posts': self.get_queryset()[:6],
-                        'browse_posts': True})
-        return context
-
-browse = BrowseView.as_view()
 
 def feedburner(feed):
     """Converts a feed into a FeedBurner-aware feed."""
