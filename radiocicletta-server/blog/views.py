@@ -122,6 +122,8 @@ def schedule():
 
 def orderedschedule():
     progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    if not len(progs):
+        return []
 
     orderedcal = list(progs.values())
     orderedcal.sort(key = lambda x: x["startora"])
@@ -180,19 +182,6 @@ def orderedschedule():
             row = row + 1
 
     return groupedcal
-
-
-import logging
-logger = logging.getLogger(__name__)
-def blog_browse(request, url, page=1):
-    logger.warn("blog_browse")
-    logger.info(url)
-    blog = get_object_or_404(Blog, url='/' + url)
-    recent_posts = Post.objects.filter(blog=blog, published=True)
-    recent_posts = recent_posts.order_by('-published_on')[:6]
-    onair = cached_onair(blog)
-    return render(request, 'blog/post_list.html',
-            {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
 
 
 def browse(request, **kwargs):
