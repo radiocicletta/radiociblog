@@ -100,6 +100,7 @@ REST_BACKENDS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
