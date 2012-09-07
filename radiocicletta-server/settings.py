@@ -25,6 +25,13 @@ except ImportError:
 
 import os
 
+CACHES = {
+    'default': {
+        'BACKEND': 'caching.backends.memcached.CacheClass',
+        # 'BACKEND':'django.core.cache.backends.memcached.MemcachedCache',
+    }
+} 
+CACHE_MIDDLEWARE_SECONDS=60*2
 
 LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
@@ -109,6 +116,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'urlrouter.middleware.URLRouterFallbackMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 URL_ROUTE_HANDLERS = (

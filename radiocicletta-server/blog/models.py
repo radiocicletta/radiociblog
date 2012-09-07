@@ -10,6 +10,7 @@ from random import choice
 from string import ascii_letters, digits
 from plogo.models import Plogo
 from djangotoolbox import fields
+from django.core.cache import cache
 import caching.base
 import re
 
@@ -107,6 +108,13 @@ class Post(caching.base.CachingMixin, BaseContent):
         if not self.published:
             return self.get_review_url()
         return self.url
+
+    def get_blog(self):
+        cached_blog = cache.get('post_%s_blog' % self.pk)
+        if not cached_blog:
+            cache.set('post_%s_blog' % self.pk, self.blog)
+            return self.blog
+        return cached_blog
 
     def in_blog(self):
         return self.blog.title

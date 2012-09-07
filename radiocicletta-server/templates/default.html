@@ -37,7 +37,7 @@
                 <li><a href="/programmi/{{day}}">{{day}}</a>
                     <ul class="submenu">
                     {% for p in list %}
-                        <li><a href="{{ p.blog.url }}">{{ p.title }}</a></li>
+                        <li><a href="{{ p.get_blog.url }}">{{ p.title }}</a></li>
                     {% endfor %}
                 </ul></li>
                 {% endif %}
