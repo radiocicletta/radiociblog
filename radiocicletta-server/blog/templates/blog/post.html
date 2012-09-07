@@ -1,4 +1,4 @@
-{% load simplesocial %}
+{% load simplesocial blog %}
 
 <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
     <ul class="articleinfo">
@@ -14,9 +14,9 @@
 
 <div class="articlecontent">
 {% if browse_posts %}
-    {{ post.rendered_content|truncatewords_html:150 }}
+    {{ post.rendered_content|comicsanitize|truncatewords_html:150 }}
     <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
 {% else %}
-    {{ post.rendered_content }}
+    {{ post.rendered_content|comicsanitize }}
 {% endif %}
 </div>
