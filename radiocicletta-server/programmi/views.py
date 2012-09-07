@@ -7,15 +7,16 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 from django.utils import simplejson
 from models import Programmi
+from blog.views import cached_programmi
 
 def progjson(request):
-    programmi = Programmi.objects.all()
+    programmi = cached_programmi()
     events=[]
     next={}
     for p in programmi:
         events.append(p.tojson())
-        n=p.mynext()
-        if n:
-           next[n[0]]=n[1]   
-    return HttpResponse(simplejson.dumps({'programmi':events,'next':next,'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='application/json')
+        #n=p.mynext()
+        #if n:
+        #   next[n[0]]=n[1]   
+    return HttpResponse(simplejson.dumps({'programmi':events,'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='application/json')
 
