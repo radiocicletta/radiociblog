@@ -32,3 +32,6 @@ handlers:
 
 - url: /.*
   script: djangoappengine/main/main.py
+
+error_handlers:
+- file: default_error.html
