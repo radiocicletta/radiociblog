@@ -54,7 +54,6 @@ body{
     font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Gill Sans", Helvetica, "Tahoma", "Geneva", "Arial", sans-serif;
     font-weight: 300;
     font-stretch: normal;
-    letter-spacing: 1px;
     color: white;
     font-size: 11pt;
     /*background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAMAAAAPK1hoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9QTFRFKioqKCgoKSkpJycnJiYmo673eQAAAvdJREFUeNqsWQmSwyAMi2T+/+btJm0KvsluZjqTFjBGvmR6HNeDY36of/g8IvcrxIyOa84RPJKMqecUTqvYrR7nyb8ffscONeYcEIfYub6EjYe4NkKgN2rpiETHUMz4BrCnsmURBXeavNejA874xYHBWXkLxOudEeiOEqOLGQAtNfQ7PjDEyzkRriKx501UHo3DhNhApSKOJOgcbbiOUwVGqS8KHGWeQ8YJZQ98ezYcf3sMPJKejN81TBWnNwQ7yMxDZNKGkX3k+XFrO27sQitTAsHs2hsd+0qlIHIEHMX5wFNZujGVJR0Mv2leouWZitdyjr2ixu4p8ZnL9zu9E1wxAuoUjMo25/tL+ZgnsI2EDUSW/oYdg8tfMhdyY3AiNJwzLlFFIML6kujg1wh8vmIdhYKTNhDY8i3sOyaTwQEki9mxx+IjiDgSFxpjN0BEotccSN8fYuyUfdnP0ViRWyYK2uiLAU1o4RNT74IyGGgNl1a5PJBzavKbiDhRqsrORnWLJ0VUpDLSyTjCMgfN8VBwrmmGZK7PpJSik7Fo+grkhaPDI+B9Rx4aYXcjKqGaHpZO1Prktk7qZnMw6DyjeEOLdPHGvejE0COBKOfTrCwiRfGpu14yKjC2bWtJH2c5RA8DlqT+cz4miDHfZJhUFTRZ5huSAwBtJ4QSKFHopuuBoMqiHxOVj9P2NUbDrcam2wcyA0DCItV3THMQyfrF9LJsIhmi2MRCkeFny4RlM9/cC8Q4OPFftnEJ3nmTIAiuFp7e4lRND/rOd6UtqQSjqrHPrx09ugm364bO32MvfiWqGnDNsnczwZZjILxtgHcElmqx7scWsiDFPc8U+fAxnc2UtepshV+ohiSmzGv42AhTtrvp0fL1IjKof8E7yRrazBALae+NuVtyaMsF42DBmLa9TjJOHQRCcdetdXw7lGAnGe+lrX4Zx+PCIVV9H0lT2bpBSv6JYCtzc3NEVvag4j/5U0zayI0iRUTeieYxRqOY2fsbOX4EGAD2uwR5Lfx+NQAAAABJRU5ErkJggg==) repeat left top; */
@@ -478,6 +477,7 @@ footer address {
 
 #content .fluid {
     margin-right: 320px;
+    letter-spacing: 1px;
        -moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
          -o-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
