@@ -100,6 +100,9 @@ def cached_onair(blog):
 
 
 def schedule():
+    cached_cal = cache.get('cached_cal')
+    if cached_cal:
+        return cached_cal
     progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
     cal = {"lu":('Lunedi',      0, []),
             "ma":('Martedi',     1, []),
@@ -118,9 +121,14 @@ def schedule():
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x,y: x[1] - y[1])
+    cache.set('cached_cal', cached_cal)
     return orderedcal
 
 def orderedschedule():
+    cached_ordered_cal = cache.get('cached_ordered_cal')
+    if cached_ordered_cal:
+        return cached_ordered_cal
+
     progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
     if not len(progs):
         return []
@@ -181,18 +189,23 @@ def orderedschedule():
         if not recheck:
             row = row + 1
 
+    cache.set('cached_ordered_cal', cached_ordered_cal)
     return groupedcal
 
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
     if not blog:
+        blog = cache.get('blog_%s' % request.path)
+    if not blog:
         blog = get_object_or_404(Blog, request.path)
-        if not blog:
-            raise Http404('Not found')
+    if not blog:
+        raise Http404('Not found')
+    else:
+        cache.set('blog_%s' % request.path, blog)
     page = abs(int(request.GET.get('page', 1)))
     onair = cached_onair(blog)
-    posts = Post.objects.filter(blog=blog, published=True)
+    posts = cached_blog_posts(blog) 
     posts = posts.order_by('-published_on')
     paged_posts = Paginator(posts, 6).page(page)
     return render(  request, 'blog/post_list.html',
@@ -208,7 +221,7 @@ def review(request, review_key):
     return show_post(request, post, review=True)
 
 def show_post(request, post, review=False):
-    recent_posts = Post.objects.filter(blog=post.blog, published=True)
+    recent_posts = cached_blog_posts(blog)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/post_detail.html',
         {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
@@ -258,7 +271,7 @@ class LatestEntriesFeed(Feed):
         return post.published_on
 
     def items(self, blog):
-        query = Post.objects.filter(blog=blog, published=True).order_by(
+        query = cached_blog_posts(blog).order_by(
             '-published_on')
         # TODO: add select_related('author') once it's supported
         return query[:100]

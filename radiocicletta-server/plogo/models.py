@@ -3,13 +3,12 @@ from djangotoolbox.fields import ListField
 from random import choice
 from string import ascii_letters, digits
 import re
-import caching.base
 
 #####
 #   Definisce l'oggetto che incapsula i loghi dei blog (quindi indirettamente dei programmi)
 #####
 
-class Plogo(caching.base.CachingMixin, models.Model):
+class Plogo(models.Model):
     verbose_name="logo"     
     verbose_name_plural="loghi" 
     title = models.CharField(max_length=200,help_text='Titolo del logo')

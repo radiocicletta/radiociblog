@@ -10,7 +10,7 @@
     {% for post in recent_posts %}
         <article class="bloglist">
         <h2><!--<a href="{{post.get_blog.url}}" class="blogimg blogimg-thumb">
-                <img src="{{ post.get_blog.logo.url|default_if_none:'none' }}" alt="{{post.get_blog.title}} - "/></a>-->
+                <img src="{{ post.get_blog.get_logo.url|default_if_none:'none' }}" alt="{{post.get_blog.title}} - "/></a>-->
             <a href="{{ post.get_absolute_url}}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
                 <span class="headline">{{ post.title }}</span>

@@ -11,7 +11,6 @@ from string import ascii_letters, digits
 from plogo.models import Plogo
 from djangotoolbox import fields
 from django.core.cache import cache
-import caching.base
 import re
 
 
@@ -27,7 +26,7 @@ from django.db import models
 from djangotoolbox.fields import ListField
 
 
-class Blog(caching.base.CachingMixin, models.Model):
+class Blog(models.Model):
     title = models.CharField(max_length=200,help_text='This will also be your feed title')
     #proprietario = models.CharField(max_length=200,help_text='This will also be your feed title')
     keywords = models.CharField(max_length=200, blank=True,help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
@@ -74,7 +73,11 @@ class Blog(caching.base.CachingMixin, models.Model):
         return self.url_prefix + 'feed/latest'
     
     def get_logo(self):
-        return self.logo.to_json()
+        cache_logo = cache.get('blog_%s_logo' % self.pk)
+        if not cache_logo:
+            cache.set('blog_%s_logo' % self.pk, self.logo)
+            return self.logo
+        return cache_logo
 
 def default_blog():
     blogs = Blog.objects.all()[:1]
@@ -86,7 +89,7 @@ def generate_review_key():
     charset = ascii_letters + digits
     return ''.join(choice(charset) for i in range(32))
 
-class Post(caching.base.CachingMixin, BaseContent):
+class Post(BaseContent):
     blog = models.ForeignKey(Blog, related_name='posts', default=default_blog)
     published = models.BooleanField(default=False)
     author = models.ForeignKey(User, related_name='posts', null=True, blank=True,

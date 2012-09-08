@@ -25,14 +25,6 @@ except ImportError:
 
 import os
 
-CACHES = {
-    'default': {
-        'BACKEND': 'caching.backends.memcached.CacheClass',
-        # 'BACKEND':'django.core.cache.backends.memcached.MemcachedCache',
-    }
-} 
-CACHE_MIDDLEWARE_SECONDS=60*2
-
 LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
@@ -122,6 +114,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+CACHE_MIDDLEWARE_SECONDS = 600
 
 URL_ROUTE_HANDLERS = (
     'minicms.urlroutes.PageRoutes',

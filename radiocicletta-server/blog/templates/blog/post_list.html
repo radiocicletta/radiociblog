@@ -10,7 +10,7 @@
 {% block bodyleft %}
     <article class="blog_show_header">
         <header>
-            <span class="blogimg"><img src="{{ blog.logo.url|default_if_none:'none' }}"/></span>
+            <span class="blogimg"><img src="{{ blog.get_logo.url|default_if_none:'none' }}"/></span>
             <h2 class="blogtitle">{{ blog.title }}</h2>
             <p class="onair">
             {% if not blog.blog_generic %}
