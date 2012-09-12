@@ -221,7 +221,7 @@ def review(request, review_key):
     return show_post(request, post, review=True)
 
 def show_post(request, post, review=False):
-    recent_posts = cached_blog_posts(blog)
+    recent_posts = cached_blog_posts(post.blog)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/post_detail.html',
         {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
