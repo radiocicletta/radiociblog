@@ -4,6 +4,7 @@ from django.conf import settings
 import re
 from django.template.defaultfilters import mark_safe
 from ..smartypants import smartyPants
+from ..titlecase import titlecase as tc
 from django.core.cache import cache
 
 register = Library()
@@ -31,5 +32,14 @@ def comicsanitize(value):
     return mark_safe(colorregex.sub('', fontregex.sub('', value)))
 
 @register.filter
-def smarty(value):
+def smarty(value): #smartypants
     return mark_safe(smartyPants(value))
+
+@register.filter
+def widont(value): #http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin
+   return mark_safe(value) 
+
+@register.filter
+def titlecase(value):
+    return mark_safe(tc(value))
+    
