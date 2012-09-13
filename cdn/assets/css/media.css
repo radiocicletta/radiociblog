@@ -130,6 +130,9 @@
         height: 79px;
         overflow: hidden;
     }
+    #content .errorpanel {
+        margin: 0px 240px;
+    }
     
 
     .toplevel li a:not(.home) {
@@ -159,6 +162,9 @@
     }
     #content .fluid {
         margin-right: 240px;
+    }
+    #content .errorpanel {
+        margin: 0px 200px;
     }
     footer nav .menu h2 {
         letter-spacing: 0.1em;
@@ -205,6 +211,9 @@
         border-radius: 0px;
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
+    }
+    #content .errorpanel{
+        margin: 0px;
     }
 
     .toplevel li a.home {
@@ -287,6 +296,10 @@
     #content .fluid section img {
         width: 100%;
     }
+    #content .errorpanel {
+        width: 440px;
+        margin: auto;
+    }
 
     ul.articleinfo li {
         width: 100%
@@ -294,6 +307,10 @@
 }
 
 @media all and (max-width: 320px) {
+    #content .errorpanel {
+        width:100%;
+        max-width: 320px;
+    }
 }
 
 @media all and (max-width: 280px) {

@@ -499,6 +499,40 @@ footer address a {
         -moz-border-radius-bottomright: 5px;
             border-bottom-right-radius: 5px;
 }
+#content .errorpanel {
+    margin: 0px 320px;
+    font-size: 10pt;
+    color: #666;
+    padding: 0px 0px 120px;
+    min-height:320px;
+}
+#content .errorpanel > * {
+    margin-bottom: 6px;
+}
+#content .errorpanel a {
+    color: #666;
+    text-decoration: none;
+    border-bottom: solid 1px #999;
+}
+#content .errorpanel strong {
+    font-weight: 900;
+}
+#content .errorpanel img {
+    border: solid 10px #eee;
+}
+#content .errorpanel h2{
+    font-family: "HelveticaNeueUltraLight", "HelveticaNeue-Ultra-Light", "HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue UltraLight", "HelveticaNeue", "Helvetica Neue", "TeXGyreHerosRegular", "Helvetica", "Droid Sans", Tahoma, "Geneva", "Arial", sans-serif;
+    font-size: 40pt;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    -moz-text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+}
+#content .errorpanel img{
+    max-width: 100%;
+}
 
 #content .fluid .main {
     background: #202020;
@@ -1237,3 +1271,4 @@ noscript a {
     text-decoration: none;
     color: #f0f0f0;
 }
+
