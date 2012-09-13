@@ -4,8 +4,6 @@
 {% block bodybaronair %}
 {% endblock %}
 
-{% block bodyheader %}{% endblock %}
-
 {% block bodyleft %}
     {% for post in recent_posts %}
         <article class="bloglist">
@@ -13,7 +11,7 @@
                 <img src="{{ post.get_blog.get_logo.url|default_if_none:'none' }}" alt="{{post.get_blog.title}} - "/></a>-->
             <a href="{{ post.get_absolute_url}}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
-                <span class="headline">{{ post.title }}</span>
+                <span class="headline">{{ post.title|capfirst }}</span>
             </a></h2>
             <ul class="articleinfo">
                 <li>Di: <a href="/p/{{post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>

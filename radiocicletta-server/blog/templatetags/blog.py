@@ -4,12 +4,16 @@ from django.conf import settings
 import re
 from django.template.defaultfilters import mark_safe
 from ..smartypants import smartyPants
+from django.core.cache import cache
 
 register = Library()
 
 @register.inclusion_tag('blog/feeds.html')
 def blog_feeds():
-    blogs = Blog.objects.all()
+    blogs = cache.get('blogs')
+    if not blogs:
+        blogs = Blog.objects.all()
+        cache.set('blogs', blogs)
     return {'blogs': blogs}
 
 @register.inclusion_tag('blog/feeds.html')

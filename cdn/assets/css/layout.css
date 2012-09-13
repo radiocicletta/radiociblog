@@ -474,6 +474,12 @@ footer address {
     text-align: center;
     font-size: 8pt;
 }
+footer address a {
+    color: #cecece;
+    color: #999;
+    text-decoration: none;
+    border-bottom: solid 1px #555;
+}
 
 #content .fluid {
     margin-right: 320px;
@@ -507,7 +513,7 @@ footer address {
 
 #content .fluid section,
 #content .fluid article {
-    padding: 35px;
+    padding: 35px 35px 20px;
     margin: 0px;
     -moz-text-shadow: 1px 1px 1px #000000;
     text-shadow: 1px 1px 1px #000000;
