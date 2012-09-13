@@ -3,6 +3,7 @@ from django.template import Library, Node, Variable
 from django.conf import settings
 import re
 from django.template.defaultfilters import mark_safe
+from ..smartypants import smartyPants
 
 register = Library()
 
@@ -19,7 +20,12 @@ def blog_feed(blog):
 def cdnmediaurl():
     return settings.DISTRIBUITED_CONTENT_URL
 
-@register.filter()
+fontregex = re.compile('(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
+colorregex = re.compile('(?:color)\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
+@register.filter
 def comicsanitize(value):
-    fontregex = re.compile('(?:font(?:-family){0,1})\s*\:[^;]+', re.MULTILINE)
-    return mark_safe(fontregex.sub('', value))
+    return mark_safe(colorregex.sub('', fontregex.sub('', value)))
+
+@register.filter
+def smarty(value):
+    return mark_safe(smartyPants(value))

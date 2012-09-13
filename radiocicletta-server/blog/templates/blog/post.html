@@ -14,9 +14,9 @@
 
 <div class="articlecontent">
 {% if browse_posts %}
-    {{ post.rendered_content|comicsanitize|truncatewords_html:150 }}
-    <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
+    {{ post.rendered_content|comicsanitize|truncatewords_html:150|smarty }}
+    <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi/commenta l'articolo</a></p>
 {% else %}
-    {{ post.rendered_content|comicsanitize }}
+    {{ post.rendered_content|comicsanitize|smarty }}
 {% endif %}
 </div>

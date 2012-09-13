@@ -498,6 +498,13 @@ footer address {
     background: #202020;
 }
 
+.main h2:first-letter,
+.main h3:first-letter,
+.main h4:first-letter,
+.main h5:first-letter {
+    text-transform: uppercase;
+}
+
 #content .fluid section,
 #content .fluid article {
     padding: 35px;
