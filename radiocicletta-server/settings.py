@@ -64,7 +64,6 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'google_analytics',
     'google_cse',
-    'mediagenerator',
     'robots',
     'simplesocial',
     'redirects',
@@ -103,7 +102,6 @@ MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'mediagenerator.middleware.MediaMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangotoolbox.middleware.RedirectMiddleware',
@@ -148,10 +146,6 @@ MEDIA_BUNDLES = (
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
 STATIC_URL = '/static/'
 
-ROOT_MEDIA_FILTERS = {
-    'js': 'mediagenerator.filters.closure.Closure',
-    'css': 'mediagenerator.filters.yuicompressor.YUICompressor',
-}
 
 CLOSURE_COMPILER_PATH = os.path.join(os.path.dirname(__file__),
                                      '.webutils', 'compiler.jar')

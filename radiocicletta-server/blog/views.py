@@ -195,11 +195,15 @@ def orderedschedule():
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
+    logger.warning(blog)
     if not blog:
         blog = cache.get('blog_%s' % request.path)
+    logger.warning(blog)
     if not blog:
         blog = get_object_or_404(Blog, request.path)
+    logger.warning(blog)
     if not blog:
+        logger.warning("ZOMG")
         raise Http404('Not found')
     else:
         cache.set('blog_%s' % request.path, blog)

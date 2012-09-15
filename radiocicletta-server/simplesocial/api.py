@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.utils.html import escape
 from django.utils.http import urlquote
-from mediagenerator.utils import media_url
 
 WIDE_TWITTER_BUTTON = """
 <a href="https://twitter.com/share" class="twitter-share-button" data-via="%(opttwitteruser)s" data-lang="it" data-dnt="true">Tweet</a>
