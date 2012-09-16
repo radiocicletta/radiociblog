@@ -135,12 +135,6 @@ USE_I18N = True
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
-MEDIA_BUNDLES = (
-    ('main.css',
-        'design.sass',
-        'rest.css',
-    ),
-)
 
 
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)

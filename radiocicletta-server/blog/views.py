@@ -1,4 +1,4 @@
-from .models import Blog, Post
+from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
 from datetime import datetime, time
 from django.conf import settings
 from django.contrib.syndication.views import Feed
@@ -18,32 +18,11 @@ except:
 
 logger = logging.getLogger(__name__)
 
-def cached_blogs():
-    b = cache.get('blogs')
-    if not b:
-        b = Blog.objects.all()
-        cache.add('blogs', b)
-    return b
-
 def cached_programmi():
     p = cache.get('programmi')
     if not p:
         p = Programmi.objects.all()
         cache.add('programmi', p)
-    return p
-
-def cached_posts():
-    p = cache.get('published_posts')
-    if not p:
-        p = Post.objects.filter(published=True)
-        cache.add('published_posts', p)
-    return p
-
-def cached_blog_posts(blog):
-    p = cache.get('blog_posts_%s' % blog.id)
-    if not p:
-        p = Post.objects.filter(blog=blog, published=True)
-        cache.add('blog_posts_%s' % blog.id, p)
     return p
 
 def social(request):
@@ -195,15 +174,11 @@ def orderedschedule():
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
-    logger.warning(blog)
     if not blog:
         blog = cache.get('blog_%s' % request.path)
-    logger.warning(blog)
     if not blog:
         blog = get_object_or_404(Blog, request.path)
-    logger.warning(blog)
     if not blog:
-        logger.warning("ZOMG")
         raise Http404('Not found')
     else:
         cache.set('blog_%s' % request.path, blog)
@@ -214,10 +189,36 @@ def browse(request, **kwargs):
     paged_posts = Paginator(posts, 6).page(page)
     return render(  request, 'blog/post_list.html',
                     {   'blog': blog,
+                        'browse_posts': True,
                         'recent_posts': paged_posts.object_list,
                         'page_obj': paged_posts,
                         'schedule':schedule(), 
                         'onair':onair})
+    
+
+def tags(request, tag):
+    page = abs(int(request.GET.get('page', 1)))
+    posts = cached_posts().order_by('-published_on')
+    tagged_posts = cache.get('posts_tag_%s' % tag)
+    if not tagged_posts:
+        tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
+        cache.set('posts_tag_%s' % tag, tagged_posts)
+        
+    try:
+        tagged_posts.remove(None)
+    except KeyError:
+        pass
+    try:
+        tagged_posts.remove(False)
+    except KeyError:
+        pass
+    paged_posts = Paginator(list(tagged_posts), 6).page(page)
+    return render(  request, 'blog/post_tags.html',
+                    {   'tag': tag,
+                        'browse_posts': True,
+                        'recent_posts': paged_posts.object_list,
+                        'page_obj': paged_posts,
+                        'schedule':schedule()})
     
 
 def review(request, review_key):

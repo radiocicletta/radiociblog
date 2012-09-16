@@ -670,6 +670,7 @@ footer address a {
     font-size: 25pt;
     -moz-text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    padding-top: 1em;
 }
 
 .fluid h2 a{
@@ -923,13 +924,14 @@ footer address a {
 
 .fluid ul.articleinfo li {
     display: inline-block;
-    width: 50%;
+    width: 33%;
     margin: 0 -2px;
     padding-top: 0.4em;
     color: #a0a0a0;
     -moz-text-shadow: none;
     text-shadow: none;
     font-size: 80%;
+    vertical-align: top;
 }
 
 .fluid ul.articleinfo li:first-of-type {

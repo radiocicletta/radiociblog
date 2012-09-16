@@ -18,6 +18,10 @@
                 <li>
                     {{ post.published_on }}
                 </li>
+                <li>{% for tag in post.get_tags %}
+                    <a href="/blog/tag/{{tag.strip}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+                </li>
                 <li>
                 	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
                 </li>

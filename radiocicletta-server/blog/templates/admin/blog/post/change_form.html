@@ -30,8 +30,7 @@ $(document).ready(function(){
             '/',
             {name:'basics',items:['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
             {name:'para',  items:['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']},
-            {name:'color', items : [ 'TextColor','BGColor' ] },
-            {name:'links', items : [ 'Link','Unlink','Anchor','-','Image','Flash','Youtube','Vimeo','-','Smiley','SpecialChar','PageBreak' ] }
+            {name:'links', items : [ 'Link','Unlink','Anchor','-','Image','Flash','Youtube','Vimeo','-','SpecialChar','PageBreak' ] }
         ],
         resize_minHeight: 700
     });
@@ -44,10 +43,3 @@ $(document).ready(function(){
 }
 </style>
 {% endblock %}
-
-
-{% block branding %}{% if not user.is_superuser %}<h1>Radiocicletta Blog Admin</h1>{% else %}<h1>Django administration</h1>{% endif %}{% endblock %}
-
-{% block breadcrumbs %}{% if not user.is_superuser %}<div class="breadcrumbs"><a href="/amministra">Home</a>{% if title %} &rsaquo; {{ title }}{% endif %}</div>{% else %}
-<div class="breadcrumbs"><a href="/admin/">Home</a> › <a href="/admin/">Blog</a> › <a href="/admin/post/">Posts</a> › {{ original.title }} </div>{% endif %}{% endblock %}
-

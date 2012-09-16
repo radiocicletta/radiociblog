@@ -37,7 +37,7 @@ class BlogAdmin(BaseAdmin):
 class PostAdmin(BaseAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'blog', 'content', 'published'),
+            'fields': ('title', 'blog', 'content', 'published', 'tags'),
         }),
         #('Advanced options', {
          #   'classes': ('collapse',),
@@ -57,7 +57,7 @@ class PostAdmin(BaseAdmin):
     
     def queryset(self, request):
         if request.user.is_superuser:
-            fieldsets = ((None,{'fields':('title','blog','content','published'),}),
+            fieldsets = ((None,{'fields':('title','blog','content','published','tags'),}),
                         ('Advanced options',{'classes':('collapse',),'fields':('author','published_on','review_key'),}),)
             return Post.objects.all()
         return Post.objects.filter(author=request.user)
