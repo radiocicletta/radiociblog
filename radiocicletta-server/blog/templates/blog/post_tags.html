@@ -1,0 +1,19 @@
+{% extends "default.html" %}
+{% load blog %}
+{% block pagetitle %}Cerca tra gli articoli{% endblock %}
+
+{% block bodyleft %}
+    {% for post in recent_posts %}
+        <article class="bloglist">
+        {% include "blog/post.html" %}
+        </article>
+    {% endfor %}
+<section class="pagenav">
+  {% if page_obj.has_next %}
+    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&laquo; Post meno recenti</a>
+  {% endif %}
+  {% if page_obj.has_previous %}
+    <a href="{{ request.path }}{% if page_obj.previous_page_number != 1 %}?page={{ page_obj.previous_page_number }}{% endif %}">Post più recenti &raquo;</a>
+  {% endif %}
+</section>
+{% endblock %}
