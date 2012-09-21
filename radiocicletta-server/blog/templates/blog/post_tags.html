@@ -4,9 +4,7 @@
 
 {% block bodyleft %}
     {% for post in recent_posts %}
-        <article class="bloglist">
-        {% include "blog/post.html" %}
-        </article>
+        {% include "blog/post_list_2.html" %}
     {% endfor %}
 <section class="pagenav">
   {% if page_obj.has_next %}

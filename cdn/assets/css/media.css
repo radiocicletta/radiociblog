@@ -37,7 +37,6 @@
         float: left;
         border: none;
         text-align: left;
-        background: #323232;
         padding-top: 40px;
     }
     #content .fluid .adjustablemenu ul {
@@ -82,7 +81,7 @@
         width: 78%;
         float: right;
         border-left: solid 1px #494949;
-        margin-left: -1px;
+        margin-left: -2px;
     }
     .fluid:after {
         content: "";

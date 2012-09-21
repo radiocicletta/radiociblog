@@ -212,6 +212,10 @@ def tags(request, tag):
         tagged_posts.remove(False)
     except KeyError:
         pass
+    try:
+        tagged_posts.remove('')
+    except KeyError:
+        pass
     paged_posts = Paginator(list(tagged_posts), 6).page(page)
     return render(  request, 'blog/post_tags.html',
                     {   'tag': tag,
