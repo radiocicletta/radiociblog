@@ -1,0 +1,18 @@
+{% extends "default.html" %}
+{% block bodyleft %}
+<article>
+    <h2>{{ profile.user.get_full_name|default:profile.user.username }}</h2>
+    <ul class="userdetails">
+        <li>{{ profile.user.get_full_name }}</li>
+        <li>{{ profile.blog }}</li>
+        <li>{{ profile.twitter }}</li>
+        <li>{{ profile.facebook }}</li>
+    </ul>
+    {% for line in profile.about.splitlines %}
+    <p>{{line|striptags}}</p>
+    {% endfor %}
+</article>
+    {% for post in posts %}
+        {% include "blog/post_list_2.html" %}
+    {% endfor %}
+{% endblock %}

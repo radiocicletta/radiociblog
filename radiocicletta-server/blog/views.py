@@ -1,4 +1,4 @@
-from .models import Blog, Post
+from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
 from datetime import datetime, time
 from django.conf import settings
 from django.contrib.syndication.views import Feed
@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.views.generic import ListView
+from django.core.paginator import Paginator
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
@@ -17,32 +18,11 @@ except:
 
 logger = logging.getLogger(__name__)
 
-def cached_blogs():
-    b = cache.get('blogs')
-    if not b:
-        b = Blog.objects.all()
-        cache.add('blogs', b)
-    return b
-
 def cached_programmi():
     p = cache.get('programmi')
     if not p:
         p = Programmi.objects.all()
         cache.add('programmi', p)
-    return p
-
-def cached_posts():
-    p = cache.get('published_posts')
-    if not p:
-        p = Post.objects.filter(published=True)
-        cache.add('published_posts', p)
-    return p
-
-def cached_blog_posts(blog):
-    p = cache.get('blog_posts_%s' % blog.id)
-    if not p:
-        p = Post.objects.filter(blog=blog, published=True)
-        cache.add('blog_posts_%s' % blog.id, p)
     return p
 
 def social(request):
@@ -99,6 +79,9 @@ def cached_onair(blog):
 
 
 def schedule():
+    cached_cal = cache.get('cached_cal')
+    if cached_cal:
+        return cached_cal
     progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
     cal = {"lu":('Lunedi',      0, []),
             "ma":('Martedi',     1, []),
@@ -117,10 +100,17 @@ def schedule():
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x,y: x[1] - y[1])
+    cache.set('cached_cal', cached_cal)
     return orderedcal
 
 def orderedschedule():
+    cached_ordered_cal = cache.get('cached_ordered_cal')
+    if cached_ordered_cal:
+        return cached_ordered_cal
+
     progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    if not len(progs):
+        return []
 
     orderedcal = list(progs.values())
     orderedcal.sort(key = lambda x: x["startora"])
@@ -178,57 +168,73 @@ def orderedschedule():
         if not recheck:
             row = row + 1
 
+    cache.set('cached_ordered_cal', cached_ordered_cal)
     return groupedcal
 
 
-import logging
-logger = logging.getLogger(__name__)
-def blog_browse(request, url):
-    logger.warning("blog_browse")
-    blog = get_object_or_404(Blog, url='/' + url)
-    logger.warning(blog)
-    recent_posts = Post.objects.filter(blog=blog, published=True)
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+def browse(request, **kwargs):
+    blog = kwargs.get('blog', None)
+    if not blog:
+        blog = cache.get('blog_%s' % request.path)
+    if not blog:
+        blog = get_object_or_404(Blog, request.path)
+    if not blog:
+        raise Http404('Not found')
+    else:
+        cache.set('blog_%s' % request.path, blog)
+    page = abs(int(request.GET.get('page', 1)))
     onair = cached_onair(blog)
-    logger.warning(onair)
-    return render(request, 'blog/post_list.html',
-            {'blog': blog, 'recent_posts': recent_posts, 'schedule':schedule(), 'onair':onair})
+    posts = cached_blog_posts(blog) 
+    posts = posts.order_by('-published_on')
+    paged_posts = Paginator(posts, 6).page(page)
+    return render(  request, 'blog/post_list.html',
+                    {   'blog': blog,
+                        'browse_posts': True,
+                        'recent_posts': paged_posts.object_list,
+                        'page_obj': paged_posts,
+                        'schedule':schedule(), 
+                        'onair':onair})
+    
 
+def tags(request, tag):
+    page = abs(int(request.GET.get('page', 1)))
+    posts = cached_posts().order_by('-published_on')
+    tagged_posts = cache.get('posts_tag_%s' % tag)
+    if not tagged_posts:
+        tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
+        cache.set('posts_tag_%s' % tag, tagged_posts)
+        
+    try:
+        tagged_posts.remove(None)
+    except KeyError:
+        pass
+    try:
+        tagged_posts.remove(False)
+    except KeyError:
+        pass
+    try:
+        tagged_posts.remove('')
+    except KeyError:
+        pass
+    paged_posts = Paginator(list(tagged_posts), 6).page(page)
+    return render(  request, 'blog/post_tags.html',
+                    {   'tag': tag,
+                        'browse_posts': True,
+                        'recent_posts': paged_posts.object_list,
+                        'page_obj': paged_posts,
+                        'schedule':schedule()})
+    
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
     return show_post(request, post, review=True)
 
 def show_post(request, post, review=False):
-    recent_posts = Post.objects.filter(blog=post.blog, published=True)
+    recent_posts = cached_blog_posts(post.blog)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/post_detail.html',
         {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
 
-class BrowseView(ListView):
-    paginate_by = 8
-
-    def dispatch(self, request, blog):
-        if request.GET.get('page') == '1':
-            return HttpResponseRedirect(request.path)
-        return super(BrowseView, self).dispatch(request, blog=blog)
-
-    def get_queryset(self):
-        query = cached_blog_posts(self.kwargs['blog'])
-        # TODO: add select_related('author')
-        return query.order_by('-published_on')
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(BrowseView, self).get_context_data(**kwargs)
-        context.update({'blog': self.kwargs['blog'],
-                        'schedule': schedule(),
-                        'onair': cached_onair(self.kwargs['blog']),
-                        'recent_posts': self.get_queryset()[:6],
-                        'browse_posts': True})
-        return context
-
-browse = BrowseView.as_view()
 
 def feedburner(feed):
     """Converts a feed into a FeedBurner-aware feed."""
@@ -274,7 +280,7 @@ class LatestEntriesFeed(Feed):
         return post.published_on
 
     def items(self, blog):
-        query = Post.objects.filter(blog=blog, published=True).order_by(
+        query = cached_blog_posts(blog).order_by(
             '-published_on')
         # TODO: add select_related('author') once it's supported
         return query[:100]

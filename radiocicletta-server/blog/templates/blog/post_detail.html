@@ -1,5 +1,5 @@
 {% extends "default.html" %}
-{% load disqus_tags media simplesocial %}
+{% load disqus_tags simplesocial blog %}
 {% block pagetitle %}{{post.title}}{% endblock %}
     
 {% block extra-head %}
@@ -32,7 +32,15 @@
     <section class="more-blog">
         <h3>Ultimi articoli di questo blog</h3>
         {% include "blog/recent_posts.html" %}
-        <p><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></p>
+        <p><strong><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></strong></p>
+        {% if post.get_related_posts %}
+        <h3>Articoli collegati</h3>
+        {% endif %}
+        <ul>
+            {% for rel in post.get_related_posts %}
+              <li><a href="{{ rel.get_absolute_url }}">{{ rel.title|titlecase }}</a> <small>{{ rel.published_on }}</small></li>
+            {% endfor %}
+        </ul>
     </section>
 {% endblock %}
 

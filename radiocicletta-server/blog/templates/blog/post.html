@@ -1,10 +1,14 @@
 {% load simplesocial blog %}
 
-<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title|titlecase }}</a></h2>
     <ul class="articleinfo">
-        <li>Di: <a href="">{{ post.author.get_full_name }}</a></li>
+        <li>Di: <a href="/p/{{ post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
         <li>
             {{ post.published_on }}
+        </li>
+        <li>{% for tag in post.get_tags %}
+            <a href="/blog/tag/{{tag.strip}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
+        {% endfor %}
         </li>
         <li>
         	<a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
@@ -12,11 +16,11 @@
     </ul>
 
 
-<div class="articlecontent">
+<div class="articlecontent socialicons">
 {% if browse_posts %}
-    {{ post.rendered_content|comicsanitize|truncatewords_html:150 }}
-    <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi l'articolo completo</a></p>
+    {{ post.rendered_content|comicsanitize|truncatewords_html:150|smarty }}
+    <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi/commenta l'articolo</a></p>
 {% else %}
-    {{ post.rendered_content|comicsanitize }}
+    {{ post.rendered_content|comicsanitize|smarty }}
 {% endif %}
 </div>

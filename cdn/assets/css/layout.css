@@ -54,7 +54,6 @@ body{
     font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Gill Sans", Helvetica, "Tahoma", "Geneva", "Arial", sans-serif;
     font-weight: 300;
     font-stretch: normal;
-    letter-spacing: 1px;
     color: white;
     font-size: 11pt;
     /*background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAMAAAAPK1hoAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA9QTFRFKioqKCgoKSkpJycnJiYmo673eQAAAvdJREFUeNqsWQmSwyAMi2T+/+btJm0KvsluZjqTFjBGvmR6HNeDY36of/g8IvcrxIyOa84RPJKMqecUTqvYrR7nyb8ffscONeYcEIfYub6EjYe4NkKgN2rpiETHUMz4BrCnsmURBXeavNejA874xYHBWXkLxOudEeiOEqOLGQAtNfQ7PjDEyzkRriKx501UHo3DhNhApSKOJOgcbbiOUwVGqS8KHGWeQ8YJZQ98ezYcf3sMPJKejN81TBWnNwQ7yMxDZNKGkX3k+XFrO27sQitTAsHs2hsd+0qlIHIEHMX5wFNZujGVJR0Mv2leouWZitdyjr2ixu4p8ZnL9zu9E1wxAuoUjMo25/tL+ZgnsI2EDUSW/oYdg8tfMhdyY3AiNJwzLlFFIML6kujg1wh8vmIdhYKTNhDY8i3sOyaTwQEki9mxx+IjiDgSFxpjN0BEotccSN8fYuyUfdnP0ViRWyYK2uiLAU1o4RNT74IyGGgNl1a5PJBzavKbiDhRqsrORnWLJ0VUpDLSyTjCMgfN8VBwrmmGZK7PpJSik7Fo+grkhaPDI+B9Rx4aYXcjKqGaHpZO1Prktk7qZnMw6DyjeEOLdPHGvejE0COBKOfTrCwiRfGpu14yKjC2bWtJH2c5RA8DlqT+cz4miDHfZJhUFTRZ5huSAwBtJ4QSKFHopuuBoMqiHxOVj9P2NUbDrcam2wcyA0DCItV3THMQyfrF9LJsIhmi2MRCkeFny4RlM9/cC8Q4OPFftnEJ3nmTIAiuFp7e4lRND/rOd6UtqQSjqrHPrx09ugm364bO32MvfiWqGnDNsnczwZZjILxtgHcElmqx7scWsiDFPc8U+fAxnc2UtepshV+ohiSmzGv42AhTtrvp0fL1IjKof8E7yRrazBALae+NuVtyaMsF42DBmLa9TjJOHQRCcdetdXw7lGAnGe+lrX4Zx+PCIVV9H0lT2bpBSv6JYCtzc3NEVvag4j/5U0zayI0iRUTeieYxRqOY2fsbOX4EGAD2uwR5Lfx+NQAAAABJRU5ErkJggg==) repeat left top; */
@@ -230,6 +229,7 @@ h1 {
     display: inline-block;
     width: 100%;
     max-width: 438px;
+	margin-top: 4px;
 }
 
 #playercmd {
@@ -262,7 +262,7 @@ h1 {
     width: 130px;
     vertical-align: top;
     background: transparent url(/images/layout/playersprite.png) no-repeat 0px -165px;
-    margin-left: 9px;
+    margin-left: 20px;
 }
 
 #playermetadata {
@@ -273,7 +273,7 @@ h1 {
     margin-right: -64px;
     margin-left: 64px;
     position: relative;
-    top: -22px;
+    top: -25px;
     font-size: 9pt;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -326,7 +326,7 @@ h1 {
     display: block;
     position: absolute;
     left: 53px;
-    top: 35px;
+    top: 39px;
     width: 6px;
     height: 6px;
     background: transparent url(/images/layout/dots.png) no-repeat 0px 0px;
@@ -369,7 +369,7 @@ footer {
 }
 
 footer nav {
-    background: #425a69;
+    background: rgb(66, 90, 115);
          -o-box-shadow: inset 0px 10px 10px  rgba(0,0,0,0.5);
     -webkit-box-shadow: inset 0px 10px 10px  rgba(0,0,0,0.5);
        -moz-box-shadow: inset 0px 10px 10px  rgba(0,0,0,0.5);
@@ -421,7 +421,7 @@ footer nav .menu h2 {
     -moz-text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
     text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
     text-align: center;
-    line-height: 20pt;
+    line-height: 2em;
     font-weight: bolder;
        -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -451,7 +451,7 @@ footer nav .menu a {
     font-style: italic;
     font-weight: 300;
     font-size: 10pt;
-    line-height: 13pt; 
+    line-height: 1.5em; 
     text-decoration: none;
     color: #f0f0f0;
     letter-spacing: 0.2pt;
@@ -474,16 +474,23 @@ footer address {
     text-align: center;
     font-size: 8pt;
 }
+footer address a {
+    color: #cecece;
+    color: #999;
+    text-decoration: none;
+    border-bottom: solid 1px #555;
+}
 
 #content .fluid {
     margin-right: 320px;
+    letter-spacing: 1px;
        -moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
          -o-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
             box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     /*background: #303030;*/
     /*background: black;*/
-    background: #323232;
+    background: rgb(32, 32, 32);
     border: solid 1px #494949;
     -webkit-border-top-right-radius: 5px;
         -moz-border-radius-topright: 5px;
@@ -492,14 +499,55 @@ footer address {
         -moz-border-radius-bottomright: 5px;
             border-bottom-right-radius: 5px;
 }
+#content .errorpanel {
+    margin: 0px 320px;
+    font-size: 10pt;
+    color: #666;
+    padding: 0px 0px 120px;
+    min-height:320px;
+}
+#content .errorpanel > * {
+    margin-bottom: 6px;
+}
+#content .errorpanel a {
+    color: #666;
+    text-decoration: none;
+    border-bottom: solid 1px #999;
+}
+#content .errorpanel strong {
+    font-weight: 900;
+}
+#content .errorpanel img {
+    border: solid 10px #eee;
+}
+#content .errorpanel h2{
+    font-family: "HelveticaNeueUltraLight", "HelveticaNeue-Ultra-Light", "HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue UltraLight", "HelveticaNeue", "Helvetica Neue", "TeXGyreHerosRegular", "Helvetica", "Droid Sans", Tahoma, "Geneva", "Arial", sans-serif;
+    font-size: 40pt;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    -moz-text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.506);
+}
+#content .errorpanel img{
+    max-width: 100%;
+}
 
 #content .fluid .main {
-    background: #202020;
+    background: rgb(50,50,50); 
+}
+
+.main h2:first-letter,
+.main h3:first-letter,
+.main h4:first-letter,
+.main h5:first-letter {
+    text-transform: uppercase;
 }
 
 #content .fluid section,
 #content .fluid article {
-    padding: 35px;
+    padding: 35px 35px 20px;
     margin: 0px;
     -moz-text-shadow: 1px 1px 1px #000000;
     text-shadow: 1px 1px 1px #000000;
@@ -593,23 +641,60 @@ footer address {
     clear: both;
 }
 
-#content .fluid h2,
-#content .fluid h3 {
+.fluid h2,
+.fluid h3 {
     font-family: "Open Sans Condensed", "HelveticaNeueBoldCondensed", "HelveticaNeue-Bold-Condensed", "Helvetica Neue Bold Condensed", "HelveticaNeueBold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Helvetica", "Tahoma", "Geneva",  sans-serif;
     font-stretch: condensed;
     font-weight: bold;
     color: #c13952;
     margin: 2px 0px 20px 0px;
+    line-height: 1.5em;
 }
 
 #content .fluid h2 {
-    font-size: 30pt;
+    font-size: 26pt;
+}
+
+.bloglist h2.post_head {
+    background-image-position: right center;
+    background-repeat: repeat;
+    border-top-right-radius: 3px;
+    margin: 2px -35px 20px;
+       -moz-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
+    -webkit-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
+         -o-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
+            box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
+
+}
+.bloglist h2.post_head a{
+    display: block;
+    padding: 20px 0px 0px;
+    background: none repeat scroll 0% 0% rgba(32, 32, 32, 0.5);
+    padding-bottom: 0px !important;
+}
+.bloglist h2.post_head .catch_headline {
+    text-transform: uppercase;
+    padding: 0 35px;
+    font-family: Oxygen, Gill Sans, Helvetica, sans-serif;
+    border-spacing: 2px;
+    font-size: 10pt;
+    color: #FFC0CB;
+    letter-spacing: 0.2em;
+    display:block;
+}
+.bloglist h2.post_head .headline{
+    background: none repeat scroll 0% 0% rgb(50, 50, 50);
+    border-top-right-radius: 10px;
+    padding: 0.5em 35px;
+    display: inline-block;
+    margin-right: 35px;
 }
 
 #content .fluid h3 {
     font-size: 25pt;
     -moz-text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    padding-top: 1em;
 }
 
 .fluid h2 a{
@@ -619,8 +704,8 @@ footer address {
 
 #content .fluid article p {
     text-align: left;
-    line-height: 16pt;
-    margin: 20px auto;
+    line-height: 1.5em;
+    margin: 0 auto 0.5em;
 }
 
 #content .fluid article strong {
@@ -669,6 +754,7 @@ footer address {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
 }
+.socialicons a[href*="emailFlare"],
 .socialicons a[href^="mailto:"] {
     padding-left: 18px;
 	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
@@ -791,7 +877,7 @@ footer address {
 
 .fluid article .articlecontent {
     text-align: left;
-    line-height: 16pt;
+    line-height: 1.5em;
 }
 
 .articlecontent ul {
@@ -806,8 +892,13 @@ footer address {
 }
 
 .fluid section.more-blog {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    line-height: 1.5em;
+}
+
+.fluid section.more-blog small{
+    color:#777;
+    font-size: 75%;
+    text-shadow: none;
 }
 
 .fluid div.wide-share-buttons {
@@ -857,13 +948,15 @@ footer address {
 
 .fluid ul.articleinfo li {
     display: inline-block;
-    width: 50%;
+    width: 33%;
     margin: 0 -2px;
     padding-top: 0.4em;
     color: #a0a0a0;
     -moz-text-shadow: none;
     text-shadow: none;
     font-size: 80%;
+    vertical-align: top;
+    line-height: 1.5em;
 }
 
 .fluid ul.articleinfo li:first-of-type {
@@ -878,13 +971,13 @@ footer address {
 }
 
 
-#content .fluid .readmore {
+#content .fluid .readmore ,
+#content .fluid .readmoreblog {
     display: inline-block;
     text-align: center;
     font-weight: 900;
-    font-size: 10pt; 
+    font-size: 9pt; 
     /*color: #c82374;*/
-    background: #c13952;
     color: white;
     text-decoration: none;
     padding-top: 0.5ex;
@@ -894,8 +987,14 @@ footer address {
        -moz-border-radius: 5px;
             border-radius: 5px;
     padding: 10px 15px;
-    margin: 20px 5px;
+    margin: 20px 0px;
     border: none;
+}
+#content .fluid .readmore {
+    background: #c13952;
+}
+#content .fluid .readmoreblog {
+    background: rgb(66, 90, 115);
 }
 
 #content .fluid .readmore:hover {
@@ -906,6 +1005,7 @@ footer address {
     padding-top: 10px;
     width: 320px;
     float: left;
+    line-height: 1.5em;
 }
 
 #sidebar .side .now {
@@ -937,7 +1037,7 @@ footer address {
 
 #sidebar .side section.panel {
     padding: 15px;
-    margin: 10px 10px 10px 0px;
+    margin: 10px;
     /*border: solid 1px #90702b;*/
     border: solid 1px #777;
     border-left: none;
@@ -977,7 +1077,6 @@ footer address {
     padding-bottom: 2px;
     -moz-text-shadow: -1px -1px 0px rgba(0,0,0,0.3);
          text-shadow: -1px -1px 0px rgba(0,0,0,0.3);
-    line-height: 110%;
 }
 
 #sidebar .side h2 {
@@ -1156,7 +1255,6 @@ article.blog_show_header .blogimg-humb{
 }
 
 article.bloglist h2 a:first-child {
-    margin-right: 20px;
     margin-top: 10px;
 }
 
@@ -1205,3 +1303,4 @@ noscript a {
     text-decoration: none;
     color: #f0f0f0;
 }
+

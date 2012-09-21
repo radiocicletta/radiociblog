@@ -1,4 +1,5 @@
 {% extends "default.html" %}
+{% load blog %}
 {% block pagetitle %}{{ blog.title }}{% endblock %}
 {% block extra-head %}
     {{ block.super }}
@@ -10,8 +11,8 @@
 {% block bodyleft %}
     <article class="blog_show_header">
         <header>
-            <span class="blogimg"><img src="{{ blog.logo.url|default_if_none:'none' }}"/></span>
-            <h2 class="blogtitle">{{ blog.title }}</h2>
+            <span class="blogimg"><img src="{{ blog.get_logo.url|default_if_none:'none' }}"/></span>
+            <h2 class="blogtitle">{{ blog.title|titlecase }}</h2>
             <p class="onair">
             {% if not blog.blog_generic %}
                 {% for airtime in onair %}
@@ -33,12 +34,12 @@
         {% include "blog/post.html" %}
         </article>
     {% endfor %}
-<div class="pagenav">
+<section class="pagenav">
   {% if page_obj.has_next %}
-    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&laquo; older</a>
+    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&laquo; Post meno recenti</a>
   {% endif %}
   {% if page_obj.has_previous %}
-    <a href="{{ request.path }}{% if page_obj.previous_page_number != 1 %}?page={{ page_obj.previous_page_number }}{% endif %}">newer &raquo;</a>
+    <a href="{{ request.path }}{% if page_obj.previous_page_number != 1 %}?page={{ page_obj.previous_page_number }}{% endif %}">Post più recenti &raquo;</a>
   {% endif %}
-</div>
+</section>
 {% endblock %}

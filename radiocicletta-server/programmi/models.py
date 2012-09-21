@@ -4,7 +4,6 @@ from blog.models import Blog
 from random import choice
 from string import ascii_letters, digits
 import re
-import caching.base
 from django.core.cache import cache
 
 
@@ -26,7 +25,7 @@ def default_blog():
         return blogs[0]
     return None
 
-class Programmi(caching.base.CachingMixin, models.Model):
+class Programmi(models.Model):
     title = models.CharField(max_length=200,help_text='Titolo del programma')
     descr = models.CharField(null=True, blank=True, max_length=200,help_text='descrizione (opzionale)')
     blog = models.ForeignKey(Blog, related_name='programs', default=default_blog, help_text='il blog del programma oppure null')
@@ -58,7 +57,7 @@ class Programmi(caching.base.CachingMixin, models.Model):
                  "stato":self.status,
                  "blog_id":blog.id,
                  "blog_url":blog.url,
-                 "logo":blog.get_logo()}
+                 "logo":blog.get_logo().to_json()}
                 }
 
     #def mynext(self):

@@ -5,6 +5,9 @@ from django.contrib import admin
 from minicms.admin import BaseAdmin
 from django import forms
 from django.core.cache import cache
+import logging
+
+logger=logging.getLogger(__name__)
 
 
 class BlogForm(forms.ModelForm):
@@ -27,17 +30,27 @@ class BlogAdmin(BaseAdmin):
     ordering = ('title', 'url')
     form = BlogForm
 
-    def queryset(self, request):
-        if request.user.is_superuser:
-            qs = super(BaseAdmin, self).queryset(request)
-            return qs
-        return Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
+#    def queryset(self, request):
+#        if not request.user.is_superuser:
+#            filt = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())]
+#            blogs = Blog.objects.all()
+#            i = 0
+#            logger.warning(blogs)
+#            logger.warning(blogs._result_cache)
+#            while i < len(blogs._result_cache):
+#                if blogs._result_cache[i].id in filt:
+#                    blogs._result_cache.pop(i)
+#                else:
+#                    i = i + 1
+#            return blogs
+#        qs = super(BaseAdmin, self).queryset(request)
+#        return qs
 
 
 class PostAdmin(BaseAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'blog', 'content', 'published'),
+            'fields': ('title', 'blog', 'content', 'published', 'tags'),
         }),
         #('Advanced options', {
          #   'classes': ('collapse',),
@@ -57,7 +70,7 @@ class PostAdmin(BaseAdmin):
     
     def queryset(self, request):
         if request.user.is_superuser:
-            fieldsets = ((None,{'fields':('title','blog','content','published'),}),
+            fieldsets = ((None,{'fields':('title','blog','content','published','tags'),}),
                         ('Advanced options',{'classes':('collapse',),'fields':('author','published_on','review_key'),}),)
             return Post.objects.all()
         return Post.objects.filter(author=request.user)

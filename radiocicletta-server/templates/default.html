@@ -1,32 +1,5 @@
-{% extends "base.html" %}
-{% block body %}
-{% load blog %}
-<h1><a href="/">Radiocicletta &mdash; Web Radio</a></h1>
-<nav class="toplevel">
-    
-    <ul>
-        <li><a href="/home" class="home">Home</a></li>
-    	<li><a href="/programmi" class="schedule">Programmi</a></li>
-    	<li><a href="/blogs" class="blogs">Blogs</a></li>
-    	<li><a href="/chisiamo" class="faq">Chi siamo</a></li>
-    	<li><a href="/download" class="downloads">Download</a></li>
-    	<li><a href="/aiutaci" class="help">Aiutaci</a></li>
-    </ul>
-</nav>
-<div id="playercontainer">
-    <div id="player">
-        <audio id="audiosrc" preload="none" src="http://radiocicletta.it:8000/stream"></audio>
-        <noscript><div><a href="http://radiocicletta.it/listen.pls">&#9654;
-                    Ascolta radiocicletta da questo link usando il tuo player (VLC, Winamp, Mplayer, iTunes...)</a></div></noscript>
-    </div>
-</div>
-<noscript>
-    <div>
-        Per poter usare tutte le funzionalità del sito devi abilitare Javascript sul tuo browser.
-    </div>
-</noscript>
-
-<div id="body">
+{% extends "commonlayout.html" %}
+{% block layoutcontent %}
 <div id="content">
     <div class="fluid">
         <nav class="adjustablemenu">
@@ -67,7 +40,7 @@
         </section>
         <section id="box_mixcloud" class="panel">
             <h2>Replicanda</h2>
-            <p>Gli ultimi podcast</p>
+            <p>I nostri ultimi podcast da <a href="http://mixcloud.com/radiocicletta">Mixcloud</a></p>
         </section>
         <section id="box_social" class="panel socialicons">
             <h2>Socializzanda</h2>
@@ -79,52 +52,4 @@
         </section>
     </div>
 </div>
-</div>
-<footer>
-    <nav class="foot">
-        <div class="menu">
-            <h2>Radiocicletta</h2>
-            <ul>
-            	<li><a href="/">Home</a></li>
-            	<li><a href="/programmi">Programmi</a></li>
-            	<li><a href="/blogs">Blogs</a></li>
-            	<li><a href="/chisiamo">Chi siamo</a></li>
-                <li><a href="/aiutaci">Aiutaci</a></li>:
-            </ul>
-        </div>
-        <div class="menu">
-        	<h2>Social</h2>
-        	<ul>
-                <li><a href="http://www.facebook.com/radiocicletta">Facebook</a></li>
-                <li><a href="http://twitter.com/#!/radiocicletta">Twitter</a></li>
-                <li><a href="http://www.mixcloud.com/radiocicletta/">Mixcloud</a></li>
-                <li><a href="https://plus.google.com/u/0/102138918057452969670/posts">Google+</a></li>
-                <li><a href="http://www.lastfm.it/user/radiocicletta">Last.fm</a></li>
-                <li><a href="http://myspace.com/radiocicletta">Myspace</a></li>
-                <li><a href="http://radiocicletta.tumblr.com/">Tumblr</a></li>
-                <li><a href="http://www.youtube.com/user/radiocicletta">Youtube</a></li>
-            </ul>
-        </div>
-        <div class="menu">
-        	<h2>Sviluppatori</h2>
-        	<ul>
-                <li><a href="http://github.com/radiocicletta">Radiocicletta on Github</a></li>
-        		<li><a href="http://www.icecast.org">IceCast</a></li>
-        		<li><a href="http://ross.sourceforge.net/">Linux Broadcasting</a></li>
-        	</ul>
-        </div>
-        <div class="menu">
-        	<h2>Robe noiose</h2>
-        	<ul>
-        		<li><a href="http://validator.w3.org/check?uri=http%3A%2F%2Fradiocicletta.it%2F">Valid HTML5</a></li>
-        	</ul>
-        </div>
-    </nav>
-    <address>
-        Associazione culturale Radiocicletta &mdash; Centro Passi, Pisa
-        Powered by <a href="http://www.allbuttonspressed.com/projects/django-nonrel">Django-nonrel</a>,
-        <a href="http://code.google.com/appengine/">App Engine</a>, and
-        <a href="http://www.allbuttonspressed.com/projects/allbuttonspressed">All Buttons Pressed</a>
-    </address>
-</footer>
 {% endblock %}

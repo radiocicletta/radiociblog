@@ -37,7 +37,6 @@
         float: left;
         border: none;
         text-align: left;
-        background: #323232;
         padding-top: 40px;
     }
     #content .fluid .adjustablemenu ul {
@@ -82,7 +81,7 @@
         width: 78%;
         float: right;
         border-left: solid 1px #494949;
-        margin-left: -1px;
+        margin-left: -2px;
     }
     .fluid:after {
         content: "";
@@ -130,6 +129,9 @@
         height: 79px;
         overflow: hidden;
     }
+    #content .errorpanel {
+        margin: 0px 240px;
+    }
     
 
     .toplevel li a:not(.home) {
@@ -159,6 +161,9 @@
     }
     #content .fluid {
         margin-right: 240px;
+    }
+    #content .errorpanel {
+        margin: 0px 200px;
     }
     footer nav .menu h2 {
         letter-spacing: 0.1em;
@@ -201,9 +206,13 @@
     }
     #content .fluid {
         margin-right: 0px;
+        margin-left: 0px;
         border-radius: 0px;
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
+    }
+    #content .errorpanel{
+        margin: 0px;
     }
 
     .toplevel li a.home {
@@ -228,10 +237,11 @@
     #sidebar .side{
         width:100%;
     }
-    #sidebar .side section {
+    #sidebar .side section.panel {
                 border-radius: 2px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
+           margin: 0px;
     }
 
     #content .fluid section img {
@@ -285,9 +295,21 @@
     #content .fluid section img {
         width: 100%;
     }
+    #content .errorpanel {
+        width: 440px;
+        margin: auto;
+    }
+
+    ul.articleinfo li {
+        width: 100%
+    }
 }
 
 @media all and (max-width: 320px) {
+    #content .errorpanel {
+        width:100%;
+        max-width: 320px;
+    }
 }
 
 @media all and (max-width: 280px) {

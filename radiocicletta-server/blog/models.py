@@ -11,7 +11,6 @@ from string import ascii_letters, digits
 from plogo.models import Plogo
 from djangotoolbox import fields
 from django.core.cache import cache
-import caching.base
 import re
 
 
@@ -26,8 +25,29 @@ from exceptions import NotImplementedError, TypeError
 from django.db import models
 from djangotoolbox.fields import ListField
 
+def cached_blogs():
+    b = cache.get('blogs')
+    if not b:
+        b = Blog.objects.all()
+        cache.add('blogs', b)
+    return b
 
-class Blog(caching.base.CachingMixin, models.Model):
+def cached_posts():
+    p = cache.get('published_posts')
+    if not p:
+        p = Post.objects.filter(published=True)
+        cache.add('published_posts', p)
+    return p
+
+def cached_blog_posts(blog):
+    p = cache.get('blog_posts_%s' % blog.id)
+    if not p:
+        p = Post.objects.filter(blog=blog, published=True)
+        cache.add('blog_posts_%s' % blog.id, p)
+    return p
+
+
+class Blog(models.Model):
     title = models.CharField(max_length=200,help_text='This will also be your feed title')
     #proprietario = models.CharField(max_length=200,help_text='This will also be your feed title')
     keywords = models.CharField(max_length=200, blank=True,help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
@@ -74,7 +94,11 @@ class Blog(caching.base.CachingMixin, models.Model):
         return self.url_prefix + 'feed/latest'
     
     def get_logo(self):
-        return self.logo.to_json()
+        cache_logo = cache.get('blog_%s_logo' % self.pk)
+        if not cache_logo:
+            cache.set('blog_%s_logo' % self.pk, self.logo)
+            return self.logo
+        return cache_logo
 
 def default_blog():
     blogs = Blog.objects.all()[:1]
@@ -86,7 +110,7 @@ def generate_review_key():
     charset = ascii_letters + digits
     return ''.join(choice(charset) for i in range(32))
 
-class Post(caching.base.CachingMixin, BaseContent):
+class Post(BaseContent):
     blog = models.ForeignKey(Blog, related_name='posts', default=default_blog)
     published = models.BooleanField(default=False)
     author = models.ForeignKey(User, related_name='posts', null=True, blank=True,
@@ -100,6 +124,8 @@ class Post(caching.base.CachingMixin, BaseContent):
         help_text='Optional (filled automatically when publishing)')
     review_key = models.CharField(max_length=32, blank=True,
         help_text='Optional (filled automatically when saving)')
+    tags = models.CharField(max_length=500, null = True, blank = True,
+        help_text = 'Tag separati da virgole')
 
     def __unicode__(self):
         return self.title
@@ -115,6 +141,36 @@ class Post(caching.base.CachingMixin, BaseContent):
             cache.set('post_%s_blog' % self.pk, self.blog)
             return self.blog
         return cached_blog
+
+    def get_tags(self):
+        if self.tags:
+            return self.tags.split(',')
+        return []
+
+    def get_related_posts(self):
+        if not self.tags:
+            return []
+        posts = cached_posts().order_by('-published_on')
+        postset = set()
+        for tag in re.sub('\s+', '', self.tags).split(','):
+            tagged_posts = cache.get('posts_tag_%s' % tag)
+            if not tagged_posts:
+                tagged_posts = set([i.tags and tag in i.tags and i for i in posts]) 
+                cache.set('posts_tag_%s' % tag, tagged_posts)
+            postset.update(tagged_posts)
+        try:
+            tagged_posts.remove(None)
+        except KeyError:
+            pass
+        try:
+            tagged_posts.remove(False)
+        except KeyError:
+            pass
+        try:
+            tagged_posts.remove(self)
+        except KeyError:
+            pass
+        return list(postset)[:6]
 
     def in_blog(self):
         return self.blog.title

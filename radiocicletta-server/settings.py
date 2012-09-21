@@ -25,14 +25,6 @@ except ImportError:
 
 import os
 
-CACHES = {
-    'default': {
-        'BACKEND': 'caching.backends.memcached.CacheClass',
-        # 'BACKEND':'django.core.cache.backends.memcached.MemcachedCache',
-    }
-} 
-CACHE_MIDDLEWARE_SECONDS=60*2
-
 LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
@@ -63,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sitemaps',
     'django.contrib.messages',
+    'profiles',
     'urlrouter',
     'minicms',
     'plogo',
@@ -71,7 +64,6 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'google_analytics',
     'google_cse',
-    'mediagenerator',
     'robots',
     'simplesocial',
     'redirects',
@@ -93,8 +85,9 @@ else:
 
 AUTHENTICATION_BACKENDS = (
     'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
-
 )
+
+AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
 
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
@@ -109,7 +102,6 @@ MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'mediagenerator.middleware.MediaMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangotoolbox.middleware.RedirectMiddleware',
@@ -120,6 +112,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+CACHE_MIDDLEWARE_SECONDS = 600
 
 URL_ROUTE_HANDLERS = (
     'minicms.urlroutes.PageRoutes',
@@ -137,25 +131,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'minicms.context_processors.cms'
 )
 
-USE_I18N = False
+USE_I18N = True
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
-MEDIA_BUNDLES = (
-    ('main.css',
-        'design.sass',
-        'rest.css',
-    ),
-)
 
 
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
 STATIC_URL = '/static/'
 
-ROOT_MEDIA_FILTERS = {
-    'js': 'mediagenerator.filters.closure.Closure',
-    'css': 'mediagenerator.filters.yuicompressor.YUICompressor',
-}
 
 CLOSURE_COMPILER_PATH = os.path.join(os.path.dirname(__file__),
                                      '.webutils', 'compiler.jar')

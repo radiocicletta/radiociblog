@@ -10,6 +10,12 @@ indexes:
 - kind: blog_post
   properties:
   - name: author_id
+  - name: published_on
+    direction: desc
+
+- kind: blog_post
+  properties:
+  - name: author_id
   - name: last_update
     direction: desc
 
@@ -82,6 +88,11 @@ indexes:
     direction: desc
 
 - kind: plogo_plogo
+  properties:
+  - name: __key__
+    direction: desc
+
+- kind: profiles_userprofile
   properties:
   - name: __key__
     direction: desc
