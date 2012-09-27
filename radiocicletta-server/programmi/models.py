@@ -51,13 +51,14 @@ class Programmi(models.Model):
 
     def tojson(self):
         blog = self.get_blog()
+        logo = blog.get_logo()
         return {self.title:{ "id":self.id,
                  "start": [self.startgiorno,self.startora.hour,self.startora.minute],
                  "end": [self.endgiorno if not self.successivo else PRIMA[self.endgiorno],self.endora.hour,self.endora.minute],
                  "stato":self.status,
                  "blog_id":blog.id,
                  "blog_url":blog.url,
-                 "logo":blog.get_logo().to_json()}
+                 "logo":logo and logo.to_json() or ''}
                 }
 
     #def mynext(self):
