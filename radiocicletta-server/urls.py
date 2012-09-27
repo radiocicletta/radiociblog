@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     (r'^download/', 'blog.views.down'),
     (r'^standalone/', 'blog.views.standalone'),
     (r'^programmi.json', 'programmi.views.progjson'),
+    (r'^pro_mob.json', 'programmi.views.modjson'),
     (r'^social.json', 'blog.views.social'),
     (r'^blogs/', 'blog.views.tuttib'),
 
