@@ -64,38 +64,28 @@ $('#id_url').attr("disabled",true);
 
 {% block cima %}
 <div class="precontent">
-<div style="float: left; width: 100%;">
-<fieldset class="module aligned ">
-    
-    
-    
-        <div class="form-row title">
-            
-            
+<form>
+    <div style="float: left; width: 100%;">
+        <fieldset class="module aligned ">
+            <div class="form-row title">
                 <div>
-                    
-                    
-                        <label for="id_uppa" class="required">Uppa:</label>
-                        
-                            <div id="imgup">
-<div id="holder" class=""><div class="drop"><br>Dragga e Droppa qui dentro, oppure se sei impedito o il tuo browser &egrave; vecchio come il cucco pigia il bottone e scegli il file<br><button onclick="document.querySelector('input').click()">pigiami</button></div>
-<input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"> </div>
-<a id="link">It's online!!!</a>
-
-
-</div>
-                        
-                    
-                    
-               </div>
-            
-        </div>
-    
-    
-</fieldset>
-</div>
+                    <label for="id_uppa" class="required">Uppa:</label>
+                    <div id="imgup">
+                        <div id="holder" class="">
+                            <div class="drop"><br>Dragga e Droppa qui dentro,
+                                oppure se sei impedito o il tuo browser &egrave;
+                                vecchio come il cucco pigia il bottone e scegli il file<br>
+                                <button onclick="document.querySelector('input').click()">pigiami</button>
+                            </div>
+                            <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"> </div>
+                            <a id="link">It's online!!!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
 </form>
-
 </div>
 
 
