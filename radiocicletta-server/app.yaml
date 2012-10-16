@@ -1,7 +1,8 @@
 application: radiocicletta-server-dev
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 builtins:
 - remote_api: on
@@ -10,13 +11,17 @@ builtins:
 inbound_services:
 - warmup
 
+libraries:
+- name: django
+  version: latest
+
 handlers:
 - url: /_ah/queue/deferred
-  script: djangoappengine/deferred/handler.py
+  script: djangoappengine.deferred.handler.application
   login: admin
 
 - url: /_ah/stats/.*
-  script: djangoappengine/appstats/ui.py
+  script: djangoappengine.appstats.application
 
 - url: /blank.html
   static_files: blank.html
@@ -31,7 +36,7 @@ handlers:
   expiration: '365d'
 
 - url: /.*
-  script: djangoappengine/main/main.py
+  script: djangoappengine.main.application
 
 error_handlers:
 - file: default_error.html
