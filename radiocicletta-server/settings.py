@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'permission_backend_nonrel',
     'object_permission_backend_nonrel',
     'programmi',
+    'events',
     'authority',
 
 )
