@@ -95,11 +95,11 @@ class ProgrammiAdmin(BaseAdmin):
     search_fields = ('title',)
     ordering = ('title',)
 
-    def queryset(self, request):
-        qs = super(BaseAdmin, self).queryset(request)
-        if request.user.is_superuser:
-            return qs
-        return qs.filter(author=request.user)
+#    def queryset(self, request):
+#        qs = super(BaseAdmin, self).queryset(request)
+#        if request.user.is_superuser:
+#            return qs
+#        return qs.filter(author=request.user)
 
 
 class PlogoAdmin(admin.ModelAdmin):
