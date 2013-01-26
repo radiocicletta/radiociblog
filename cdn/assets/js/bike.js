@@ -3,7 +3,7 @@ var kPlayerBackgroundRunPos = "0px 0px";
 var kPlayerBackgroundWaitPos = "0px -7px";
 var kPlayerBackgroundHaltPos = "0px -14px";
 
-$(window).ready(function(evt) {
+$(function(evt) {
     var baseurl = "http://api.radiocicletta.it";
     var player = document.createElement("div");
 
@@ -283,29 +283,6 @@ $(window).ready(function(evt) {
             }
             document.getElementById("box_social").appendChild(ul);
         });
-
-        // THIS THING WILL BE DELETED.
-        $.getJSON(baseurl + "/programmi.json?_=" + new Date().getTime(), function(data){
-            var daytable = ["do", "lu", "ma", "me", "gi", "ve", "sa"];
-            var date = new Date();
-            var filtered = data.events.filter(function(el, idx, arr){ 
-                return el.stato > 0 &&
-                        el.start[0] == daytable[date.getDay()];
-            });
-            var ul = document.createElement("ul");
-            var li = document.createElement("li");
-
-            for (var i = 0; i < filtered.length; i++) {
-                var _li = li.cloneNode(li);
-                _li.innerHTML = filtered[i].start[1] + ":" + 
-                                (filtered[i].start[2]? filtered[i].start[2]: "00") + 
-                                " &mdash; " + 
-                                filtered[i].title.replace(/<\/*[^>]*>/g, "");
-                ul.appendChild(_li);
-            }
-            document.getElementById("todayschedule").appendChild(ul);
-        });
-
     }
 
 });
