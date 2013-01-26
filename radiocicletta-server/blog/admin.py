@@ -7,22 +7,25 @@ from django import forms
 from django.core.cache import cache
 import logging
 
+
 logger=logging.getLogger(__name__)
 
 
 class BlogForm(forms.ModelForm):
 
     # many thanks to https://github.com/tingletech/collengine/blob/master/items/admin.py
-    utenti = forms.ModelMultipleChoiceField(queryset = User.objects.all(), required=False)
+    utenti = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False)
+
     class Meta:
         model = Blog
 
     def save(self, commit=True):
         model = super(BlogForm, self).save(commit=False)
-        model.utenti = [ utenti.id for utenti in model.utenti ]
+        model.utenti = [utenti.id for utenti in model.utenti]
         if commit:
             model.save()
         return model
+
 
 class BlogAdmin(BaseAdmin):
     list_display = ('title', 'url', 'related_utenti')
@@ -53,8 +56,8 @@ class PostAdmin(BaseAdmin):
             'fields': ('title', 'blog', 'content', 'published', 'tags'),
         }),
         #('Advanced options', {
-         #   'classes': ('collapse',),
-          #  'fields': ('author', 'published_on', 'review_key'),
+        #    'classes': ('collapse',),
+        #    'fields': ('author', 'published_on', 'review_key'),
         #}),
     )
     #exclude = ('author',)
@@ -62,32 +65,42 @@ class PostAdmin(BaseAdmin):
     search_fields = ('title', 'url', 'author')
     ordering = ('-last_update',)
 
-
     def save_model(self, request, obj, form, change):
         if not change:
             obj.author = request.user
         obj.save()
-    
+
     def queryset(self, request):
         if request.user.is_superuser:
-            fieldsets = ((None,{'fields':('title','blog','content','published','tags'),}),
-                        ('Advanced options',{'classes':('collapse',),'fields':('author','published_on','review_key'),}),)
+            fieldsets = ((None,
+                          {'fields':
+                           ('title',
+                            'blog',
+                            'content',
+                            'published',
+                            'tags')}),
+                        ('Advanced options',
+                         {'classes':
+                          ('collapse',),
+                          'fields':
+                          ('author', 'published_on',
+                           'review_key')}))
             return Post.objects.all()
         return Post.objects.filter(author=request.user)
-#filtro di forza nella dropdown i blog che non competono all'utente
+
+    #filtro di forza nella dropdown i blog che non competono all'utente
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'blog' and request.method == 'GET':
             qs_blog_user = cache.get('qs_blog_%s' % request.user.id)
-            if not qs_blog_user: 
+            if not qs_blog_user:
                 if request.user.is_superuser:
                     qs_blog_user = Blog.objects.all()
                 else:
-                    qs_blog_user = Blog.objects.filter(id__in = [b.id for b in filter( lambda x: request.user.id in x.utenti, Blog.objects.all())])
+                    qs_blog_user = Blog.objects.filter(id__in=[b.id for b in filter(lambda x: request.user.id in x.utenti, Blog.objects.all())])
                 cache.add('qs_blog_%s' % request.user.id, qs_blog_user)
 
             kwargs['queryset'] = qs_blog_user
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
 
 
 class ProgrammiAdmin(BaseAdmin):
@@ -107,29 +120,7 @@ class PlogoAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 
 
-
-
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Programmi, ProgrammiAdmin)
 admin.site.register(Plogo, PlogoAdmin)
-o='''
-    def queryset(self, request):
-        if request.user.is_superuser:
-            return Entry.objects.all()
-        return Entry.objects.filter(author=request.user)
-
-    def has_change_permission(self, request, obj=None):
-        user = request.user
-        #has_class_permission = super(EntryAdmin, self).has_change_permission(request, obj)
-    #vedo se l'user ha il permesso per il blog relativo al post
-        if obj is not None:
-            has_class_permission = user.has_perm('blog.'+obj.blog.title)
-        else:
-            has_class_permission = None
-        if not has_class_permission:
-            return False
-        if obj is not None and not request.user.is_superuser and request.user.id != obj.author.id:
-            return False
-        return True
-'''

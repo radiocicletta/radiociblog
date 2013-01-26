@@ -2,6 +2,7 @@ from .models import Blog, Post
 from .views import browse, show_post, latest_entries_feed
 from urlrouter.base import URLHandler
 
+
 class BlogRoutes(URLHandler):
     model = Blog
 
@@ -13,6 +14,7 @@ class BlogRoutes(URLHandler):
     def get_urls(self, blog):
         yield blog.get_absolute_url()
         yield blog.get_internal_feed_url()
+
 
 class BlogPostRoutes(URLHandler):
     model = Post

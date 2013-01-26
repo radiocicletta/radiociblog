@@ -1,22 +1,21 @@
 from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
-from datetime import datetime, time
-from django.conf import settings
+from datetime import time
 from django.contrib.syndication.views import Feed
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
-from django.views.generic import ListView
 from django.core.paginator import Paginator
 from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
 import logging
-try :
+try:
     import simplejson as json
 except:
     import json
 
 logger = logging.getLogger(__name__)
+
 
 def cached_programmi():
     p = cache.get('programmi')
@@ -25,11 +24,12 @@ def cached_programmi():
         cache.add('programmi', p)
     return p
 
+
 def social(request):
-    result = {'modules':['mixcloud', 'twitter', 'facebook'],
-            'modules_args':{'twitter': {'streams':[]}, 
-                            'facebook': {'items': []}, 
-                            'mixcloud': {'username': 'radiocicletta'}} }
+    result = {'modules': ['mixcloud', 'twitter', 'facebook'],
+              'modules_args': {'twitter': {'streams': []},
+                               'facebook': {'items': []},
+                               'mixcloud': {'username': 'radiocicletta'}}}
     for b in cached_blogs():
         if len(b.twitter):
             result['modules_args']['twitter']['streams'].append(b.twitter)
@@ -37,44 +37,83 @@ def social(request):
             result['modules_args']['facebook']['items'].append(b.facebook_page_or_user)
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
+
 ### pagine "statiche"
 def oldhome(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    return render(request, 'blog/index.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
+    return render(request, 'blog/index.html',
+                  {'blogs': blogs,
+                   'recent_posts': recent_posts,
+                   'schedule': schedule()})
+
+
 def foto(request):
-    return render(request, 'blog/foto.html', {'schedule':schedule()})
+    return render(request, 'blog/foto.html', {'schedule': schedule()})
+
+
 def programmi(request, day):
     blogs = cached_blogs()
     logger.warning(day)
     if day[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
-        programmi = set(cached_programmi().filter(startgiorno=day[:2].lower())).union(set(cached_programmi().filter(endgiorno=day[:2].lower())))
-        return render(request, 'blog/programmiday.html', {'blogs': blogs, 'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
-        
+        # stiamo scherzando?
+        programmi = set(cached_programmi().filter(
+                        startgiorno=day[:2].lower())).union(
+                            set(cached_programmi().filter(
+                                endgiorno=day[:2].lower())))
+        return render(request, 'blog/programmiday.html',
+                      {'blogs': blogs,
+                       'programmi': programmi,
+                       'schedule': schedule(),
+                       'rowschedule': orderedschedule()})
+
     programmi = cached_programmi()
-    return render(request, 'blog/programmi.html', {'blogs': blogs, 'programmi': programmi, 'schedule':schedule(), 'rowschedule': orderedschedule()})
+    return render(request, 'blog/programmi.html',
+                  {'blogs': blogs,
+                   'programmi': programmi,
+                   'schedule': schedule(),
+                   'rowschedule': orderedschedule()})
+
+
 def chi(request):
-    return render(request, 'blog/chi.html', {'schedule':schedule()})
+    return render(request, 'blog/chi.html', {'schedule': schedule()})
+
+
 def aiuta(request):
-    return render(request, 'blog/aiuta.html', {'schedule':schedule()})
+    return render(request, 'blog/aiuta.html', {'schedule': schedule()})
+
+
 def down(request):
-    return render(request, 'blog/download.html', {'schedule':schedule()})
+    return render(request, 'blog/download.html', {'schedule': schedule()})
+
+
 def standalone(request):
     return render(request, 'blog/standalone.html')
+
 
 ### pagine bloggose
 def tuttib(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
-    return render(request, 'blog/blog.html', {'blogs':blogs, 'recent_posts': recent_posts, 'schedule':schedule()})
+    return render(request, 'blog/blog.html',
+                  {'blogs': blogs,
+                   'recent_posts': recent_posts,
+                   'schedule': schedule()})
+
 
 def cached_onair(blog):
 
     onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
     for p in onair:
-        p['startgiorno'] = {'lu':'Lunedi','ma':'Martedi','me':'Mercoledi','gi':'Giovedi','ve':'Venerdi','sa':'Sabato','do':'Domenica'}[p['startgiorno']]
+        p['startgiorno'] = {'lu': 'Lunedi',
+                            'ma': 'Martedi',
+                            'me': 'Mercoledi',
+                            'gi': 'Giovedi',
+                            've': 'Venerdi',
+                            'sa': 'Sabato',
+                            'do': 'Domenica'}[p['startgiorno']]
     return onair
 
 
@@ -82,66 +121,79 @@ def schedule():
     cached_cal = cache.get('cached_cal')
     if cached_cal:
         return cached_cal
-    progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
-    cal = {"lu":('Lunedi',      0, []),
-            "ma":('Martedi',     1, []),
-            "me":("Mercoledi",  2, []),
-            "gi":("Giovedi",    3, []),
-            "ve":("Venerdi",    4, []),
-            "sa":("Sabato",     5, []),
-            "do":("Domenica",   6, []) }
+    progs = cached_programmi().exclude(status=0)   # see Programmi.models.PROGSTATUS
+    cal = {"lu": ('Lunedi',     0, []),
+           "ma": ('Martedi',    1, []),
+           "me": ("Mercoledi",  2, []),
+           "gi": ("Giovedi",    3, []),
+           "ve": ("Venerdi",    4, []),
+           "sa": ("Sabato",     5, []),
+           "do": ("Domenica",   6, [])}
     for p in progs:
         cal[p.startgiorno][2].append(p)
 
     for day in cal.keys():
         cal[day][2].sort(key=lambda x: x.startora)
-        if len(cal[day][2]) and cal[day][2][0].startora == time(0, 0): # hack per programmi che cominciano a mezzanotte del giorno dopo
+        if len(cal[day][2]) and cal[day][2][0].startora == time(0, 0):  # hack per programmi che cominciano a mezzanotte del giorno dopo
             cal[day][2].append(cal[day][2].pop(0))
 
     orderedcal = cal.values()
-    orderedcal.sort(lambda x,y: x[1] - y[1])
+    orderedcal.sort(lambda x, y: x[1] - y[1])
     cache.set('cached_cal', cached_cal)
     return orderedcal
+
 
 def orderedschedule():
     cached_ordered_cal = cache.get('cached_ordered_cal')
     if cached_ordered_cal:
         return cached_ordered_cal
 
-    progs = cached_programmi().exclude(status = 0) # see Programmi.models.PROGSTATUS
+    progs = cached_programmi().exclude(status = 0)  # see Programmi.models.PROGSTATUS
     if not len(progs):
         return []
 
     orderedcal = list(progs.values())
-    orderedcal.sort(key = lambda x: x["startora"])
+    orderedcal.sort(key=lambda x: x["startora"])
 
     groupedcal = []
-    group = [ {"startgiorno":x} for x in range(0,7) ]
+    group = [{"startgiorno": x} for x in range(0,7)]
     tick = orderedcal[0]["startora"]
 
     for i in orderedcal:
         if i["startora"] != tick:
             group.sort(key=lambda x: x["startgiorno"])
             groupedcal.append(group)
-            group = [ {"startgiorno":x} for x in range(0,7) ]
+            group = [{"startgiorno": x} for x in range(0,7)]
             tick = i["startora"]
         if i["startora"] < i["endora"]:
             i['rowspan'] = ((i["endora"].hour * 60 + i["endora"].minute) - (i["startora"].hour * 60 + i["startora"].minute)) / 30
         else:
             i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
                             i['endora'].hour * 60 + i['endora'].minute) / 30
-        
+
         i['url'] = cached_blogs().filter(id=i['blog_id']) and cached_blogs().filter(id=i['blog_id'])[0].url or ''
 
-        i['startgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['startgiorno']]
-        i['endgiorno'] = {'lu':0,'ma':1,'me':2,'gi':3,'ve':4,'sa':5,'do':6}[i['endgiorno']]
+        i['startgiorno'] = {'lu':0,
+                            'ma':1,
+                            'me':2,
+                            'gi':3,
+                            've':4,
+                            'sa':5,
+                            'do':6}[i['startgiorno']]
+        i['endgiorno'] = {'lu':0,
+                          'ma':1,
+                          'me':2,
+                          'gi':3,
+                          've':4,
+                          'sa':5,
+                          'do':6}[i['endgiorno']]
         group[i['startgiorno']] = i
 
     group.sort(key=lambda x: x["startgiorno"])
     groupedcal.append(group)
 
     for i in groupedcal[0]:
-        if i.has_key("startora") and i["startora"] == time(0,0):
+        if 'startora' in i and i["startora"] == time(0, 0):
             groupedcal.append(groupedcal.pop(0))
             break
 
@@ -151,13 +203,13 @@ def orderedschedule():
     row = 0
     while row < len(groupedcal):
         recheck = False
-        for col in range(0,7):
+        for col in range(0, 7):
             i = groupedcal[row][col]
-            if i.has_key("rowspan") and i["rowspan"] > 1:
+            if 'rowspan' in i and i["rowspan"] > 1:
                 j = row + 1
                 while j < min(row + i["rowspan"], len(groupedcal)):
-                    if groupedcal[j][col].has_key("endora"): # COLLISION
-                        groupedcal.insert(j, [ {"startgiorno":x} for x in range(0,7) ])
+                    if "endora" in groupedcal[j][col]:  # COLLISION
+                        groupedcal.insert(j, [{"startgiorno": x} for x in range(0, 7)])
                         recheck = True
                         break
                     else:
@@ -184,17 +236,17 @@ def browse(request, **kwargs):
         cache.set('blog_%s' % request.path, blog)
     page = abs(int(request.GET.get('page', 1)))
     onair = cached_onair(blog)
-    posts = cached_blog_posts(blog) 
+    posts = cached_blog_posts(blog)
     posts = posts.order_by('-published_on')
     paged_posts = Paginator(posts, 6).page(page)
-    return render(  request, 'blog/post_list.html',
-                    {   'blog': blog,
-                        'browse_posts': True,
-                        'recent_posts': paged_posts.object_list,
-                        'page_obj': paged_posts,
-                        'schedule':schedule(), 
-                        'onair':onair})
-    
+    return render(request, 'blog/post_list.html',
+                  {'blog': blog,
+                   'browse_posts': True,
+                   'recent_posts': paged_posts.object_list,
+                   'page_obj': paged_posts,
+                   'schedule': schedule(),
+                   'onair': onair})
+
 
 def tags(request, tag):
     page = abs(int(request.GET.get('page', 1)))
@@ -203,7 +255,7 @@ def tags(request, tag):
     if not tagged_posts:
         tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
         cache.set('posts_tag_%s' % tag, tagged_posts)
-        
+
     try:
         tagged_posts.remove(None)
     except KeyError:
@@ -217,23 +269,28 @@ def tags(request, tag):
     except KeyError:
         pass
     paged_posts = Paginator(list(tagged_posts), 6).page(page)
-    return render(  request, 'blog/post_tags.html',
-                    {   'tag': tag,
-                        'browse_posts': True,
-                        'recent_posts': paged_posts.object_list,
-                        'page_obj': paged_posts,
-                        'schedule':schedule()})
-    
+    return render(request, 'blog/post_tags.html',
+                  {'tag': tag,
+                   'browse_posts': True,
+                   'recent_posts': paged_posts.object_list,
+                   'page_obj': paged_posts,
+                   'schedule': schedule()})
+
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
     return show_post(request, post, review=True)
 
+
 def show_post(request, post, review=False):
     recent_posts = cached_blog_posts(post.blog)
     recent_posts = recent_posts.order_by('-published_on')[:6]
     return render(request, 'blog/post_detail.html',
-        {'post': post, 'blog': post.blog, 'recent_posts': recent_posts, 'review': review, 'schedule':schedule()})
+                  {'post': post,
+                   'blog': post.blog,
+                   'recent_posts': recent_posts,
+                   'review': review,
+                   'schedule': schedule()})
 
 
 def feedburner(feed):
@@ -245,6 +302,7 @@ def feedburner(feed):
             return feed(request, blog=blog)
         return HttpResponseRedirect(blog.feed_redirect_url)
     return _feed
+
 
 class LatestEntriesFeed(Feed):
     feed_type = Atom1Feed
@@ -262,7 +320,7 @@ class LatestEntriesFeed(Feed):
         return blog.description
 
     def item_title(self, post):
-        return post.title 
+        return post.title
 
     def item_description(self, post):
         url = 'http%s://%s%s' % ('s' if self._request.is_secure() else '',
@@ -284,6 +342,7 @@ class LatestEntriesFeed(Feed):
             '-published_on')
         # TODO: add select_related('author') once it's supported
         return query[:100]
+
 
 @feedburner
 def latest_entries_feed(request, *args, **kwargs):
