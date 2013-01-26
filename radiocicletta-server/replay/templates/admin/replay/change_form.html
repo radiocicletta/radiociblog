@@ -1,0 +1,113 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_modify %}
+{% block extrahead %}
+    {{ block.super }}
+<style>
+    .spin {
+        float: left;
+        position: absolute;
+        top: 50%;
+        bottom: 50%;
+        left: 50%;
+        margin-left: -52px;
+        z-index: 3;
+    }
+    #opaque{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgb(20, 20, 20);
+        opacity: 0.9;
+        background: rgba(20, 20, 20, 0.85);
+        top: 0;
+        left: 0;
+    }
+    .loadinfo {
+        text-align: center;
+        color: #fff;
+        text-shadow: 1px 1px 0px #000;
+        font-weight: bold;
+        font-size: 14pt;
+    }
+</style>
+<script>
+if (!window['$'])
+    window['$'] = django.jQuery;
+if (!window['jQuery'])
+    window['jQuery'] = django.jQuery;
+
+</script>
+<script type="text/javascript" src="/static/dropbox.js"></script>
+<script>
+$(document).ready(function() {
+    var dbSession = new Dropbox.Session(
+        "1sfm8cvb0r5dmer", //key
+        "s8v9dx7ic3efkte", //secret
+        "dropbox" //accesstype
+    );
+    var dbClient = new Dropbox.Client(dbSession),
+    imageload = $('<div id="loadwait" class="spin"><img src="http://i.imgur.com/wehtr.gif" width="104" height="104" ><div class="loadinfo"></div></div>');
+
+    dbSession.setToken({key:"4gk4u0o6cvmb9p",secret:"yxtx7eugpd2cdco"})
+    dbSession.setToken({key:"4zaglyiqe888l65",secret:"zhvwgq3xtp80cj7"})
+
+
+
+    $(document.forms[0]).submit(function(evt) {
+        evt.preventDefault();
+
+        $('#replay_form').find('div.errors').removeClass('errors');
+
+        var els = document.forms[0];
+        var errors = 0;
+        if ( $(els).find('#id_replicafile')
+                .val().replace(/^ *| *$/g, '') === "" ) {
+            $('div.replicafile').addClass('errors');
+            errors++;
+        }
+        if ( $(els).find('#id_date_0')
+                .val().replace(/^ *| *$/g, '') === "" ) {
+            $('div.date').addClass('errors');
+            errors++;
+        }
+        if ( $(els).find('#id_date_1')
+                .val().replace(/^ *| *$/g, '') === "" ) {
+            $('div.date').addClass('errors');
+            errors++;
+        }
+        if ( errors ) return;
+        $('body').append('<div id="opaque"></div>');
+        $('#replay_form').append(imageload);
+
+        dbClient.putFile({ path: "/automatici/" + els.id_date_0.value + '_' + els.id_date_1.value.replace(/:/g, '-'),
+                           fileObj: els.replicafile.files[0],
+                           overwrite: true,
+                        },
+                        function() {
+                            $("#loadwait").remove();
+                            $("#opaque").remove();
+                            $(els).find('#id_replicafile')[0].value=""
+                            els.submit();
+                        },
+                        function() {
+                            $('.loadinfo')
+                            .text("Errore nell'upload.");
+                            window.setTimeout(function(){
+                                    $("#loadwait").fadeOut().remove();
+                                    $("#opaque").fadeOut().remove();
+                                }, 10000);
+                        },
+                        function(e){
+                            $('.loadinfo')
+                                .text(Math.ceil(e.loaded / e.totalSize * 100) + '%');
+                        });
+        return true;
+    });
+    $('label[for=id_replicafile]').addClass('required');
+
+});
+
+</script>
+{% endblock %}
+
+

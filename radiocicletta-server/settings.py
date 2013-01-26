@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'object_permission_backend_nonrel',
     'programmi',
     'events',
+    'replay',
     'authority',
 
 )
@@ -139,6 +140,7 @@ TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
+STATIC_ROOT = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
 STATIC_URL = '/static/'
 
 

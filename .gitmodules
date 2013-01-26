@@ -1,3 +1,6 @@
 [submodule "api"]
 	path = api
 	url = git@github.com:radiocicletta/radiociblogapi.git
+[submodule "dropbox.js"]
+	path = dropbox.js
+	url = git@github.com:radiocicletta/dropbox.js.git
