@@ -194,6 +194,10 @@
         margin: auto;
         margin-bottom: 12px;
     }
+    #infobar {
+        width: 320px;
+        overflow: hidden;
+    }
 
 
     #playermetadata {
