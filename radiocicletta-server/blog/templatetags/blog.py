@@ -28,13 +28,20 @@ def blog_feed(blog):
 def cdnmediaurl():
     return settings.DISTRIBUITED_CONTENT_URL
 
+
+@register.simple_tag
+def cdnmediaurljs():
+    return settings.DISTRIBUITED_CONTENT_URL.replace("/", "\/")
+
 fontregex = re.compile('(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 colorregex = re.compile('(?:color)\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
+styleregex = re.compile('style="[^"]*"', re.MULTILINE)
 
 
 @register.filter
 def comicsanitize(value):
     return mark_safe(colorregex.sub('', fontregex.sub('', value)))
+    #return mark_safe(colorregex.sub('', fontregex.sub('', value)))
 
 
 @register.filter

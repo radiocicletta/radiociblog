@@ -108,6 +108,10 @@
     #content .fluid {
         border-left: none;
     }
+
+    ul.articleinfo li {
+        width: 100%
+    }
 }
 
 @media all and (max-width: 880px) {
@@ -298,10 +302,6 @@
     #content .errorpanel {
         width: 440px;
         margin: auto;
-    }
-
-    ul.articleinfo li {
-        width: 100%
     }
 }
 

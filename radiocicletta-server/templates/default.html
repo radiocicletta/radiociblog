@@ -30,7 +30,7 @@
                 <em>Ora in onda:</em>
                 <a href="">Musica No Stop</a>
                 </p>-->
-                <p><a   onclick="window.open('http://webchat.freenode.net/?channels=radiocicletta&amp;uio=MT1mYWxzZSYxMT02Mg8d', '_blank', 'menubar=no,location=no,toolbar=no,resize=no,resizable=no,scrollbars=no,status=no,width=647,height=400'); return false;"
+                <p><a onclick="window.open('http://webchat.freenode.net/?channels=radiocicletta&amp;uio=MT1mYWxzZSYxMT02Mg8d', '_blank', 'menubar=no,location=no,toolbar=no,resize=no,resizable=no,scrollbars=no,status=no,width=647,height=400'); return false;"
                     href="http://webchat.freenode.net/?channels=radiocicletta&amp;uio=MT1mYWxzZSYxMT02Mg8d">
                 Entra in chat</a></p>
         </div>
@@ -39,7 +39,7 @@
             <h2>Oggi in onda</h2>
                 <ul>
                     {% for p in today_schedule %}
-                    <li><span class="time">{{p.startora|capfirst}}</span> &mdash; <a href="{{ p.get_blog.url }}">{{ p.title }}</a></li>
+                    <li><span class="time">{{p.startora|capfirst}}</span> <a href="{{ p.get_blog.url }}">{{ p.title }}</a></li>
                     {% endfor %}
                 </ul>
         </section>

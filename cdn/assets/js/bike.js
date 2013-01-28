@@ -1,11 +1,15 @@
 // Bought to you by radiocicletta hack team.
-var kPlayerBackgroundRunPos = "0px 0px";
-var kPlayerBackgroundWaitPos = "0px -7px";
-var kPlayerBackgroundHaltPos = "0px -14px";
+var kPlayerBackgroundRunPos = "0px 0px",
+    kPlayerBackgroundWaitPos = "0px -7px",
+    kPlayerBackgroundHaltPos = "0px -14px";
 
 $(function(evt) {
-    var baseurl = "http://api.radiocicletta.it";
-    var player = document.createElement("div");
+    var baseurl = "http://api.radiocicletta.it",
+        player = document.createElement("div"),
+        infobar = document.createElement("div"),
+        lastvisit = (window.localStorage ?
+                     localStorage.getItem('lastvisit') :
+                     null);
 
     player.id = "commands";
     player.innerHTML =  '<span id="flexibleplayer">' +
@@ -17,14 +21,27 @@ $(function(evt) {
                         '<a id="playerexternal" title="ascolta la diretta col tuo player (Winamp, iTunes, VLC...)"' +
                             'href="http://radiocicletta.it/listen.pls"></a>' +
                         '<a id="playerdetach" href=""></a>';
+    infobar.id = 'infobar';
+    infobar.innerHTML = '<ul>' +
+                            '<li><span id="infobar-first">Ascolta la radio</span></li>' +
+                            '<li><span id="infobar-second">Ascolta con VLC\/Winamp\/altro</span></li>' +
+                            '<li><span id="infobar-third">Apri il player separato</span></li>' +
+                        '</ul>';
     document.getElementById("player").appendChild(player);
-    var metadata = document.getElementById("playermetadata");
-    var playerdot = document.getElementById("playerdot");
+    if (lastvisit === null)  {
+        document.getElementById("playercontainer")
+            .parentNode
+            .insertBefore(infobar,
+                          document.getElementById("playercontainer")
+                            .nextSibling);
+    }
 
-    var opacity = 0;
-    var dotinterval = setInterval(function(){
-        playerdot.style.opacity = opacity++ % 2;
-    }, 1000);
+    var metadata = document.getElementById("playermetadata"),
+        playerdot = document.getElementById("playerdot"),
+        opacity = 0,
+        dotinterval = setInterval(function(){
+            playerdot.style.opacity = opacity++ % 2;
+        }, 1000);
 
     //playerdot.style.backgroundPosition = kPlayerBackgroundWaitPos;
 
@@ -63,9 +80,30 @@ $(function(evt) {
             mediaElement.addEventListener('empty', function(e){
                 playerdot.style.backgroundPosition = kPlayerBackgroundHaltPos;
             }, false);
+            var progress = 0,
+                timing = new Date(),
+                lastbufferratio = 10000,
+                timingid = setInterval(function(){
+                    timing = new Date();
+                }, 10000);
+            mediaElement.addEventListener('progress', function(e){
+                progress++;
+                if (progress % 50 === 0 || (new Date()) - timing > 10000) {
+                    var bufferratio = ~~(e.bufferedBytes / e.currentTime / 1024);
+                    if (bufferratio > lastbufferratio) {
+                        playerdot.style.backgroundPosition = kPlayerBackgroundWaitPos;
+                        me.pause();
+                        me.play();
+                    }
+                    else {
+                        playerdot.style.backgroundPosition = kPlayerBackgroundRunPos;
+                    }
+                    lastbufferratio = bufferratio;
+                }
+            });
             mediaElement.addEventListener('volumechange', function(e){
-                var original = metadata.innerHTML;
-                var newcontent = "Volume: " + ~~(me.volume * 100) + "%";
+                var original = metadata.innerHTML,
+                    newcontent = "Volume: " + ~~(me.volume * 100) + "%";
                 metadata.innerHTML = newcontent;
 
                 setTimeout(function() {
@@ -74,46 +112,43 @@ $(function(evt) {
                 }, 2000);
             }, false);
 
-            var icyinfo = { listeners:0, title:"", genre:"" };
-            var onairinfo = { title: "No Stop Music", id: -1 };
+            var icyinfo = { listeners:0, title:"", genre:"" },
+                onairinfo = { title: "No Stop Music", id: -1 },
 
-            var xhr_metadata = function(){
-                var xhr = new XMLHttpRequest();
-                try {
-                    xhr.overrideMimeType("text/plain; charset=utf-8");
-                    xhr.open("GET", baseurl + "/snd/json.xsl?_=" + new Date().getTime(), false);
-                    xhr.send(null);
-                    var streams = JSON.parse(xhr.responseText);
+                xhr_metadata = function(){
+                var xhr = new XMLHttpRequest(),
+                    xhr2 = new XMLHttpRequest();
+                xhr.overrideMimeType("text/plain; charset=utf-8");
+                xhr.open("GET", baseurl + "/snd/json.xsl?_=" + new Date().getTime(), true);
+                xhr.onreadystatechange = function(evt) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var streams = JSON.parse(xhr.responseText);
 
-                    if ( streams["/stream"] !== undefined )
-                        icyinfo = streams["/stream"];
-                    //else if ( streams["/live"] !== undefined )
-                    //    icyinfo = streams["/live"];
-                    else if ( streams["/studio"] !== undefined )
-                        icyinfo = streams["/studio"];
-                    else
-                        icyinfo = {listeners:0, title:"", genre:""};
+                        icyinfo = streams["/stream"] ||
+                                  streams["/live"]   ||
+                                  streams["/studio"] ||
+                                  {listeners:0, title:"", genre:""};
+                    }
+                };
+                xhr.send(null);
 
+                xhr2.overrideMimeType("text/plain; charset=utf-8");
+                xhr2.open("GET", "http://www.radiocicletta.it/programmi.json?_=" + new Date().getTime(), true);
+                xhr2.onreadystatechange = function(evt) {
+                    if (xhr2.readyState === 4 && xhr2.status === 200) {
+                        var daytable = ["do", "lu", "ma", "me", "gi", "ve", "sa"],
+                            schedule = JSON.parse(xhr2.responseText),
+                            date = new Date(),
+                            filtered = schedule.programmi.filter(function(el, idx, arr){ 
+                            return el.stato > 0 &&
+                                    el.start[0] == daytable[date.getDay()] &&
+                                    el.start[1] == date.getHours(); // FIXME: el.start[1] == 24 => ???
+                        });
 
-                    xhr.open("GET", baseurl + "/programmi.json?_=" + new Date().getTime(), false);
-                    xhr.send(null);
-
-                    var daytable = ["do", "lu", "ma", "me", "gi", "ve", "sa"];
-                    var schedule = JSON.parse(xhr.responseText);
-                    var date = new Date();
-                    var filtered = schedule.events.filter(function(el, idx, arr){ 
-                        return el.stato > 0 &&
-                                el.start[0] == daytable[date.getDay()] &&
-                                el.start[1] == date.getHours(); // FIXME: el.start[1] == 24 => ???
-                    });
-
-                    if (filtered.length)
-                        onairinfo = filtered[0];
-                    else
-                        onairinfo = {title: "No Stop Music", id: -1};
-                    
-                } catch(e) { metadata.innerHtml = "Errori nella ricezione delle informazioni"; }
-                
+                        onairinfo = filtered.length && filtered[0] || {title: "No Stop Music", id: -1};
+                    }
+                };
+                xhr2.send(null);
 
             };
 
@@ -129,8 +164,8 @@ $(function(evt) {
 
             xhr_metadata();
             ui_metadata();
-            var metadataid = window.setInterval(xhr_metadata, 60000);
-            var uiid = window.setInterval(ui_metadata, 3000);
+            var metadataid = window.setInterval(xhr_metadata, 60000),
+                uiid = window.setInterval(ui_metadata, 3000);
 
         },
         // fires when a problem is detected
@@ -161,6 +196,12 @@ $(function(evt) {
             if (me.paused) {
                 target.className = "stop";
                 me.play();
+                if (!lastvisit) {
+                    lastvisit = new Date().getTime();
+                    if (window.localStorage)
+                        localStorage.setItem('lastvisit', lastvisit);
+                    $("#infobar").remove();
+                }
             }
             else {
                 target.className = "play";
@@ -169,10 +210,10 @@ $(function(evt) {
             return false;
         });
 
-        var knob = false;
-        var knobwidth = $("#playervolume").width() - 8;
-        var knobinnerwidth = $("#playerknob").width() - 8;
-        var backgroundposition = (window.getComputedStyle ? window.getComputedStyle(document.getElementById("playerknob"), null).backgroundPosition : document.getElementById("playerknob").currentStyle.backgroundPosition);
+        var knob = false,
+            knobwidth = $("#playervolume").width() - 8,
+            knobinnerwidth = $("#playerknob").width() - 8,
+            backgroundposition = (window.getComputedStyle ? window.getComputedStyle(document.getElementById("playerknob"), null).backgroundPosition : document.getElementById("playerknob").currentStyle.backgroundPosition);
         if(!backgroundposition) // IE Hack :(
             backgroundposition = "75px -198px";
 
@@ -197,8 +238,8 @@ $(function(evt) {
 
             if (!knob) return;
             var offset = (evt.offsetX ? evt.offsetX : 
-                            evt.clientX - this.getBoundingClientRect().left - this.clientLeft + this.scrollLeft);
-            var volume = offset / knobinnerwidth;
+                          evt.clientX - this.getBoundingClientRect().left - this.clientLeft + this.scrollLeft),
+                volume = offset / knobinnerwidth;
             me.setVolume(volume);
             this.title = "Volume: " + ~~(volume * 100) + "%";
             this.style.backgroundPosition = backgroundposition.replace(/[0-9]+/, (offset >= knobinnerwidth ? knobinnerwidth: offset));
@@ -208,9 +249,9 @@ $(function(evt) {
         $("#playerknob").bind("click tap", function(evt){
             cancelEvent(evt);
             var offset = (evt.offsetX ? evt.offsetX : 
-                            evt.clientX - this.getBoundingClientRect().left - this.clientLeft + this.scrollLeft);
+                            evt.clientX - this.getBoundingClientRect().left - this.clientLeft + this.scrollLeft),
 
-            var volume = offset / knobinnerwidth;
+                volume = offset / knobinnerwidth;
             me.setVolume(volume);
             this.title = "Volume: " + ~~(volume * 100) + "%";
             this.style.backgroundPosition = backgroundposition.replace(/[0-9]+/, (offset >= knobinnerwidth ? knobinnerwidth: offset) );
@@ -230,8 +271,8 @@ $(function(evt) {
             wnd.focus();
             return false;
         });
-        var fixedplayer = false;
-        var toplevel = $('.toplevel');
+        var fixedplayer = false,
+            toplevel = $('.toplevel');
         $(document).bind("scroll", function(evt){
             if (window.scrollY < toplevel.height()) {
                 if (fixedplayer)
@@ -246,9 +287,9 @@ $(function(evt) {
 
 
         $.getJSON(baseurl + "/socialroot.json", function(data){
-            var li = document.createElement("li");
-            var a = document.createElement("a");
-            var ul, _li, _a; 
+            var li = document.createElement("li"),
+                a = document.createElement("a"),
+                ul, _li, _a; 
             if (data.mixcloud) {
                 ul = document.createElement("ul");
                 for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
@@ -284,5 +325,8 @@ $(function(evt) {
             document.getElementById("box_social").appendChild(ul);
         });
     }
+    //TODO: add event handling
+    //$('nav.toplevel li:first-child').on('tap click', function() {
+    //}
 
 });

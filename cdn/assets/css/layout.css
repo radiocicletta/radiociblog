@@ -343,10 +343,86 @@ h1 {
     -o-transition-duration: 0.4s; 
 }
 
+#infobar {
+    margin-top: -27px;
+    background: rgb(254, 242, 136);
+    border-top: 1px solid rgb(254, 242, 88);
+         -o-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
+       -moz-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
+            box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
+    color: #333;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgb(158, 146, 40);
+    vertical-align: top;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    font-size: 8pt;
+}
+
+#infobar ul {
+    width: 640px;
+    margin: auto;
+    vertical-align: top;
+}
+
+#infobar li {
+    display: inline;
+}
+
+#infobar li span {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+#infobar li span:after, #infobar li span:before {
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+#infobar li span:after {
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: rgb(254, 242, 136);
+    border-width: 5px;
+    margin-left: -5px;
+} #infobar li span:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: rgb(254, 242, 136);
+    border-width: 6px;
+    margin-left: -6px;
+}
+
+#infobar-first {
+    width: 470px;
+}
+#infobar-first:before,
+#infobar-first:after {
+    left:  20px;
+}
+#infobar-second {
+    width: 90px;
+    text-align: center;
+}
+#infobar-third {
+    width: 80px;
+    text-align: right;
+}
+#infobar-second:before, #infobar-second:after,
+#infobar-third:before, #infobar-third:after {
+    left: 50%;
+}
+
+
 #body {
-margin: auto;
-margin-top: 27px;
-max-width: 960px;
+    margin: auto;
+    margin-top: 27px;
+    max-width: 960px;
 }
 
 #content {
@@ -409,9 +485,9 @@ footer nav .menu > * {
 
 footer nav .menu h2 {
     /*border-bottom: 1px solid #c82374;*/
-    background: #526a79;
+    /*background: #526a79;
     border-top: solid 1px #627a89;
-    border-bottom: solid 1px #223a49;
+    border-bottom: solid 1px #223a49;*/
     font-variant: small-caps;
     padding: 5px 8px;
     margin: 25px 20px 10px 20px;
@@ -426,10 +502,12 @@ footer nav .menu h2 {
        -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
             border-radius: 5px;
+    /*
          -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
     -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
        -moz-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
             box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
+    */
 }
 
 footer nav .menu ul {
@@ -457,6 +535,8 @@ footer nav .menu a {
     letter-spacing: 0.2pt;
     -moz-text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
+    margin-right: 20px;
+    margin-left: 20px;
 }
 
 footer address {
@@ -483,7 +563,7 @@ footer address a {
 
 #content .fluid {
     margin-right: 320px;
-    letter-spacing: 1px;
+    letter-spacing: 0.4px;
        -moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
     -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
          -o-box-shadow: 0px 0px 10px rgba(0,0,0,0.85);
@@ -549,8 +629,8 @@ footer address a {
 #content .fluid article {
     padding: 35px 35px 20px;
     margin: 0px;
-    -moz-text-shadow: 1px 1px 1px #000000;
-    text-shadow: 1px 1px 1px #000000;
+    -moz-text-shadow: 0px 0px 3px #000000;
+    text-shadow: 0px 0px 3px #000000;
     color: #e0e0e0;
     clear: both;
 }
@@ -720,8 +800,6 @@ footer address a {
     color: pink;
     text-decoration: none;
     border-bottom: solid 1px #3F3F3F;
-    padding-bottom: 1px;
-
 }
 
 #content .fluid a:hover {
@@ -740,102 +818,102 @@ footer address a {
 .socialicons a[href*="delicious.com"],
 .socialicons a[href*="del.icio.us"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -36px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -35px;
 }
 .socialicons a[href*="designfloat.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -54px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -53px;
 }
 .socialicons a[href*="digg.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -72px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -71px;
 }
 .socialicons a[href*="dopplr.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -90px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -89px;
 }
 .socialicons a[href*="emailFlare"],
 .socialicons a[href^="mailto:"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -108px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -107px;
 }
 .socialicons a[href*="facebook.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -126px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -125px;
 }
 .socialicons a[href^="feed://"],
 .socialicons a.join-button {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -144px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -143px;
 }
 .socialicons a[href*="flickr.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -162px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -161px;
 }
 .socialicons a[href*="friendfeed.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -180px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -179px;
 }
 .socialicons a[href*="furl"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -198px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -197px;
 }
 .socialicons a[href*="gamespot"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -216px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -215px;
 }
 .socialicons a[href*="lastfm"],
 .socialicons a[href*="last.fm"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -234px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -233px;
 }
 .socialicons a[href*="linkedin.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -252px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -251px;
 }
 .socialicons a[href*="myspace"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -306px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -305px;
 }
 .socialicons a[href*="newsvine.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -324px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -323px;
 }
 .socialicons a[href*="posterous.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -342px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -341px;
 }
 .socialicons a[href*="reddit.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -360px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -359px;
 }
 .socialicons a[href*="stumbleupon"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -414px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -413px;
 }
 .socialicons a[href*="technorati"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -432px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -431px;
 }
 .socialicons a[href*="tripadvisor"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -450px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -449px;
 }
 .socialicons a[href*="tumblr.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -468px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -467px;
 }
 .socialicons a[href*="twitter.com"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -486px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -485px;
 }
 .socialicons a[href*="vimeo"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -504px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -503px;
 }
 .socialicons a[href*="youtube"] {
     padding-left: 18px;
-	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -522px;
+	 background: transparent url(/images/layout/socialmedia.png) no-repeat 0 -521px;
 }
 
 #disqus_thread {
@@ -873,6 +951,7 @@ footer address a {
 
 .articlecontent {
     border-bottom: solid 4px #C13952;
+    overflow: hidden;
 }
 
 .fluid article .articlecontent {
@@ -889,6 +968,12 @@ footer address a {
 
 .articlecontent li {
    margin: 10px auto;
+}
+
+.articlecontent:after {
+    display: block;
+    content: "";
+    clear: both;
 }
 
 .fluid section.more-blog {
@@ -1134,6 +1219,19 @@ footer address a {
     -ms-text-overflow: ellipsis;
 }
 
+.todayschedule a {
+    text-decoration: none;
+    color: #444;
+}
+
+.time {
+    background: #999;
+    background: rgba(0,0,0,0.3);
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    padding: 0px 2px 0px 2px;
+}
 
 table.schedule {
     table-layout:fixed;
@@ -1278,6 +1376,7 @@ article.blog_show_header .onair{
 
 object {
     max-width: 100%;
+    height: auto;
 }
 
 noscript > div {

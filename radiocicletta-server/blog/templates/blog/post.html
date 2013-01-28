@@ -7,7 +7,7 @@
             {{ post.published_on }}
         </li>
         <li>{% for tag in post.get_tags %}
-            <a href="/blog/tag/{{tag.strip}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
+            <a href="/blog/tag/{{tag.strip|urlencode}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
         </li>
         <li>
