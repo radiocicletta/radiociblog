@@ -97,8 +97,10 @@ $(function(evt) {
                     var bufferratio = ~~(e.bufferedBytes / e.currentTime / 1024);
                     if (bufferratio > lastbufferratio) {
                         playerdot.style.backgroundPosition = kPlayerBackgroundWaitPos;
-                        me.pause();
-                        me.play();
+                        if (!me.paused) {
+                            me.pause();
+                            me.play();
+                        }
                     }
                     else {
                         playerdot.style.backgroundPosition = kPlayerBackgroundRunPos;
