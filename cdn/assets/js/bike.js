@@ -1,9 +1,14 @@
+/*jshint browser:true, jquery:true*/
+/*global MediaElement:true*/
+
 // Bought to you by radiocicletta hack team.
 var kPlayerBackgroundRunPos = "0px 0px",
     kPlayerBackgroundWaitPos = "0px -7px",
     kPlayerBackgroundHaltPos = "0px -14px";
 
 $(function(evt) {
+    /*jshint $:true*/
+    "use strict"; // jshint ;_;
     var baseurl = "http://api.radiocicletta.it",
         player = document.createElement("div"),
         infobar = document.createElement("div"),
@@ -45,7 +50,7 @@ $(function(evt) {
 
     //playerdot.style.backgroundPosition = kPlayerBackgroundWaitPos;
 
-    me = new MediaElement('audiosrc', {
+    var me = new MediaElement('audiosrc', {
         enablePluginDebug: true,
         plugins: ['flash', 'silverlight'],
         type: 'audio/mp3',
@@ -289,12 +294,13 @@ $(function(evt) {
         $.getJSON(baseurl + "/socialroot.json", function(data){
             var li = document.createElement("li"),
                 a = document.createElement("a"),
-                ul, _li, _a; 
+                span = document.createElement("span"),
+                ul, _li, _a, _span; 
             if (data.mixcloud) {
                 ul = document.createElement("ul");
                 for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
-                    _li = li.cloneNode(li);
-                    _a = a.cloneNode(a);
+                    _li = li.cloneNode(true);
+                    _a = a.cloneNode(true);
                     _a.appendChild(document.createTextNode(items[i].name));
                     _a.href = items[i].url;
                     _li.appendChild(_a);
@@ -305,21 +311,39 @@ $(function(evt) {
             var latestsocial = [];
             if (data.facebook)
                 for (var j=0, fbitems = data.facebook.latest; j < fbitems.length; j++)
-                    latestsocial.push({href: fbitems[j].link,
-                                        text: fbitems[j].message || fbitems[j].story || fbitems[j].description || fbitems[j].caption,
-                                        time: fbitems[j].created_time});
+                    latestsocial.push({href: fbitems[j].link ||
+                                             'http://facebook.com/' + fbitems[j].id,
+                                       text: fbitems[j].message ||
+                                             fbitems[j].story   ||
+                                             fbitems[j].description ||
+                                             fbitems[j].caption,
+                                       time: fbitems[j].created_time,
+                                       name: fbitems[j].from.name,
+                                       date: new Date(fbitems[j].updated_time)});
             if (data.twitter)
                 for (var k=0, twitems = data.twitter.latest; k < twitems.length; k++)
                     latestsocial.push({href: "http://twitter.com/"+ twitems[k].user.screen_name + "/status/" + twitems[k].id_str,
-                                        text: twitems[k].text,
-                                        time: twitems[k].created_at});
+                                       text: twitems[k].text,
+                                       time: twitems[k].created_at,
+                                       name: twitems[k].user.name,
+                                       date: new Date(twitems[k].created_at)});
+            latestsocial.sort(function(a, b){return a.date < b.date;});
             ul = document.createElement("ul");
             for (var q = 0; q < latestsocial.length; q++) {
-                _li = li.cloneNode(li);
-                _a = a.cloneNode(a);
-                _a.appendChild(document.createTextNode(latestsocial[q].text));
+                _li = li.cloneNode(true);
+                _a = a.cloneNode(true);
+                _span = span.cloneNode(true);
+                _a.appendChild(document.createTextNode(latestsocial[q]
+                                                       .text
+                                                       .replace(/\n/g, ' ')
+                                                       .split(/\s+/)
+                                                       .slice(0,30)
+                                                       .join(' ')));
                 _a.href = latestsocial[q].href;
+                _span.appendChild(document.createTextNode(latestsocial[q].date.toLocaleDateString() + ' • ' + latestsocial[q].name));
+                _span.className = "socialname";
                 _li.appendChild(_a);
+                _a.appendChild(_span);
                 ul.appendChild(_li);
             }
             document.getElementById("box_social").appendChild(ul);

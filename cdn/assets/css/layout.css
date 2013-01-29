@@ -1149,6 +1149,19 @@ footer address a {
          -o-box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
             box-shadow: inset 0px 10px 10px rgba(10,10,10, 0.1);
 }
+.panel span.socialname{
+    display: block;
+    font-size: 80%;
+    color: #ddd;
+    text-shadow: none;
+    line-height: 120%;
+    padding-bottom: 10px;
+    padding-top: 2px;
+    border-top: solid 1px #aaa;
+}
+.panel a:hover span.socialname{
+    color: white;
+}
 #sidebar .side:not(h2) {
     -moz-text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
          text-shadow: 1px 1px 0px rgba(150, 174, 202, 0.5);
