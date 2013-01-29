@@ -1055,6 +1055,27 @@ footer address a {
     border: none !important;
 }
 
+.fluid ul.userdetails {
+    border-bottom: solid 1px #404040;
+}
+.fluid ul.userdetails li {
+    display: inline-block;
+    width: 33%;
+    margin: 0 -2px;
+    padding-top: 0.4em;
+    color: #a0a0a0;
+    -moz-text-shadow: none;
+    text-shadow: none;
+    font-size: 80%;
+    vertical-align: top;
+    line-height: 1.5em;
+    padding-bottom: 0.4em;
+}
+.fluid ul.userdetails a {
+    text-decoration: none;
+    display: inline-block;
+    border: none !important;
+}
 
 #content .fluid .readmore ,
 #content .fluid .readmoreblog {

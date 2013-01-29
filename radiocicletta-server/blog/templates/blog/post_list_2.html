@@ -6,7 +6,11 @@
                 <span class="headline">{{ post.title|titlecase }}</span>
             </a></h2>
             <ul class="articleinfo">
-                <li>Di: <a href="/p/{{ post.author.username }}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
+                {% if post.author.profile.appear_as_nickname and post.author.profile.nickname %}
+                <li>Di: <a href="/p/{{ post.author.profile.nickname}}">{{ post.author.profile.nickname }}</a></li>
+                {% else %}
+                <li>Di: <a href="/p/{{ post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
+                {% endif %}
                 <li>
                     {{ post.published_on }}
                 </li>
