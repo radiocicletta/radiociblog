@@ -578,6 +578,16 @@ footer address a {
     -webkit-border-bottom-right-radius: 5px;
         -moz-border-radius-bottomright: 5px;
             border-bottom-right-radius: 5px;
+    -moz-transition-property: width;  
+    -moz-transition-duration: 0.4s;  
+    -moz-transition-timing-function: ease-out;  
+    -webkit-transition-property: width;  
+    -webkit-transition-duration: 0.4s;  
+    -o-transition-property: width;  
+    -o-transition-duration: 0.4s; 
+    transition-property: width;  
+    transition-duration: 0.4s;  
+    transition-timing-function: ease-out;  
 }
 #content .errorpanel {
     margin: 0px 320px;
@@ -616,6 +626,7 @@ footer address a {
 
 #content .fluid .main {
     background: rgb(50,50,50); 
+    overflow: hidden;
 }
 
 .main h2:first-letter,
@@ -951,7 +962,6 @@ footer address a {
 
 .articlecontent {
     border-bottom: solid 4px #C13952;
-    overflow: hidden;
 }
 
 .fluid article .articlecontent {
@@ -1147,6 +1157,7 @@ footer address a {
     /*border: solid 1px #90702b;*/
     border: solid 1px #777;
     border-left: none;
+    overflow: hidden;
     /*background: #58473a;*/
     /*background: rgb(88, 71, 58);
     background: rgba(88, 71, 58, 0.8);*/
@@ -1267,6 +1278,10 @@ footer address a {
     padding: 0px 2px 0px 2px;
 }
 
+div.schedulecontainer {
+    width: 100%;
+    overflow: auto;
+}
 table.schedule {
     table-layout:fixed;
     border-collapse: separate;
@@ -1306,9 +1321,9 @@ table.schedule em {
     color: #0f0f0f;
     -moz-text-shadow: none;
     text-shadow: none;
-    -webkit-border-radius: 2px;
-       -moz-border-radius: 2px;
-            border-radius: 2px;
+    -webkit-border-radius: 2px 2px 0px 0px;
+       -moz-border-radius: 2px 2px 0px 0px;
+            border-radius: 2px 2px 0px 0px;
     padding: 2px;
 }
 
@@ -1324,9 +1339,12 @@ table.schedule a{
     overflow: hidden;
     text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
     max-width: 90px;
     margin-bottom: 10px;
-    border: none !important;
+    border-top: solid 1px #f0f0f0;
+    margin-top: -2px;
+    border-radius: 4px;
 }
 
 table.schedule td.now {

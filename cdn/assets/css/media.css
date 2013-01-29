@@ -184,6 +184,12 @@
     .side section:not(:first-of-type) {
         border-top: 0px;
     }
+    table.schedule {
+        width: 140%;
+    }
+    table.schedule td{
+        width: 20%;
+    }
 
 }
 
@@ -255,6 +261,12 @@
     #content .fluid section img {
         margin: 10px 10px 10px -10px;
     }
+    table.schedule {
+        width: 231%;
+    }
+    table.schedule td{
+        width: 33%;
+    }
 }
 
 
@@ -306,6 +318,12 @@
     #content .errorpanel {
         width: 440px;
         margin: auto;
+    }
+    table.schedule {
+        width: 350%;
+    }
+    table.schedule td{
+        width: 50%;
     }
 }
 
