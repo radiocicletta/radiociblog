@@ -109,7 +109,7 @@
         border-left: none;
     }
 
-    ul.articleinfo li {
+    .fluid ul.articleinfo li {
         width: 100%
     }
 }
