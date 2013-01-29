@@ -293,6 +293,7 @@ $(function(evt) {
         });
 
 
+        if ($('.side').length)
         $.getJSON(baseurl + "/socialroot.json", function(data){
             var li = document.createElement("li"),
                 a = document.createElement("a"),
