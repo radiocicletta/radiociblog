@@ -48,7 +48,9 @@
             </tbody>
         </table>
     </div>
-    <h2>Tutti i programmi</h2>
+</article>
+<section class="more-blog">
+    <h2>Tutti i blog dei programmi</h2>
     <ul>
         {% for b in blogs %}
             {% if not b.blog_generic %}
@@ -56,5 +58,5 @@
             {% endif %}
         {% endfor %}
     </ul>
-</article>
+</section>
 {% endblock %}
