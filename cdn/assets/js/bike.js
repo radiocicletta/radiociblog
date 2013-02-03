@@ -1,5 +1,5 @@
 /*jshint browser:true, jquery:true*/
-/*global MediaElement:true*/
+/*global MediaElement:true, Social:true*/
 
 // Bought to you by radiocicletta hack team.
 var kPlayerBackgroundRunPos = "0px 0px",
@@ -319,6 +319,7 @@ $(function(evt) {
                                        text: fbitems[j].message ||
                                              fbitems[j].story   ||
                                              fbitems[j].description ||
+                                             fbitems[j].name ||
                                              fbitems[j].caption,
                                        time: fbitems[j].created_time,
                                        name: fbitems[j].from.name,
@@ -330,7 +331,7 @@ $(function(evt) {
                                        time: twitems[k].created_at,
                                        name: twitems[k].user.name,
                                        date: new Date(twitems[k].created_at)});
-            latestsocial.sort(function(a, b){return a.date < b.date;});
+            latestsocial.sort(function(a, b){return b.date - a.date;});
             ul = document.createElement("ul");
             for (var q = 0; q < latestsocial.length; q++) {
                 _li = li.cloneNode(true);
@@ -351,6 +352,48 @@ $(function(evt) {
             }
             document.getElementById("box_social").appendChild(ul);
         });
+
+        if ($('.external_social').length) {
+            var mixcloud = $('[data-mixcloud]').data('mixcloud'),
+                facebook = $('[data-facebook]').data('facebook'),
+                twitter = $('[data-twitter]').data('twitter');
+
+        if(mixcloud) 
+        $.getJSON(baseurl + '/mixcloud/' + mixcloud + '.json', function(data) {
+            var li = document.createElement('li'),
+                ul = document.createElement('ul'),
+                a = document.createElement('a'),
+                span = document.createElement('span'),
+                _li, _a, _span, playlist = data.data;
+            playlist.sort(function(a, b){
+                return new Date(b.created_time) - new Date(a.created_time);
+            });
+
+            ul.className = "socialtab";
+            for (var i = 0; i < playlist.length; i++) {
+                _a = a.cloneNode(false);
+                _li = li.cloneNode(false);
+                _span = span.cloneNode(false);
+
+                _span.appendChild(document.createTextNode(
+                    new Date(playlist[i].created_time)
+                        .toLocaleDateString()));
+                _a.appendChild(document.createTextNode(playlist[i].name));
+                _li.style.backgroundImage = "url(" +
+                    playlist[i].pictures.thumbnail +
+                    ")";
+                _a.href = playlist[i].url;
+                
+                _li.appendChild(_a);
+                _li.appendChild(_span);
+                ul.appendChild(_li);
+            }
+            $('.external_social').append(ul);
+        });
+
+        }
+
+
     }
     //TODO: add event handling
     //$('nav.toplevel li:first-child').on('tap click', function() {

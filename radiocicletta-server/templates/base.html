@@ -33,10 +33,6 @@
 <![endif]-->
 
     {% block headstyle %}{% endblock %}
-    {% block headscript %}{% endblock %}
-    {% if not request.user.is_authenticated %}
-      {% google_analytics_code %}
-    {% endif %}
 
     {% block blogfeeds %}
       {% blog_feeds %}
@@ -73,5 +69,9 @@
     </script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/me/mediaelement.js"></script>
     <script type="text/javascript" src="{% cdnmediaurl %}/js/bike.js"></script>
+    {% block headscript %}{% endblock %}
+    {% if not request.user.is_authenticated %}
+      {% google_analytics_code %}
+    {% endif %}
   </body>
 </html>
