@@ -32,6 +32,7 @@ $(function(evt) {
                             '<li><span id="infobar-second">Ascolta con VLC\/Winamp\/altro</span></li>' +
                             '<li><span id="infobar-third">Apri il player separato</span></li>' +
                         '</ul>';
+
     document.getElementById("player").appendChild(player);
     if (lastvisit === null)  {
         document.getElementById("playercontainer")

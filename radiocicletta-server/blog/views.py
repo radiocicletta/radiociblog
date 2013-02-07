@@ -57,10 +57,20 @@ def oldhome(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
+    today = today_schedule()
+    current_show = [d for d in today
+                    if d.startora <= datetime.now().time()
+                    and d.endora >= datetime.now().time()]
+    next_show = [d for d in today
+                 if d.startora >= datetime.now().time()
+                 and d.endora >= datetime.now().time()]
+
     return render(request, 'blog/index.html',
                   {'blogs': blogs,
                    'recent_posts': recent_posts,
-                   'today_schedule': today_schedule(),
+                   'today_schedule': today,
+                   'current_show': current_show and current_show[0] or current_show,
+                   'next_show': next_show and next_show[0] or next_show,
                    'schedule': schedule()})
 
 
