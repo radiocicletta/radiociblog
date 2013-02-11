@@ -36,6 +36,8 @@ def cdnmediaurljs():
 fontregex = re.compile('(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 colorregex = re.compile('(?:color)\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 styleregex = re.compile('style="[^"]*"', re.MULTILINE)
+#imageregex = re.compile('(<img [^>]*>)', re.MULTILINE)
+srcregex = re.compile('<(\w+[^>]+)src', re.MULTILINE | re.IGNORECASE)
 
 
 @register.filter
@@ -52,6 +54,11 @@ def smarty(value):  # smartypants
 @register.filter
 def widont(value):  # http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin
     return mark_safe(value)
+
+
+@register.filter
+def rewritesrc(value):
+   return mark_safe(srcregex.sub('<\g<1>data-src', value))
 
 
 @register.filter

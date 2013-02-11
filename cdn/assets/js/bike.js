@@ -47,11 +47,11 @@ $(function(evt) {
         opacity = 0,
         dotinterval = setInterval(function(){
             playerdot.style.opacity = opacity++ % 2;
-        }, 1000);
+        }, 1000),
 
     //playerdot.style.backgroundPosition = kPlayerBackgroundWaitPos;
 
-    var me = new MediaElement('audiosrc', {
+        me = new MediaElement('audiosrc', {
         enablePluginDebug: true,
         plugins: ['flash', 'silverlight'],
         type: 'audio/mp3',
@@ -294,108 +294,117 @@ $(function(evt) {
         });
 
 
-        if ($('.side').length)
-        $.getJSON(baseurl + "/socialroot.json", function(data){
-            var li = document.createElement("li"),
-                a = document.createElement("a"),
-                span = document.createElement("span"),
-                ul, _li, _a, _span; 
-            if (data.mixcloud) {
-                ul = document.createElement("ul");
-                for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
-                    _li = li.cloneNode(true);
-                    _a = a.cloneNode(true);
-                    _a.appendChild(document.createTextNode(items[i].name));
-                    _a.href = items[i].url;
-                    _li.appendChild(_a);
-                    ul.appendChild(_li);
-                }
-                document.getElementById("box_mixcloud").appendChild(ul);
-            }
-            var latestsocial = [];
-            if (data.facebook)
-                for (var j=0, fbitems = data.facebook.latest; j < fbitems.length; j++)
-                    latestsocial.push({href: fbitems[j].link ||
-                                             'http://facebook.com/' + fbitems[j].id,
-                                       text: fbitems[j].message ||
-                                             fbitems[j].story   ||
-                                             fbitems[j].description ||
-                                             fbitems[j].name ||
-                                             fbitems[j].caption,
-                                       time: fbitems[j].created_time,
-                                       name: fbitems[j].from.name,
-                                       date: new Date(fbitems[j].updated_time)});
-            if (data.twitter)
-                for (var k=0, twitems = data.twitter.latest; k < twitems.length; k++)
-                    latestsocial.push({href: "http://twitter.com/"+ twitems[k].user.screen_name + "/status/" + twitems[k].id_str,
-                                       text: twitems[k].text,
-                                       time: twitems[k].created_at,
-                                       name: twitems[k].user.name,
-                                       date: new Date(twitems[k].created_at)});
-            latestsocial.sort(function(a, b){return b.date - a.date;});
+    }
+
+    if ($('.side').length)
+    $.getJSON(baseurl + "/socialroot.json", function(data){
+        var li = document.createElement("li"),
+            a = document.createElement("a"),
+            span = document.createElement("span"),
+            ul, _li, _a, _span; 
+        if (data.mixcloud) {
             ul = document.createElement("ul");
-            for (var q = 0; q < latestsocial.length; q++) {
+            for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
                 _li = li.cloneNode(true);
                 _a = a.cloneNode(true);
-                _span = span.cloneNode(true);
-                _a.appendChild(document.createTextNode(latestsocial[q]
-                                                       .text
-                                                       .replace(/\n/g, ' ')
-                                                       .split(/\s+/)
-                                                       .slice(0,30)
-                                                       .join(' ')));
-                _a.href = latestsocial[q].href;
-                _span.appendChild(document.createTextNode(latestsocial[q].date.toLocaleDateString() + ' • ' + latestsocial[q].name));
-                _span.className = "socialname";
+                _a.appendChild(document.createTextNode(items[i].name));
+                _a.href = items[i].url;
                 _li.appendChild(_a);
-                _a.appendChild(_span);
                 ul.appendChild(_li);
             }
-            document.getElementById("box_social").appendChild(ul);
-        });
-
-        if ($('.external_social').length) {
-            var mixcloud = $('[data-mixcloud]').data('mixcloud'),
-                facebook = $('[data-facebook]').data('facebook'),
-                twitter = $('[data-twitter]').data('twitter');
-
-        if(mixcloud) 
-        $.getJSON(baseurl + '/mixcloud/' + mixcloud + '.json', function(data) {
-            var li = document.createElement('li'),
-                ul = document.createElement('ul'),
-                a = document.createElement('a'),
-                span = document.createElement('span'),
-                _li, _a, _span, playlist = data.data;
-            playlist.sort(function(a, b){
-                return new Date(b.created_time) - new Date(a.created_time);
-            });
-
-            ul.className = "socialtab";
-            for (var i = 0; i < playlist.length; i++) {
-                _a = a.cloneNode(false);
-                _li = li.cloneNode(false);
-                _span = span.cloneNode(false);
-
-                _span.appendChild(document.createTextNode(
-                    new Date(playlist[i].created_time)
-                        .toLocaleDateString()));
-                _a.appendChild(document.createTextNode(playlist[i].name));
-                _li.style.backgroundImage = "url(" +
-                    playlist[i].pictures.thumbnail +
-                    ")";
-                _a.href = playlist[i].url;
-                
-                _li.appendChild(_a);
-                _li.appendChild(_span);
-                ul.appendChild(_li);
-            }
-            $('.external_social').append(ul);
-        });
-
+            document.getElementById("box_mixcloud").appendChild(ul);
         }
+        var latestsocial = [];
+        if (data.facebook)
+            for (var j=0, fbitems = data.facebook.latest; j < fbitems.length; j++)
+                latestsocial.push({href: fbitems[j].link ||
+                                         'http://facebook.com/' + fbitems[j].id,
+                                   text: fbitems[j].message ||
+                                         fbitems[j].story   ||
+                                         fbitems[j].description ||
+                                         fbitems[j].name ||
+                                         fbitems[j].caption,
+                                   time: fbitems[j].created_time,
+                                   name: fbitems[j].from.name,
+                                   date: new Date(fbitems[j].updated_time)});
+        if (data.twitter)
+            for (var k=0, twitems = data.twitter.latest; k < twitems.length; k++)
+                latestsocial.push({href: "http://twitter.com/"+ twitems[k].user.screen_name + "/status/" + twitems[k].id_str,
+                                   text: twitems[k].text,
+                                   time: twitems[k].created_at,
+                                   name: twitems[k].user.name,
+                                   date: new Date(twitems[k].created_at)});
+        latestsocial.sort(function(a, b){return b.date - a.date;});
+        ul = document.createElement("ul");
+        for (var q = 0; q < latestsocial.length; q++) {
+            _li = li.cloneNode(true);
+            _a = a.cloneNode(true);
+            _span = span.cloneNode(true);
+            _a.appendChild(document.createTextNode(latestsocial[q]
+                                                   .text
+                                                   .replace(/\n/g, ' ')
+                                                   .split(/\s+/)
+                                                   .slice(0,30)
+                                                   .join(' ')));
+            _a.href = latestsocial[q].href;
+            _span.appendChild(document.createTextNode(latestsocial[q].date.toLocaleDateString() + ' • ' + latestsocial[q].name));
+            _span.className = "socialname";
+            _li.appendChild(_a);
+            _a.appendChild(_span);
+            ul.appendChild(_li);
+        }
+        document.getElementById("box_social").appendChild(ul);
+    });
 
+    if ($('.external_social').length) {
+        var mixcloud = $('[data-mixcloud]').data('mixcloud'),
+            facebook = $('[data-facebook]').data('facebook'),
+            twitter = $('[data-twitter]').data('twitter');
+
+    if(mixcloud) 
+    $.getJSON(baseurl + '/mixcloud/' + mixcloud + '.json', function(data) {
+        var li = document.createElement('li'),
+            ul = document.createElement('ul'),
+            a = document.createElement('a'),
+            span = document.createElement('span'),
+            _li, _a, _span, playlist = data.data;
+        playlist.sort(function(a, b){
+            return new Date(b.created_time) - new Date(a.created_time);
+        });
+
+        ul.className = "socialtab";
+        for (var i = 0; i < playlist.length; i++) {
+            _a = a.cloneNode(false);
+            _li = li.cloneNode(false);
+            _span = span.cloneNode(false);
+
+            _span.appendChild(document.createTextNode(
+                new Date(playlist[i].created_time)
+                    .toLocaleDateString()));
+            _a.appendChild(document.createTextNode(playlist[i].name));
+            _li.style.backgroundImage = "url(" +
+                playlist[i].pictures.thumbnail +
+                ")";
+            _a.href = playlist[i].url;
+            
+            _li.appendChild(_a);
+            _li.appendChild(_span);
+            ul.appendChild(_li);
+        }
+        $('.external_social').append(ul);
+    });
 
     }
+
+    //delayed style and heavy objects loading
+    var resources = $('[data-src]');
+    for (var i = 0; i < resources.length; i++)
+        resources[i].src = $(resources[i]).data('src');
+
+    resources = $('[data-background-image]');
+    for (i = 0; i < resources.length; i++)
+        resources[i].style.backgroundImage = $(resources[i]).data('background-image');
+
     //TODO: add event handling
     //$('nav.toplevel li:first-child').on('tap click', function() {
     //}

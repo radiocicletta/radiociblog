@@ -3,7 +3,7 @@
 {% if browse_posts %}
 <h2><a href="{{ post.get_absolute_url }}">{{ post.title|titlecase }}</a></h2>
 {% else %}
-        <h2 class="post_head" style="background-image: url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
+        <h2 class="post_head" data-background-image="url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
             <a href="{{ post.get_absolute_url}}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
                 <span class="headline">{{ post.title|titlecase }}</span>
@@ -30,9 +30,9 @@
 
 <div class="articlecontent socialicons">
 {% if browse_posts %}
-    {{ post.rendered_content|comicsanitize|truncatewords_html:150|smarty }}
+    {{ post.rendered_content|comicsanitize|rewritesrc|truncatewords_html:150|smarty }}
     <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi/commenta l'articolo</a></p>
 {% else %}
-    {{ post.rendered_content|comicsanitize|smarty }}
+    {{ post.rendered_content|comicsanitize|rewritesrc|smarty }}
 {% endif %}
 </div>
