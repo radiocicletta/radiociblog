@@ -44,3 +44,6 @@ handlers:
 
 error_handlers:
 - file: default_error.html
+
+skip_files:
+- ^(.*/)?pytz/zoneinfo/.*
