@@ -13,6 +13,9 @@ try:
     import simplejson as json
 except:
     import json
+from pytz.gae import pytz
+
+tzdata = pytz.timezone('Europe/Rome')
 
 logger = logging.getLogger(__name__)
 
@@ -58,12 +61,13 @@ def oldhome(request):
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
     today = today_schedule()
+    logger.info(datetime.now(tzdata).time())
     current_show = [d for d in today
-                    if d.startora <= datetime.now().time()
-                    and d.endora >= datetime.now().time()]
+                    if d.startora <= datetime.now(tzdata).time()
+                    and d.endora >= datetime.now(tzdata).time()]
     next_show = [d for d in today
-                 if d.startora >= datetime.now().time()
-                 and d.endora >= datetime.now().time()]
+                 if d.startora >= datetime.now(tzdata).time()
+                 and d.endora >= datetime.now(tzdata).time()]
 
     return render(request, 'blog/index.html',
                   {'blogs': blogs,
@@ -166,7 +170,7 @@ def schedule():
 
 
 def today_schedule():
-    today = datetime.now().weekday()
+    today = datetime.now(tzdata).weekday()
     sched = schedule()
     return sched[today][2]  # Assumendo Lunedi come giorno 0
 

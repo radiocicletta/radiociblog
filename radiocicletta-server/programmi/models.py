@@ -1,7 +1,9 @@
 from django.db import models
 from blog.models import Blog
 from django.core.cache import cache
+from pytz.gae import pytz
 
+tzdata = pytz.timezone('Europe/Rome')
 
 PROGSTATUS = (('0', 'ferie (offair)'),
               ('1', 'in programmazione'),

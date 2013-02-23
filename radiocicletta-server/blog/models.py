@@ -11,6 +11,7 @@ from string import ascii_letters, digits
 from plogo.models import Plogo
 from django.core.cache import cache
 import re
+from pytz.gae import pytz
 
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
@@ -18,6 +19,7 @@ FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 # Alcune soluzioni prese in considerazione per i ManyToManyFields:
 # https://bitbucket.org/legutierr/django-manytomany-nonrel/src/881ad974bb42/manytomany/models.py
 # https://gist.github.com/1200165
+tzdata = pytz.timezone('Europe/Rome')
 
 
 def cached_blogs():
@@ -161,7 +163,7 @@ class Post(BaseContent):
     tags = models.CharField(max_length=500,
                             null=True,
                             blank=True,
-                            help_text = 'Tag separati da virgole')
+                            help_text='Tag separati da virgole')
 
     def __unicode__(self):
         return self.title
@@ -219,7 +221,7 @@ class Post(BaseContent):
         if not self.review_key:
             self.review_key = generate_review_key()
         if self.published and not self.published_on:
-            self.published_on = datetime.now()
+            self.published_on = tzdata.localize(datetime.now())
         if self.published and not self.url:
             self.url = self.blog.url_prefix + slugify(self.title)
         elif self.published and not self.url.startswith('/'):

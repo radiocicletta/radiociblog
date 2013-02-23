@@ -75,7 +75,7 @@ INSTALLED_APPS = (
     'events',
     'replay',
     'authority',
-
+    'pytz',
 )
 
 if has_djangoappengine:
