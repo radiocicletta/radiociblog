@@ -1,13 +1,25 @@
 {% load simplesocial blog %}
 
+{% if browse_posts %}
 <h2><a href="{{ post.get_absolute_url }}">{{ post.title|titlecase }}</a></h2>
+{% else %}
+        <h2 class="post_head" data-background-image="url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
+            <a href="{{ post.get_absolute_url}}">
+                <span class="catch_headline">{{post.get_blog}}:</span>
+                <span class="headline">{{ post.title|titlecase }}</span>
+            </a></h2>
+{% endif %}
     <ul class="articleinfo">
+        {% if post.author.profile.appear_as_nickname and post.author.profile.nickname %}
+        <li>Di: <a href="/p/{{ post.author.profile.nickname}}">{{ post.author.profile.nickname }}</a></li>
+        {% else %}
         <li>Di: <a href="/p/{{ post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
+        {% endif %}
         <li>
             {{ post.published_on }}
         </li>
         <li>{% for tag in post.get_tags %}
-            <a href="/blog/tag/{{tag.strip}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
+            <a href="/blog/tag/{{tag.strip|urlencode}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
         {% endfor %}
         </li>
         <li>
@@ -18,9 +30,9 @@
 
 <div class="articlecontent socialicons">
 {% if browse_posts %}
-    {{ post.rendered_content|comicsanitize|truncatewords_html:150|smarty }}
+    {{ post.rendered_content|comicsanitize|rewritesrc|truncatewords_html:150|smarty }}
     <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi/commenta l'articolo</a></p>
 {% else %}
-    {{ post.rendered_content|comicsanitize|smarty }}
+    {{ post.rendered_content|comicsanitize|rewritesrc|smarty }}
 {% endif %}
 </div>

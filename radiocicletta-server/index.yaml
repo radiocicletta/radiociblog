@@ -96,3 +96,8 @@ indexes:
   properties:
   - name: __key__
     direction: desc
+
+- kind: replay_replay
+  properties:
+  - name: __key__
+    direction: desc

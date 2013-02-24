@@ -1,0 +1,39 @@
+{% extends "admin/base_site.html" %}
+{% load i18n l10n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../">{{ app_label|capfirst }}</a> &rsaquo;
+     <a href="./">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+     {% trans 'Delete multiple objects' %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% if perms_lacking or protected %}
+    {% if perms_lacking %}
+        <p>{% blocktrans %}Deleting the selected {{ objects_name }} would result in deleting related objects, but your account doesn't have permission to delete the following types of objects:{% endblocktrans %}</p>
+        <ul>
+        {% for obj in perms_lacking %}
+            <li>{{ obj.description  }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% if protected %}
+        <p>{% blocktrans %}Deleting the selected {{ objects_name }} would require deleting the following protected related objects:{% endblocktrans %}</p>
+        <ul>
+        {% for obj in protected %}
+            <li>{{ obj.description }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% else %}
+    <p>{% blocktrans %}Elementi cancellati{% endblocktrans %}</p>
+    <ul>
+    {% for deleted_object in deleted_objects %}
+        <li>{{ deleted_object }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

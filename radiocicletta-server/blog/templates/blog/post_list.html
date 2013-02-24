@@ -9,26 +9,41 @@
 {% endblock %}
 
 {% block bodyleft %}
-    <article class="blog_show_header">
-        <header>
-            <span class="blogimg"><img src="{{ blog.get_logo.url|default_if_none:'none' }}"/></span>
-            <h2 class="blogtitle">{{ blog.title|titlecase }}</h2>
-            <p class="onair">
-            {% if not blog.blog_generic %}
-                {% for airtime in onair %}
-                    {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
-                {% empty %}
-                    Attualmente non in programmazione.
-                {% endfor %}
-            {% endif %}
-            </p>
-            <p class="desc">{{ blog.description }}</p>
-            <div class="external_social"></div>
-        </header>
-        {% if not recent_posts %}
-        <p>Nessun articolo è stato ancora scritto. :(</p>
+    <header class="blog_show_header" data-background-image="url({{ blog.get_logo.url|default_if_none:'' }});">
+        <h2 class="blogtitle">{{ blog.title|titlecase }}</h2>
+        <p class="desc">{{ blog.description }}</p>
+        {% if not blog.blog_generic %}
+        <p class="onair">
+            {% for airtime in onair %}
+                {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Attualmente non in programmazione.
+            {% endfor %}
+        </p>
         {% endif %}
-    </article>
+    </header>
+    <div class="external_social">
+        <ul class="socialmenu socialicons">
+            {% if blog.mixcloud_playlist %}
+            <li><a href="http://mixcloud.com/radiocicletta/playlists/{{blog.mixcloud_playlist}}/cloudcasts" 
+                    data-mixcloud="{{blog.mixcloud_playlist}}">Podcast su Mixcloud</a>
+            </li>
+            {% endif %}
+            {% if blog.facebook_page_or_user %}
+            <li><a href="http://www.facebook.com/{{blog.facebook_page_or_user}}" 
+                    data-facebook="{{blog.facebook_page_or_user}}">Facebook</a>
+            </li>
+            {% endif %}
+            {% if blog.twitter %}
+            <li><a href="http://twitter.com/{{blog.twitter}}" 
+                    data-twitter="{{blog.twitter}}">@{{blog.twitter}}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% if not recent_posts %}
+    <p>Nessun articolo è stato ancora scritto. :(</p>
+    {% endif %}
     {% for post in recent_posts %}
         <article>
         {% include "blog/post.html" %}

@@ -72,8 +72,10 @@ INSTALLED_APPS = (
     'permission_backend_nonrel',
     'object_permission_backend_nonrel',
     'programmi',
+    'events',
+    'replay',
     'authority',
-
+    'pytz',
 )
 
 if has_djangoappengine:
@@ -138,6 +140,7 @@ TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 
 STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
+STATIC_ROOT = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
 STATIC_URL = '/static/'
 
 

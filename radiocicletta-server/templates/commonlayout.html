@@ -5,8 +5,8 @@
 <nav class="toplevel">
     
     <ul>
-        <li><a href="/home" class="home">Home</a></li>
-    	<li><a href="/programmi" class="schedule">Programmi</a></li>
+        <li><a href="/" class="home">Home</a></li>
+    	<li><a href="/programmi" class="schedule">Palinsesto</a></li>
     	<li><a href="/blogs" class="blogs">Blogs</a></li>
     	<li><a href="/chisiamo" class="faq">Chi siamo</a></li>
     	<li><a href="/download" class="downloads">Download</a></li>
@@ -26,6 +26,7 @@
     </div>
 </noscript>
 
+{% block showcase %}{% endblock %}
 <div id="body">
     {% block layoutcontent %}
     {% endblock %}

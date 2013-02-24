@@ -8,45 +8,49 @@
 {% block bodyleft %}
 <article>
     <h2>Palinsesto settimanale</h2>
-    <table class="schedule">
-        <colgroup class="even"></colgroup>
-        <colgroup class="odd" ></colgroup>
-        <colgroup class="even"></colgroup>
-        <colgroup class="odd" ></colgroup>
-        <colgroup class="even"></colgroup>
-        <colgroup class="odd" ></colgroup>
-        <colgroup class="even"></colgroup>
-        <thead>
-            <tr>
-            	<th>Lunedì</th>
-            	<th>Martedì</th>
-            	<th>Mercoledì</th>
-            	<th>Giovedì</th>
-            	<th>Venerdì</th>
-            	<th>Sabato</th>
-            	<th>Domenica</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in rowschedule %}
-            <tr>
-                {% for evt in row %}
-                {% if evt.title %}
-                    <td rowspan="{{ evt.rowspan }}">
-                        <em>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</em>
-                        <a href="{{ evt.url }}">{{ evt.title }}</a>
-                    </td>
-                {% else%}
-                    {% if not evt.busy %}
-                        <td></td>
+    <div class="schedulecontainer">
+        <table class="schedule">
+            <colgroup class="even"></colgroup>
+            <colgroup class="odd" ></colgroup>
+            <colgroup class="even"></colgroup>
+            <colgroup class="odd" ></colgroup>
+            <colgroup class="even"></colgroup>
+            <colgroup class="odd" ></colgroup>
+            <colgroup class="even"></colgroup>
+            <thead>
+                <tr>
+                	<th>Lunedì</th>
+                	<th>Martedì</th>
+                	<th>Mercoledì</th>
+                	<th>Giovedì</th>
+                	<th>Venerdì</th>
+                	<th>Sabato</th>
+                	<th>Domenica</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rowschedule %}
+                <tr>
+                    {% for evt in row %}
+                    {% if evt.title %}
+                        <td rowspan="{{ evt.rowspan }}">
+                            <em>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</em>
+                            <a href="{{ evt.url }}">{{ evt.title }}</a>
+                        </td>
+                    {% else%}
+                        {% if not evt.busy %}
+                            <td></td>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Tutti i programmi</h2>
+            </tbody>
+        </table>
+    </div>
+</article>
+<section class="more-blog">
+    <h2>Tutti i blog dei programmi</h2>
     <ul>
         {% for b in blogs %}
             {% if not b.blog_generic %}
@@ -54,5 +58,5 @@
             {% endif %}
         {% endfor %}
     </ul>
-</article>
+</section>
 {% endblock %}

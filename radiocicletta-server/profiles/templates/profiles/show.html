@@ -1,12 +1,28 @@
 {% extends "default.html" %}
 {% block bodyleft %}
 <article>
+    {% if profile.appear_as_nickname and profile.nickname %}
+    <h2>{{ profile.nickname }}</h2>
+    {% else %}
     <h2>{{ profile.user.get_full_name|default:profile.user.username }}</h2>
-    <ul class="userdetails">
-        <li>{{ profile.user.get_full_name }}</li>
-        <li>{{ profile.blog }}</li>
-        <li>{{ profile.twitter }}</li>
-        <li>{{ profile.facebook }}</li>
+    {% endif %}
+    <ul class="userdetails socialicons">
+        {% if profile.blog %}
+        <li><a href="{{ profile.blog }}">{{ profile.blog }}</a></li>
+        {% endif %}
+        {% if profile.twitter %}
+        <li><a href="http://twitter.com/{{ profile.twitter }}">@{{ profile.twitter }}</a></li>
+        {% endif %}
+        {% if profile.facebook %}
+        <li><a href="{{ profile.facebook }}">
+        {% if profile.appear_as_nickname and profile.nickname %}
+        {{ profile.nickname  }}
+        {% else %}
+        {{ profile.user.get_full_name }}
+         su Facebook
+        {% endif %}
+        </a></li>
+        {% endif %}
     </ul>
     {% for line in profile.about.splitlines %}
     <p>{{line|striptags}}</p>
