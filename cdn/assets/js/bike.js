@@ -403,7 +403,7 @@ $(function(evt) {
 
     resources = $('[data-background-image]');
     for (i = 0; i < resources.length; i++)
-        resources[i].style.backgroundImage = $(resources[i]).data('background-image');
+        $(resources[i]).css('background-image', $(resources[i]).data('background-image'));
 
     //TODO: add event handling
     //$('nav.toplevel li:first-child').on('tap click', function() {
