@@ -11,13 +11,20 @@ sono 2 (per adesso) applicazioni per GAE (appengine.google.com).
 Richiede python2.7 e virtualenv e Appengine SDK
 Basato su django-nonrel https://github.com/django-nonrel/django-nonrel
 
-Per ricreare l'ambiente di sviluppo:
+Per inizializzare l'ambiente di sviluppo:
 
     $ git clone https://github.com/radiocicletta/radiociblog
     $ virtualenv radiociblog
     $ cd radiociblog
     $ source bin/activate
-    $ ./buildenv.sh
+
+Per scaricare la prima volta i pacchetti necessari
+
+    $ ./buildenv.sh create
+
+Per ricreare l'ambiente di svilppo in un repository esistente
+
+    $ ./buildenv.sh replace
 
 _buildenv.sh_ effettua il download e il patching delle librerie necessarie.
 
