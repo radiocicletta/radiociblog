@@ -3,13 +3,12 @@
 *.swp
 /cdn/assets/js/ckeditor_src/_dev/releaser/release/*.*
 
-/.Python
-/.ropeproject
-/build
-/lib
-/src
-/include
-/bin
+.Python
+build
+lib
+src
+include
+bin
 
 radiocicletta-server/django
 radiocicletta-server/djangotoolbox
@@ -17,5 +16,5 @@ radiocicletta-server/djangoappengine
 radiocicletta-server/autoload
 radiocicletta-server/dbindexer
 radiocicletta-server/pytz
+radiocicletta-server/permission_backend_nonrel
 radiocicletta-server/.gaedata
-radiocicletta-server/.gaedata/*
