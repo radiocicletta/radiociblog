@@ -663,12 +663,17 @@ footer address a {
 
 #content .fluid section,
 #content .fluid article {
-    padding: 35px 35px 20px;
     margin: 0px;
     -moz-text-shadow: 0px 0px 3px #000000;
     text-shadow: 0px 0px 3px #000000;
     color: #e0e0e0;
     clear: both;
+}
+#content .fluid section {
+    padding: 35px 35px 20px;
+}
+#content .fluid article {
+    padding: 0px 35px 20px;
 }
 
 

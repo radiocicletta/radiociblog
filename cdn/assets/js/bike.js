@@ -396,6 +396,19 @@ $(function(evt) {
 
     }
 
+
+    $("#showcase img").on('load', function(evt){
+        var target = $(evt.currentTarget),
+            w = target.width(),
+            h = target.height(),
+            parent = target.parent(),
+            pw = parent.width(),
+            ph = parent.height();
+        if ( w < pw)
+            target.css({width: pw + 'px', height:'auto'});
+        else if (h < ph)
+            target.css({width:'auto', height: pw + 'px'});
+    });
     //delayed style and heavy objects loading
     var resources = $('[data-src]');
     for (var i = 0; i < resources.length; i++) {
