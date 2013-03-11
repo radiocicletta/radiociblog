@@ -398,8 +398,13 @@ $(function(evt) {
 
     //delayed style and heavy objects loading
     var resources = $('[data-src]');
-    for (var i = 0; i < resources.length; i++)
-        resources[i].src = $(resources[i]).data('src');
+    for (var i = 0; i < resources.length; i++) {
+        var src = $(resources[i]).data('src');
+        var thumb = $(resources[i]).data('thumbnail');
+        if (thumb === "s" || thumb === "l")
+            src = src.replace(/.([^.]*$)/, thumb + ".$1");
+        resources[i].src = src;
+    }
 
     resources = $('[data-background-image]');
     for (i = 0; i < resources.length; i++)

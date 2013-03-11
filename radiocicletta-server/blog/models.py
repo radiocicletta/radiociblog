@@ -120,11 +120,14 @@ class Blog(models.Model):
         return self.url_prefix + 'feed/latest'
 
     def get_logo(self):
-        cache_logo = cache.get('blog_%s_logo' % self.pk)
-        if not cache_logo:
-            cache.set('blog_%s_logo' % self.pk, self.logo)
-            return self.logo
-        return cache_logo
+        try:
+            cache_logo = cache.get('blog_%s_logo' % self.pk)
+            if not cache_logo:
+                cache.set('blog_%s_logo' % self.pk, self.logo)
+                return self.logo
+            return cache_logo
+        except:
+            return None
 
 
 def default_blog():

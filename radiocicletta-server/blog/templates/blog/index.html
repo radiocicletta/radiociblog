@@ -9,19 +9,19 @@
 <div id="showcasecontainer">
     <div id="showcase">
         <a href="{{ current_show.blog.url }}" class="pictbig">
-            <img src="{{ current_show.blog.get_logo.url }}" />
+            <img data-src="{{ current_show.blog.get_logo.url }}" data-thumbnail="l"/>
         </a>
         <div class="rightbox">
-            <span class="firstrow onair">Ora in onda ({{current_show.startora}} - {{current_show.endora}}):</span>
+            <span class="firstrow onair">Ora in onda ({{current_show.startora|time:"H:i"}} - {{current_show.endora|time:"H:i"}}):</span>
             <a class="secondrow" href="{{current_show.blog.url}}"><strong>{{current_show.title|capfirst}}</strong></a>
             <span class="thirdrow">{{current_show.descr}}</span>
             <div>
             {% if next_show %}
                 <div class="pictsmall">
-                    <img src="{{ next_show.blog.get_logo.url }}" />
+                    <img data-src="{{ next_show.blog.get_logo.url }}" data-thumbnail="s"/>
                 </div>
                 <div class="fourthrow">
-                <span>A seguire ({{next_show.startora}} - {{next_show.endora}})</span>
+                <span>A seguire ({{next_show.startora|time:"H:i"}} - {{next_show.endora|time:"H:i"}})</span>
                     <a href="{{next_show.blog.url}}"><strong>{{next_show.title|capfirst}}</strong></a>
                 </div>
             {% endif %}

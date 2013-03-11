@@ -776,10 +776,6 @@ h2.post_head {
     background-repeat: repeat;
     border-top-right-radius: 3px;
     margin: 2px -35px 20px;
-       -moz-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
-    -webkit-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
-         -o-box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
-            box-shadow: 0px 25px 20px rgba(0, 0, 0, 0.8) inset;
 
 }
 h2.post_head a{
@@ -1353,7 +1349,6 @@ table.schedule em {
 }
 
 table.schedule td {
-    padding: 10px 2px;
     width: 14%;
 }
 

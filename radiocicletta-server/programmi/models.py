@@ -38,6 +38,8 @@ def default_blog():
 
 
 class Programmi(models.Model):
+    list_display = ('title', 'startgiorno', 'startora')
+
     title = models.CharField(max_length=200, help_text='Titolo del programma')
     descr = models.CharField(null=True, blank=True, max_length=200, help_text='descrizione (opzionale)')
     blog = models.ForeignKey(Blog, related_name='programs', default=default_blog, help_text='il blog del programma oppure null')

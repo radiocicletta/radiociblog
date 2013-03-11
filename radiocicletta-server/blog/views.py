@@ -30,7 +30,11 @@ def cached_programmi():
 
 def cached_onair(blog):
 
-    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
+    onair = []
+    try:
+        onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
+    except:
+        pass
     for p in onair:
         p['startgiorno'] = {'lu': 'Lunedi',
                             'ma': 'Martedi',
@@ -267,7 +271,10 @@ def browse(request, **kwargs):
     else:
         cache.set('blog_%s' % request.path, blog)
     page = abs(int(request.GET.get('page', 1)))
-    onair = cached_onair(blog)
+    if not blog.blog_generic:
+        onair = cached_onair(blog)
+    else:
+        onair = []
     posts = cached_blog_posts(blog)
     posts = posts.order_by('-published_on')
     paged_posts = Paginator(posts, 6).page(page)
