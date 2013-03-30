@@ -58,7 +58,7 @@ def widont(value):  # http://shauninman.com/archive/2006/08/22/widont_wordpress_
 
 @register.filter
 def rewritesrc(value):
-   return mark_safe(srcregex.sub('<\g<1>data-src', value))
+    return mark_safe(srcregex.sub('<\g<1>data-src', styleregex.sub('', value)))
 
 
 @register.filter

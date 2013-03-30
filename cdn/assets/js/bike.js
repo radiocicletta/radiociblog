@@ -29,7 +29,7 @@ $(function(evt) {
     infobar.id = 'infobar';
     infobar.innerHTML = '<ul>' +
                             '<li><span id="infobar-first">Ascolta la radio</span></li>' +
-                            '<li><span id="infobar-second">Ascolta con VLC\/Winamp\/altro</span></li>' +
+                            '<li><span id="infobar-second">Ascolta con VLC, Winamp, ecc.</span></li>' +
                             '<li><span id="infobar-third">Apri il player separato</span></li>' +
                         '</ul>';
 

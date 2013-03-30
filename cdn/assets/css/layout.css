@@ -143,7 +143,6 @@ noscript a {
     -webkit-transition-duration: 0.4s;  
     -o-transition-property: color;  
     -o-transition-duration: 0.4s; 
-    text-transform: uppercase;
 }
 
 .toplevel li a.home {
@@ -368,8 +367,9 @@ noscript a {
 
 #infobar {
     margin-top: 0px;
-    background: rgb(254, 242, 136);
-    border-top: 1px solid rgb(254, 242, 88);
+    background: #FFE13E;
+    border-top: 1px solid #FFE970;
+    border-bottom: 1px solid #BF8A01; 
          -o-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
     -webkit-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
        -moz-box-shadow: 0px -10px 15px rgba(0, 0, 0, 0.3) inset;
@@ -378,7 +378,8 @@ noscript a {
     letter-spacing: 1px;
     border-bottom: 1px solid rgb(158, 146, 40);
     vertical-align: top;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.9);
+    text-shadow: 0px 1px 0px #FFE970;
+    -moz-text-shadow: 0px 1px 0px #FFE970;
     font-weight: 600;
     font-size: 8pt;
     position: relative;
@@ -483,9 +484,6 @@ footer nav .menu {
     vertical-align: top;
     margin-left: -2px;
     margin-right: -2px;
-       -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-            border-radius: 5px;
     transition-property: color, border-top-color;
     transition-duration: 0.4s;  
     transition-timing-function: ease-out;  
@@ -509,30 +507,18 @@ footer nav .menu > * {
 }*/
 
 footer nav .menu h2 {
-    /*border-bottom: 1px solid #c82374;*/
-    /*background: #526a79;
-    border-top: solid 1px #627a89;
-    border-bottom: solid 1px #223a49;*/
-    font-variant: small-caps;
     padding: 5px 8px;
     margin: 25px 20px 10px 20px;
-    letter-spacing: 0.2em;
     /*color: #627a89;*/
-    color: #728a99;
+    /*color: #728a99;*/
+    color: white;
     -moz-text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
     text-shadow: -1px -1px 0px rgba(0,0,0,0.5);
-    text-align: center;
     line-height: 2em;
-    font-weight: bolder;
+    font-weight: bold;
        -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
             border-radius: 5px;
-    /*
-         -o-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
-    -webkit-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
-       -moz-box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
-            box-shadow: inset 0px -3px 8px rgba(0,0,0,0.3), 0px 0px 1px rgba(0,0,0,0.3);
-    */
 }
 
 footer nav .menu ul {
@@ -545,9 +531,9 @@ footer nav .menu ul {
     border-top-color: #C13952;
 }
 
-.menu:hover h2{
+/*.menu:hover h2{
     color: white;
-}
+}*/
 
 footer nav .menu a {
     color: white;
@@ -557,9 +543,9 @@ footer nav .menu a {
     line-height: 1.5em; 
     text-decoration: none;
     color: #f0f0f0;
-    letter-spacing: 0.2pt;
-    -moz-text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.6);
+    color: #728a99;
+    -moz-text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.6);
+    text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.6);
     margin-right: 20px;
     margin-left: 20px;
 }
@@ -768,7 +754,7 @@ footer address a {
     font-stretch: condensed;
     font-weight: bold;
     color: #c13952;
-    margin: 2px 0px 20px 0px;
+    margin: 0px 0px 20px 0px;
     line-height: 1.5em;
 }
 
@@ -780,7 +766,7 @@ h2.post_head {
     background-image-position: right center;
     background-repeat: repeat;
     border-top-right-radius: 3px;
-    margin: 2px -35px 20px;
+    margin: 0px -35px 20px;
 
 }
 h2.post_head a{
@@ -1383,11 +1369,11 @@ table.schedule td.now {
 
 .blog_show_header h2.blogtitle {
     padding: 14px 8px;
-    -moz-text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
-         text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.7);
+    -moz-text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
+         text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
     color: white;
     background: rgb(0,0,0); 
-    background: rgba(0,0,0,0.6); 
+    background: rgba(0,0,0,0.7); 
     display: inline-block;
     max-width: 70%;
     margin: 0px;
@@ -1400,21 +1386,22 @@ article.blog_show_header .blogimg-humb{
     max-width: 80px;
 }
 
-article.bloglist h2 a:first-child {
+/*article.bloglist h2 a:first-child {
     margin-top: 10px;
-}
+}*/
 
 .blog_show_header .desc{
     padding: 8px;
     background: rgb(0,0,0); 
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
     color: white;
     margin: 0px;
+    line-height: 1.5;
 }
 
 .blog_show_header .onair{
     background: rgb(0,0,0); 
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
 }
 
 .onair{
