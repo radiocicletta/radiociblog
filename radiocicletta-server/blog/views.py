@@ -68,10 +68,12 @@ def oldhome(request):
     logger.info(datetime.now(tzdata).time())
     current_show = [d for d in today
                     if d.startora <= datetime.now(tzdata).time()
-                    and d.endora >= datetime.now(tzdata).time()]
+                    and d.endora >= datetime.now(tzdata).time()
+                    or d.startora <= datetime.now(tzdata).time()
+                    and d.startora >= d.endora]
     next_show = [d for d in today
-                 if d.startora >= datetime.now(tzdata).time()
-                 and d.endora >= datetime.now(tzdata).time()]
+                 if d.startora >= datetime.now(tzdata).time()]
+                 #and d.endora >= datetime.now(tzdata).time()]
 
     return render(request, 'blog/index.html',
                   {'blogs': blogs,
