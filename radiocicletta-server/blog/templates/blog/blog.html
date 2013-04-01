@@ -6,10 +6,16 @@
 {% block bodyheader %}{% endblock %}
 
 {% block bodyleft %}
-{% for b in blogs %}
 <section>
-<h3><a href="{{ b.get_absolute_url }}">{{ b.title }}</a></h3>
-{{ b.description }}
+<h2>I blog di Radiocicletta</h2>
+<p>Tutti i blog ospitati in questo sito.</p>
 </section>
+{% for b in blogs|dictsort:"title" %}
+<article>
+<h3><a href="http://{{ b.url_stripped }}.radiocicletta.it">{{ b.title }}</a></h3>
+<p>
+    {{ b.description }}
+</p>
+</article>
 {% endfor %}
 {% endblock %}

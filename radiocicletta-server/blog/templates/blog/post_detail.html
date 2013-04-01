@@ -32,13 +32,13 @@
     <section class="more-blog">
         <h3>Ultimi articoli di questo blog</h3>
         {% include "blog/recent_posts.html" %}
-        <p><strong><a href="{{ blog.get_absolute_url }}">Tutti i post di questo blog &raquo;</a></strong></p>
+        <p><strong><a href="http://{{ blog.url_stripped }}.radiocicletta.it">Tutti i post di questo blog &raquo;</a></strong></p>
         {% if post.get_related_posts %}
         <h3>Articoli collegati</h3>
         {% endif %}
         <ul>
             {% for rel in post.get_related_posts %}
-              <li><a href="{{ rel.get_absolute_url }}">{{ rel.title|titlecase }}</a> <small>{{ rel.published_on }}</small></li>
+            <li><a href="http://{{rel.blog.url_stripped}}.radiocicletta.it{{ rel.url_stripped }}">{{ rel.title|titlecase }}</a> <small>{{ rel.published_on }}</small></li>
             {% endfor %}
         </ul>
     </section>

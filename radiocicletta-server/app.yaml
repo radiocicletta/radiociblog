@@ -47,3 +47,4 @@ error_handlers:
 
 skip_files:
 - ^(.*/)?pytz/zoneinfo/.*
+

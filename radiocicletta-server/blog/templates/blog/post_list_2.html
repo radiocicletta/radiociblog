@@ -1,29 +1,29 @@
 {% load blog simplesocial %}
         <article class="bloglist">
         <h2 class="post_head" data-background-image="url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
-            <a href="{{ post.get_absolute_url}}">
+            <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
                 <span class="headline">{{ post.title|titlecase }}</span>
             </a></h2>
             <ul class="articleinfo">
                 {% if post.author.profile.appear_as_nickname and post.author.profile.nickname %}
-                <li>Di: <a href="/p/{{ post.author.profile.nickname}}">{{ post.author.profile.nickname }}</a></li>
+                <li>Di: <a href="http://www.radiocicletta.it/p/{{ post.author.profile.nickname}}">{{ post.author.profile.nickname }}</a></li>
                 {% else %}
-                <li>Di: <a href="/p/{{ post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
+                <li>Di: <a href="http://www.radiocicletta.it/p/{{ post.author.username}}">{{ post.author.get_full_name|default:post.author.username }}</a></li>
                 {% endif %}
                 <li>
                     {{ post.published_on }}
                 </li>
                 <li>{% for tag in post.get_tags %}
-                    <a href="/blog/tag/{{tag.strip|urlencode}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
+                    <a href="http://www.radiocicletta.it/blog/tag/{{tag.strip|urlencode}}">{{tag.strip|capfirst}}</a>{% if not forloop.last %},{% endif %}
                 {% endfor %}
                 </li>
                 <li>
-                    <a href="{{ post.get_absolute_url }}#disqus_thread">Commenti</a>
+        	        <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread">Commenti</a>
                 </li>
             </ul>
             <div class="articlecontent socialicons">
                 {{ post.rendered_content|truncatewords_html:150|comicsanitize|rewritesrc|smarty }}
-                <p><a href="{{ post.get_absolute_url }}" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="{{post.blog.get_absolute_url}}">Leggi il blog {{post.get_blog.title|truncatewords:4|titlecase}}</a></p>
+                <p><a  href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="http://{{post.blog.url_stripped}}radiocicletta.it">Leggi il blog {{post.get_blog.title|truncatewords:4|titlecase}}</a></p>
             </div>
         </article>

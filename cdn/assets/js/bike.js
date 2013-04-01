@@ -302,6 +302,8 @@ $(function(evt) {
             a = document.createElement("a"),
             span = document.createElement("span"),
             ul, _li, _a, _span; 
+        if (!data)
+            return;
         if (data.mixcloud) {
             ul = document.createElement("ul");
             for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){

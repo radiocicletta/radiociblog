@@ -1,6 +1,6 @@
 {% load blog %}
 <ul{% if recent_posts_class %} class="{{ recent_posts_class }}"{% endif %}>
   {% for post in recent_posts %}
-  <li><a href="{{ post.get_absolute_url }}">{{ post.title|titlecase }}</a> <small>{{ post.published_on }}</small></li>
+  <li><a href="http://{{post.blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">{{ post.title|titlecase }}</a> <small>{{ post.published_on }}</small></li>
   {% endfor %}
 </ul>
