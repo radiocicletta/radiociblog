@@ -8,7 +8,7 @@ var kPlayerBackgroundRunPos = "0px 0px",
 
 $(function(evt) {
     /*jshint $:true*/
-    "use strict"; // jshint ;_;
+    //"use strict"; // jshint ;_;
     var baseurl = "http://api.radiocicletta.it",
         player = document.createElement("div"),
         infobar = document.createElement("div"),
@@ -140,7 +140,7 @@ $(function(evt) {
                 };
                 xhr.send(null);
 
-                xhr2.overrideMimeType("text/plain; charset=utf-8");
+                /*xhr2.overrideMimeType("text/plain; charset=utf-8");
                 xhr2.open("GET", "http://www.radiocicletta.it/programmi.json?_=" + new Date().getTime(), true);
                 xhr2.onreadystatechange = function(evt) {
                     if (xhr2.readyState === 4 && xhr2.status === 200) {
@@ -156,12 +156,13 @@ $(function(evt) {
                         onairinfo = filtered.length && filtered[0] || {title: "No Stop Music", id: -1};
                     }
                 };
-                xhr2.send(null);
+                xhr2.send(null);*/
 
             };
 
             var ui_metadata = function () {
-                metadata.title = metadata.innerHTML = (onairinfo.title + " — " + icyinfo.title).replace(/<[^>]+>/g, "");
+                //metadata.title = metadata.innerHTML = (onairinfo.title + " — " + icyinfo.title).replace(/<[^>]+>/g, "");
+                metadata.title = metadata.innerHTML = (icyinfo.title).replace(/<[^>]+>/g, "");
             };
 
             /*var scrolleft = 0;

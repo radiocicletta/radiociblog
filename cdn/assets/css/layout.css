@@ -808,7 +808,7 @@ h2.post_head .headline{
 #content .fluid article p {
     text-align: left;
     line-height: 1.5em;
-    margin: 0 auto 0.5em;
+    margin: 0 auto 1.5em;
 }
 
 #content .fluid article strong {
@@ -1282,17 +1282,24 @@ h2.post_head .headline{
 }
 
 .time {
-    background: #999;
-    background: rgba(0,0,0,0.3);
     -webkit-border-radius: 3px;
        -moz-border-radius: 3px;
             border-radius: 3px;
     padding: 0px 2px 0px 2px;
+    color: #454545;
+    font-weight: bold;
 }
 
 div.schedulecontainer {
     width: 100%;
     overflow: auto;
+    background: #464646;
+    padding: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+ -webkit-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);    
+      -o-box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
+         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3);
 }
 table.schedule {
     table-layout:fixed;
@@ -1305,9 +1312,9 @@ table.schedule th {
     border-bottom: solid 1px #C13952;
     padding-bottom: 10px;
     padding-top: 10px;
-    text-transform: uppercase;
     font-family: Oxygen, Gill Sans, Helvetica, sans-serif;
     border-spacing: 2px;
+    font-weight: bolder;
 }
 
 table.schedule thead {
@@ -1319,18 +1326,20 @@ table.schedule tbody{
     font-weight: 300;
 }
 
-table.schedule tr.odd {
-    background-color: #303030;
-    border-left: dashed 1px black;
+table.schedule td.odd a,
+table.schedule td.odd {
+    color: rgb(70,70,70) !important;
+    background:  #e0e0e0;
 }
 
-table.schedule tr.even {
+table.schedule td.even a,
+table.schedule td.even {
+    background: rgb(70,70,70);
+    color: #e0e0e0 !important;
 }
 
-table.schedule em {
+table.schedule strong{
     display: block;
-    background-color: #e0e0e0;
-    color: #0f0f0f;
     -moz-text-shadow: none;
     text-shadow: none;
     -webkit-border-radius: 2px 2px 0px 0px;
@@ -1341,21 +1350,18 @@ table.schedule em {
 
 table.schedule td {
     width: 14%;
+    vertical-align: top;
 }
 
 table.schedule a{
     line-height: 15pt;
     display: block;
     padding: 0px;
-    overflow: hidden;
-    text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
     max-width: 90px;
     margin-bottom: 10px;
-    border-top: solid 1px #f0f0f0;
     margin-top: -2px;
-    border-radius: 4px;
 }
 
 table.schedule td.now {
@@ -1417,7 +1423,10 @@ article.blog_show_header .blogimg-humb{
     padding: 6px;
     background: rgb(128, 24, 24);
     text-shadow: 0px 0px 6px lightcyan;
-    box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5), 0px 0px 6px rgba(255, 0, 0, 0.7);
+        -moz-box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5), 0px 0px 6px rgba(255, 0, 0, 0.7);
+     -webkit-box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5), 0px 0px 6px rgba(255, 0, 0, 0.7);
+          -o-box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5), 0px 0px 6px rgba(255, 0, 0, 0.7);
+             box-shadow: inset 0px 0px 6px rgba(0,0,0,0.5), 0px 0px 6px rgba(255, 0, 0, 0.7);
     color: white;
 }
 
@@ -1437,6 +1446,10 @@ object {
     background: rgb(32, 32, 32);
     font-size: 90%;
     color: #eee;
+    -moz-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.9);
+ -webkit-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.9);
+      -o-box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.9);
+         box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.9);
 }
 
 .external_social ul.socialmenu li{

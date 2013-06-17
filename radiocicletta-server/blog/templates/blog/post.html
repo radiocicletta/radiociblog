@@ -4,7 +4,7 @@
 <h2><a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">{{ post.title|titlecase }}</a></h2>
 {% else %}
         <h2 class="post_head" data-background-image="url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
-            <a href="http://{{post.get_blog.url_stripped}}radiocicletta.it{{ post.url_stripped }}">
+            <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
                 <span class="headline">{{ post.title|titlecase }}</span>
             </a></h2>
@@ -23,7 +23,7 @@
         {% endfor %}
         </li>
         <li>
-        	<a href="http://{{post.get_blog.url_stripped}}radiocicletta.it{{ post.url_stripped }}#disqus_thread">Commenti</a>
+        	<a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread">Commenti</a>
         </li>
     </ul>
 
@@ -31,7 +31,7 @@
 <div class="articlecontent socialicons">
 {% if browse_posts %}
     {{ post.rendered_content|comicsanitize|rewritesrc|truncatewords_html:150|smarty }}
-    <p><a href="http://{{post.get_blog.url_stripped}}radiocicletta.it{{ post.url_stripped }}" class="readmore">Leggi/commenta l'articolo</a></p>
+    <p><a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}" class="readmore">Leggi/commenta l'articolo</a></p>
 {% else %}
     {{ post.rendered_content|comicsanitize|rewritesrc|smarty }}
 {% endif %}

@@ -33,6 +33,7 @@ def cdnmediaurl():
 def cdnmediaurljs():
     return settings.DISTRIBUITED_CONTENT_URL.replace("/", "\/")
 
+fonttagregex = re.compile('</{0,1}font[^>]*>')
 fontregex = re.compile('(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 colorregex = re.compile('(?:color)\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 styleregex = re.compile('style="[^"]*"', re.MULTILINE)
@@ -42,7 +43,7 @@ srcregex = re.compile('<(\w+[^>]+)src', re.MULTILINE | re.IGNORECASE)
 
 @register.filter
 def comicsanitize(value):
-    return mark_safe(colorregex.sub('', fontregex.sub('', value)))
+    return mark_safe(colorregex.sub('', fontregex.sub('', fonttagregex.sub('', value))))
     #return mark_safe(colorregex.sub('', fontregex.sub('', value)))
 
 

@@ -2,6 +2,7 @@
 {% block layoutcontent %}
 <div id="content">
     <div class="fluid">
+        {% block bodyleft %}
         <nav class="adjustablemenu">
             <h2>Programmi</h2>
             <ul>
@@ -17,10 +18,12 @@
              {% endfor %}
             </ul>
         </nav>
+        {% endblock %}
+        {% block contentcontainer %}
         <div class="main">
-        {% block bodyleft %}{% endblock %}
         {% block content %}{% endblock %}
         </div>
+        {% endblock %}
     </div>
 </div>
 <div id="sidebar">

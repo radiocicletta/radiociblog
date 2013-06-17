@@ -8,7 +8,7 @@
     {% endif %}
 {% endblock %}
 
-{% block bodyleft %}
+{% block content %}
     <header class="blog_show_header" data-background-image="url({{ blog.get_logo.url|default_if_none:'' }});">
         <h2 class="blogtitle">{{ blog.title|titlecase }}</h2>
         <p class="desc">{{ blog.description }}</p>

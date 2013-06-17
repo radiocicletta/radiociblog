@@ -24,6 +24,6 @@
             </ul>
             <div class="articlecontent socialicons">
                 {{ post.rendered_content|truncatewords_html:150|comicsanitize|rewritesrc|smarty }}
-                <p><a  href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="http://{{post.blog.url_stripped}}radiocicletta.it">Leggi il blog {{post.get_blog.title|truncatewords:4|titlecase}}</a></p>
+                <p><a  href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="http://{{post.blog.url_stripped}}.radiocicletta.it">Leggi il blog {{post.get_blog.title|truncatewords:4|titlecase}}</a></p>
             </div>
         </article>
