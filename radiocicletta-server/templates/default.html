@@ -2,6 +2,7 @@
 {% block layoutcontent %}
 <div id="content">
     <div class="fluid">
+        {% block bodyleft %}
         <nav class="adjustablemenu">
             <h2>Programmi</h2>
             <ul>
@@ -10,17 +11,19 @@
                 <li><a href="/programmi/{{day}}">{{day}}</a>
                     <ul class="submenu">
                     {% for p in list %}
-                        <li><a href="{{ p.get_blog.url }}">{{ p.title }}</a></li>
+                        <li><a href="http://{{ p.get_blog.url_stripped }}.radiocicletta.it">{{ p.title }}</a></li>
                     {% endfor %}
                 </ul></li>
                 {% endif %}
              {% endfor %}
             </ul>
         </nav>
+        {% endblock %}
+        {% block contentcontainer %}
         <div class="main">
-        {% block bodyleft %}{% endblock %}
         {% block content %}{% endblock %}
         </div>
+        {% endblock %}
     </div>
 </div>
 <div id="sidebar">
@@ -39,7 +42,7 @@
             <h2>Oggi in onda</h2>
                 <ul>
                     {% for p in today_schedule %}
-                    <li><span class="time">{{p.startora|capfirst}}</span> <a href="{{ p.get_blog.url }}">{{ p.title }}</a></li>
+                    <li><span class="time">{{p.startora|time:"H:i"}}</span> <a href="http://{{ p.get_blog.url_stripped }}.radiocicletta.it">{{ p.title }}</a></li>
                     {% endfor %}
                 </ul>
         </section>
@@ -51,10 +54,12 @@
             <h2>Socializzanda</h2>
             <p>Che si dice nella rete</p>
         </section>
+        <!--
         <section class="panel">
             <h2>Propaganda</h2>
             <p>Dacci €Danaro! We need $Money! ¢Dinero Por Favor!</p>
         </section>
+        -->
     </div>
 </div>
 {% endblock %}

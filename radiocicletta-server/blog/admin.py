@@ -104,8 +104,8 @@ class PostAdmin(BaseAdmin):
 
 
 class ProgrammiAdmin(BaseAdmin):
-    list_display = ('title', 'descr')
-    search_fields = ('title',)
+    list_display = ('title', 'descr', 'startgiorno', 'startora')
+    search_fields = ()  # ('title',)
     ordering = ('title',)
 
 #    def queryset(self, request):

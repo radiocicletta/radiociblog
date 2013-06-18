@@ -214,6 +214,29 @@
         display: none;
     }
 
+    #showcasecontainer {
+        margin: 0px;
+    }
+    #showcase {
+        width: 100%;
+    }
+    a.pictbig {
+        width: 62px;
+        height: 62px;
+    }
+    div.rightbox {
+        margin-left: 72px;
+        text-overflow: ellipsis;
+    }
+    .rightbox .firstrow,
+    .rightbox .secondrow,
+    .rightbox .thirdrowx{
+        font-size: 120%;
+    }
+    .rightbox .pictsmall {
+        display: none;
+    }
+
     #content {
         width: 100%;
         margin-right: 0px;    

@@ -64,7 +64,6 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'google_analytics',
     'google_cse',
-    'robots',
     'simplesocial',
     'redirects',
     'autoload',
@@ -103,14 +102,13 @@ MIDDLEWARE_CLASSES = (
     'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'djangotoolbox.middleware.RedirectMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'urlrouter.middleware.URLRouterFallbackMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
@@ -163,7 +161,7 @@ GLOBAL_MEDIA_DIRS = (
 ADMIN_MEDIA_PREFIX ='/media/admin/'
 ROOT_URLCONF = 'urls'
 #DISTRIBUITED_CONTENT_URL = 'http://localhost:8081'
-DISTRIBUITED_CONTENT_URL = 'http://cdndev.radiocicletta.it'
+DISTRIBUITED_CONTENT_URL = 'http://cdn.radiocicletta.it'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
 

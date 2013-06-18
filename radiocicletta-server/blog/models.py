@@ -103,6 +103,12 @@ class Blog(models.Model):
             return self.url
         return self.url + '/'
 
+    @property
+    def url_stripped(self):
+        if self.url.startswith('/'):
+            return self.url[1:]
+        return self.url
+
     def feedburner_id(self):
         # Detect FeedBurner ID from feed redirect URL
         match = FEEDBURNER_ID.match(self.feed_redirect_url)
@@ -120,11 +126,14 @@ class Blog(models.Model):
         return self.url_prefix + 'feed/latest'
 
     def get_logo(self):
-        cache_logo = cache.get('blog_%s_logo' % self.pk)
-        if not cache_logo:
-            cache.set('blog_%s_logo' % self.pk, self.logo)
-            return self.logo
-        return cache_logo
+        try:
+            cache_logo = cache.get('blog_%s_logo' % self.pk)
+            if not cache_logo:
+                cache.set('blog_%s_logo' % self.pk, self.logo)
+                return self.logo
+            return cache_logo
+        except:
+            return None
 
 
 def default_blog():
@@ -172,6 +181,10 @@ class Post(BaseContent):
         if not self.published:
             return self.get_review_url()
         return self.url
+
+    @property
+    def url_stripped(self):
+        return re.sub('^/[^/]*', '', self.url)
 
     def get_blog(self):
         cached_blog = cache.get('post_%s_blog' % self.pk)

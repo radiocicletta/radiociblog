@@ -48,7 +48,7 @@ $(document).ready(function() {
     var dbClient = new Dropbox.Client(dbSession),
     imageload = $('<div id="loadwait" class="spin"><img src="http://i.imgur.com/wehtr.gif" width="104" height="104" ><div class="loadinfo"></div></div>');
 
-    dbSession.setToken({key:"4gk4u0o6cvmb9p",secret:"yxtx7eugpd2cdco"})
+    //dbSession.setToken({key:"4gk4u0o6cvmb9p",secret:"yxtx7eugpd2cdco"})
     dbSession.setToken({key:"4zaglyiqe888l65",secret:"zhvwgq3xtp80cj7"})
 
 
@@ -78,30 +78,39 @@ $(document).ready(function() {
         if ( errors ) return;
         $('body').append('<div id="opaque"></div>');
         $('#replay_form').append(imageload);
-
-        dbClient.putFile({ path: "/automatici/" + els.id_date_0.value + '_' + els.id_date_1.value.replace(/:/g, '-'),
-                           fileObj: els.replicafile.files[0],
-                           overwrite: true,
-                        },
+        $('.loadinfo').text("Preparazione dell'upload...");
+        var dbChunkUploader = dbClient.getChunkedUploader(els.replicafile.files[0], els.replicafile.files[0].size),
+            totalsize = els.replicafile.files[0].size,
+            progress = 0,
+            uploaded = 0;
+        dbChunkUploader.uploadChunked(null,
+            function() {
+                dbChunkUploader.finish({
+                    path: "/automatici/" + els.id_date_0.value + '_' + els.id_date_1.value.replace(/:/g, '-'),
+                    overwrite: true
+                    },
                         function() {
                             $("#loadwait").remove();
                             $("#opaque").remove();
                             $(els).find('#id_replicafile')[0].value=""
+                            $('.loadinfo').text('Upload completato');
                             els.submit();
-                        },
-                        function() {
-                            $('.loadinfo')
-                            .text("Errore nell'upload.");
-                            window.setTimeout(function(){
-                                    $("#loadwait").fadeOut().remove();
-                                    $("#opaque").fadeOut().remove();
-                                }, 10000);
-                        },
-                        function(e){
-                            $('.loadinfo')
-                                .text(Math.ceil(e.loaded / e.totalSize * 100) + '%');
-                        });
-        return true;
+                });
+            },
+            function() {
+                $('.loadinfo')
+                .text("Errore nell'upload.");
+                window.setTimeout(function(){
+                        $("#loadwait").fadeOut().remove();
+                        $("#opaque").fadeOut().remove();
+                    }, 10000);
+            },
+            function(e){
+                uploaded += e.loaded - (progress > e.loaded? 0: progress);
+                progress = e.loaded;
+                $('.loadinfo')
+                    .text(Math.ceil((uploaded>totalsize? totalsize: uploaded) / totalsize * 100) + '%');
+        });
     });
     $('label[for=id_replicafile]').addClass('required');
 

@@ -1,22 +1,22 @@
-{% extends "default.html" %}
+{% extends "large.html" %}
 {% block pagetitle %}Palinsesto dei programmi{% endblock %}
 {% block bodybaronair %}
 {% endblock %}
 
 {% block bodyheader %}{% endblock %}
 
-{% block bodyleft %}
+{% block content %}
 <article>
     <h2>Palinsesto settimanale</h2>
     <div class="schedulecontainer">
         <table class="schedule">
-            <colgroup class="even"></colgroup>
-            <colgroup class="odd" ></colgroup>
-            <colgroup class="even"></colgroup>
-            <colgroup class="odd" ></colgroup>
-            <colgroup class="even"></colgroup>
-            <colgroup class="odd" ></colgroup>
-            <colgroup class="even"></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
+            <colgroup ></colgroup>
             <thead>
                 <tr>
                 	<th>Lunedì</th>
@@ -32,16 +32,14 @@
                 {% for row in rowschedule %}
                 <tr>
                     {% for evt in row %}
-                    {% if evt.title %}
-                        <td rowspan="{{ evt.rowspan }}">
-                            <em>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</em>
-                            <a href="{{ evt.url }}">{{ evt.title }}</a>
-                        </td>
-                    {% else%}
-                        {% if not evt.busy %}
-                            <td></td>
+                    {% with forloop.counter as rnum%}
+                        {% if evt.rowspan %}
+                        <td rowspan="{{ evt.rowspan }}" class="{{ rnum|divisibleby:2|yesno:'odd,even' }}">
+                                <strong>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</strong>
+                                <a href="http://{{ evt.url }}.radiocicletta.it">{{ evt.title }}</a>
+                            </td>
                         {% endif %}
-                    {% endif %}
+                    {%endwith%}
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -54,7 +52,7 @@
     <ul>
         {% for b in blogs %}
             {% if not b.blog_generic %}
-                <li><a href="{{b.url}}">{{ b.title }}</a></li>
+                <li><a href="http://{{b.url_stripped}}.radiocicletta.it">{{ b.title }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>

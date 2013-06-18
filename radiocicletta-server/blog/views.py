@@ -30,7 +30,15 @@ def cached_programmi():
 
 def cached_onair(blog):
 
-    onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
+    onair = cache.get('cached_onair_%s' % blog.id)
+    if onair:
+        return onair
+
+    onair = []
+    try:
+        onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
+    except:
+        pass
     for p in onair:
         p['startgiorno'] = {'lu': 'Lunedi',
                             'ma': 'Martedi',
@@ -39,6 +47,7 @@ def cached_onair(blog):
                             've': 'Venerdi',
                             'sa': 'Sabato',
                             'do': 'Domenica'}[p['startgiorno']]
+    cache.set('cached_onair_%s' % blog.id, onair)
     return onair
 
 
@@ -61,13 +70,16 @@ def oldhome(request):
     recent_posts = cached_posts()
     recent_posts = recent_posts.order_by('-published_on')[:6]
     today = today_schedule()
+    tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
     current_show = [d for d in today
                     if d.startora <= datetime.now(tzdata).time()
-                    and d.endora >= datetime.now(tzdata).time()]
-    next_show = [d for d in today
-                 if d.startora >= datetime.now(tzdata).time()
-                 and d.endora >= datetime.now(tzdata).time()]
+                    and d.endora >= datetime.now(tzdata).time()
+                    or d.startora <= datetime.now(tzdata).time()
+                    and d.startora >= d.endora]
+    next_show = [d for d in today if d.startora >= datetime.now(tzdata).time()] +  tomorrow[:1]
+
+                                 #and d.endora >= datetime.now(tzdata).time()]
 
     return render(request, 'blog/index.html',
                   {'blogs': blogs,
@@ -84,9 +96,9 @@ def foto(request):
                    'today_schedule': today_schedule()})
 
 
-def programmi(request, day):
+def programmi(request, day=''):
     blogs = cached_blogs()
-    if day[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
+    if str(day)[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
         # stiamo scherzando?
         programmi = set(cached_programmi().filter(
                         startgiorno=day[:2].lower())).union(
@@ -146,7 +158,11 @@ def schedule():
     cached_cal = cache.get('cached_cal')
     if cached_cal:
         return cached_cal
-    progs = cached_programmi().exclude(status=0)   # see Programmi.models.PROGSTATUS
+
+    progs = cache.get('programmi_exclude_0')
+    if not progs:
+        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
+        cache.set('programmi_exclude_0', progs)
     cal = {"lu": ('Lunedi',     0, []),
            "ma": ('Martedi',    1, []),
            "me": ("Mercoledi",  2, []),
@@ -160,12 +176,12 @@ def schedule():
     for day in cal.keys():
         cal[day][2].sort(key=lambda x: x.startora)
         # hack per programmi che cominciano a mezzanotte del giorno dopo
-        if len(cal[day][2]) and cal[day][2][0].startora >= time(0, 0) and cal[day][2][0].startora < time(4, 0):
-            cal[day][2].append(cal[day][2].pop(0))
+        #if len(cal[day][2]) and cal[day][2][0].startora >= time(0, 0) and cal[day][2][0].startora < time(4, 0):
+        #    cal[day][2].append(cal[day][2].pop(0))
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x, y: x[1] - y[1])
-    cache.set('cached_cal', cached_cal)
+    cache.set('cached_cal', orderedcal)
     return orderedcal
 
 
@@ -175,12 +191,21 @@ def today_schedule():
     return sched[today][2]  # Assumendo Lunedi come giorno 0
 
 
+def tomorrow_schedule():
+    today = (datetime.now(tzdata).weekday() + 1) % 7
+    sched = schedule()
+    return sched[today][2]  # Assumendo Lunedi come giorno 0
+
+
 def orderedschedule():
     cached_ordered_cal = cache.get('cached_ordered_cal')
     if cached_ordered_cal:
         return cached_ordered_cal
 
-    progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
+    progs = cache.get('programmi_exclude_0')
+    if not progs:
+        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
+        cache.set('programmi_exclude_0', progs)
     if not len(progs):
         return []
 
@@ -199,11 +224,13 @@ def orderedschedule():
             tick = i["startora"]
         if i["startora"] < i["endora"]:
             i['rowspan'] = ((i["endora"].hour * 60 + i["endora"].minute) - (i["startora"].hour * 60 + i["startora"].minute)) / 30
+        elif i["startora"] == i["endora"]:
+            i['rowspan'] = 48  # 24 hours (sliced in 30 mins cells)
         else:
             i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
                             i['endora'].hour * 60 + i['endora'].minute) / 30
 
-        i['url'] = cached_blogs().filter(id=i['blog_id']) and cached_blogs().filter(id=i['blog_id'])[0].url or ''
+        i['url'] = cached_blogs().filter(id=i['blog_id']) and cached_blogs().filter(id=i['blog_id'])[0].url_stripped or ''
 
         i['startgiorno'] = {'lu': 0,
                             'ma': 1,
@@ -223,14 +250,6 @@ def orderedschedule():
 
     group.sort(key=lambda x: x["startgiorno"])
     groupedcal.append(group)
-
-    for i in groupedcal[0]:
-        if 'startora' in i and i["startora"] == time(0, 0):
-            groupedcal.append(groupedcal.pop(0))
-            break
-
-    for i in groupedcal[-1]:
-        i["rowspan"] = 1
 
     row = 0
     while row < len(groupedcal):
@@ -252,7 +271,7 @@ def orderedschedule():
         if not recheck:
             row = row + 1
 
-    cache.set('cached_ordered_cal', cached_ordered_cal)
+    cache.set('cached_ordered_cal', groupedcal)
     return groupedcal
 
 
@@ -267,7 +286,10 @@ def browse(request, **kwargs):
     else:
         cache.set('blog_%s' % request.path, blog)
     page = abs(int(request.GET.get('page', 1)))
-    onair = cached_onair(blog)
+    if not blog.blog_generic:
+        onair = cached_onair(blog)
+    else:
+        onair = []
     posts = cached_blog_posts(blog)
     posts = posts.order_by('-published_on')
     paged_posts = Paginator(posts, 6).page(page)
@@ -283,9 +305,9 @@ def browse(request, **kwargs):
 
 def tags(request, tag):
     page = abs(int(request.GET.get('page', 1)))
-    posts = cached_posts().order_by('-published_on')
     tagged_posts = cache.get('posts_tag_%s' % tag)
     if not tagged_posts:
+        posts = cached_posts().order_by('-published_on')
         tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
         cache.set('posts_tag_%s' % tag, tagged_posts)
 

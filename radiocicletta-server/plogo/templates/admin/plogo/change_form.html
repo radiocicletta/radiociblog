@@ -6,6 +6,7 @@
 if (!window['$'])
     window['$'] = django.jQuery;
     /* Drag'n drop stuff */
+$(function() {
     window.ondragover = function(e) {e.preventDefault()}
     window.ondrop = function(e) {e.preventDefault(); upload(e.dataTransfer.files[0]); }
     function upload(file) {
@@ -13,13 +14,13 @@ if (!window['$'])
         $('#holder').css({'border':'none'});
         $('#imgup').css({'background':'#FFF'});
     
-
+    
         /* Is the file an image? */
         if (!file || !file.type.match(/image.*/)) return;
-
+    
         /* It is! */
         document.body.className = "uploading";
-
+    
         /* Lets build a FormData object*/
         var fd = new FormData(); // I wrote about it: https://hacks.mozilla.org/2011/01/how-to-develop-a-html5-image-uploader/
         fd.append("image", file); // Append the file
@@ -27,7 +28,7 @@ if (!window['$'])
         var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
         xhr.open("POST", "http://api.imgur.com/2/upload.json"); // Boooom!
         xhr.onload = function() {
-
+    
             // Big win!
             imgurl=JSON.parse(xhr.responseText).upload.links.original;
             $('#id_url').attr("disabled",false);
@@ -36,13 +37,17 @@ if (!window['$'])
             document.body.className = "uploaded";
         }
         // Ok, I don't handle the errors. An exercice for the reader.
-
+    
         /* And now, we send the formdata */
         xhr.send(fd);
     }
-
-$(document).ready(function() {
-$('#id_url').attr("disabled",true);
+    
+    //$('#id_url').attr("disabled",true); 
+    $('#uploadfile').click(function(evt){
+        evt.preventDefault();
+        $('input[type=file]').click();
+        upload(evt.dataTransfer.files[0]); 
+    });
 });
 
 </script>
@@ -57,16 +62,14 @@ $('#id_url').attr("disabled",true);
         width: 150px;
         min-height: 150px;
         margin: 10px;
+    }
     .drop img{margin: auto;}
-}
-
 </style>
 {% endblock %}
 
 
-{% block cima %}
+{% block form_top %}
 <div class="precontent">
-<form>
     <div>
         <fieldset class="module aligned ">
             <div class="form-row title">
@@ -77,7 +80,7 @@ $('#id_url').attr("disabled",true);
                             <div class="drop"><br>Dragga e Droppa qui dentro,
                                 oppure se sei impedito o il tuo browser &egrave;
                                 vecchio come il cucco pigia il bottone e scegli il file<br>
-                                <button onclick="document.querySelector('input').click()">pigiami</button>
+                                <button id="uploadfile">pigiami</button>
                             </div>
                             <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"> 
                             <a id="link">It's online!!!</a>
@@ -87,8 +90,7 @@ $('#id_url').attr("disabled",true);
             </div>
         </fieldset>
     </div>
-</form>
 </div>
 
-
+    {{ block.super }}
 {% endblock %}

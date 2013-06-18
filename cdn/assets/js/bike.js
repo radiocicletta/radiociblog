@@ -8,7 +8,7 @@ var kPlayerBackgroundRunPos = "0px 0px",
 
 $(function(evt) {
     /*jshint $:true*/
-    "use strict"; // jshint ;_;
+    //"use strict"; // jshint ;_;
     var baseurl = "http://api.radiocicletta.it",
         player = document.createElement("div"),
         infobar = document.createElement("div"),
@@ -29,7 +29,7 @@ $(function(evt) {
     infobar.id = 'infobar';
     infobar.innerHTML = '<ul>' +
                             '<li><span id="infobar-first">Ascolta la radio</span></li>' +
-                            '<li><span id="infobar-second">Ascolta con VLC\/Winamp\/altro</span></li>' +
+                            '<li><span id="infobar-second">Ascolta con VLC, Winamp, ecc.</span></li>' +
                             '<li><span id="infobar-third">Apri il player separato</span></li>' +
                         '</ul>';
 
@@ -140,7 +140,7 @@ $(function(evt) {
                 };
                 xhr.send(null);
 
-                xhr2.overrideMimeType("text/plain; charset=utf-8");
+                /*xhr2.overrideMimeType("text/plain; charset=utf-8");
                 xhr2.open("GET", "http://www.radiocicletta.it/programmi.json?_=" + new Date().getTime(), true);
                 xhr2.onreadystatechange = function(evt) {
                     if (xhr2.readyState === 4 && xhr2.status === 200) {
@@ -156,12 +156,13 @@ $(function(evt) {
                         onairinfo = filtered.length && filtered[0] || {title: "No Stop Music", id: -1};
                     }
                 };
-                xhr2.send(null);
+                xhr2.send(null);*/
 
             };
 
             var ui_metadata = function () {
-                metadata.title = metadata.innerHTML = (onairinfo.title + " — " + icyinfo.title).replace(/<[^>]+>/g, "");
+                //metadata.title = metadata.innerHTML = (onairinfo.title + " — " + icyinfo.title).replace(/<[^>]+>/g, "");
+                metadata.title = metadata.innerHTML = (icyinfo.title).replace(/<[^>]+>/g, "");
             };
 
             /*var scrolleft = 0;
@@ -302,6 +303,8 @@ $(function(evt) {
             a = document.createElement("a"),
             span = document.createElement("span"),
             ul, _li, _a, _span; 
+        if (!data)
+            return;
         if (data.mixcloud) {
             ul = document.createElement("ul");
             for (var i=0, items = data.mixcloud.recents.data, len = Math.min(5, items.length); i < len; i++){
@@ -396,10 +399,28 @@ $(function(evt) {
 
     }
 
+
+    $("#showcase img").on('load', function(evt){
+        var target = $(evt.currentTarget),
+            w = target.width(),
+            h = target.height(),
+            parent = target.parent(),
+            pw = parent.width(),
+            ph = parent.height();
+        if ( w < pw)
+            target.css({width: pw + 'px', height:'auto'});
+        else if (h < ph)
+            target.css({width:'auto', height: pw + 'px'});
+    });
     //delayed style and heavy objects loading
     var resources = $('[data-src]');
-    for (var i = 0; i < resources.length; i++)
-        resources[i].src = $(resources[i]).data('src');
+    for (var i = 0; i < resources.length; i++) {
+        var src = $(resources[i]).data('src');
+        var thumb = $(resources[i]).data('thumbnail');
+        if (thumb === "s" || thumb === "l")
+            src = src.replace(/.([^.]*$)/, thumb + ".$1");
+        resources[i].src = src;
+    }
 
     resources = $('[data-background-image]');
     for (i = 0; i < resources.length; i++)
