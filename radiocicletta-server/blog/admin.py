@@ -97,7 +97,7 @@ class PostAdmin(BaseAdmin):
                     qs_blog_user = Blog.objects.all()
                 else:
                     qs_blog_user = Blog.objects.filter(id__in=[b.id for b in filter(lambda x: request.user.id in x.utenti, Blog.objects.all())])
-                cache.add('qs_blog_%s' % request.user.id, qs_blog_user)
+                cache.add('qs_blog_%s' % request.user.id, list(qs_blog_user))
 
             kwargs['queryset'] = qs_blog_user
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)

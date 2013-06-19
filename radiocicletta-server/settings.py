@@ -49,6 +49,7 @@ ALLOWED_DOMAINS = ()
 SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
 
 INSTALLED_APPS = (
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -98,6 +99,15 @@ REST_BACKENDS = (
     'blog.markup_posts',
 )
 
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+ #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
+    }
+}
+
 MIDDLEWARE_CLASSES = (
     'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
     # This loads the index definitions, so it has to come first
@@ -123,7 +133,6 @@ URL_ROUTE_HANDLERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',

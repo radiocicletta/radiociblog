@@ -24,7 +24,7 @@ def cached_programmi():
     p = cache.get('programmi')
     if not p:
         p = Programmi.objects.all()
-        cache.add('programmi', p)
+        cache.add('programmi', list(p))
     return p
 
 
@@ -68,7 +68,7 @@ def social(request):
 def oldhome(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    recent_posts = recent_posts[:6]
     today = today_schedule()
     tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
@@ -146,7 +146,7 @@ def standalone(request):
 def tuttib(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    recent_posts = recent_posts[:6]
     return render(request, 'blog/blog.html',
                   {'blogs': blogs,
                    'recent_posts': recent_posts,
@@ -161,7 +161,7 @@ def schedule():
 
     progs = cache.get('programmi_exclude_0')
     if not progs:
-        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
+        progs = Programmi.objects.exclude(status=0)  # see Programmi.models.PROGSTATUS
         cache.set('programmi_exclude_0', progs)
     cal = {"lu": ('Lunedi',     0, []),
            "ma": ('Martedi',    1, []),
@@ -230,7 +230,7 @@ def orderedschedule():
             i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
                             i['endora'].hour * 60 + i['endora'].minute) / 30
 
-        i['url'] = cached_blogs().filter(id=i['blog_id']) and cached_blogs().filter(id=i['blog_id'])[0].url_stripped or ''
+        i['url'] = cached_blogs(i['blog_id']) and cached_blogs(id=i['blog_id'])[0].url_stripped or ''
 
         i['startgiorno'] = {'lu': 0,
                             'ma': 1,
@@ -291,7 +291,7 @@ def browse(request, **kwargs):
     else:
         onair = []
     posts = cached_blog_posts(blog)
-    posts = posts.order_by('-published_on')
+    posts = posts
     paged_posts = Paginator(posts, 6).page(page)
     return render(request, 'blog/post_list.html',
                   {'blog': blog,
@@ -307,7 +307,7 @@ def tags(request, tag):
     page = abs(int(request.GET.get('page', 1)))
     tagged_posts = cache.get('posts_tag_%s' % tag)
     if not tagged_posts:
-        posts = cached_posts().order_by('-published_on')
+        posts = cached_posts()
         tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
         cache.set('posts_tag_%s' % tag, tagged_posts)
 
@@ -339,8 +339,10 @@ def review(request, review_key):
 
 
 def show_post(request, post, review=False):
-    recent_posts = cached_blog_posts(post.blog)
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    logger.warn(post)
+    logger.warn(post.blog)
+    recent_posts = cached_blog_posts(post.blog)[:6]
+    logger.warn(recent_posts)
     return render(request, 'blog/post_detail.html',
                   {'post': post,
                    'blog': post.blog,
@@ -395,8 +397,7 @@ class LatestEntriesFeed(Feed):
         return post.published_on
 
     def items(self, blog):
-        query = cached_blog_posts(blog).order_by(
-            '-published_on')
+        query = cached_blog_posts(blog)
         # TODO: add select_related('author') once it's supported
         return query[:100]
 

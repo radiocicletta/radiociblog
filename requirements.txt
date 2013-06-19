@@ -1,8 +1,9 @@
--e git+http://github.com/django-nonrel/djangotoolbox@801afbb68bb112a614d034c9c45098fa02e3e5e3#egg=djangotoolbox
--e git+http://github.com/django-nonrel/djangoappengine@b40e12c57b37f78eafff1de037230e052db94f0e#egg=djangoappengine
--e git+http://github.com/django-nonrel/django-dbindexer@dd0ec927c187ff12f7ccaa06bfe2bd1b5ad00ce1#egg=django-dbindexer
--e git+http://github.com/django-nonrel/django-nonrel@4fbfe7344481a5eab8698f79207f09124310131b#egg=django-nonrel
+-e git+http://github.com/django-nonrel/djangotoolbox@1e55b1c52b7580bbd5ee24205dc002fa17327b07#egg=djangotoolbox
+-e git+http://github.com/django-nonrel/djangoappengine@8a73679b37ac8dd965678d160d2dbba443d1f4bf#egg=djangoappengine
+-e git+http://github.com/django-nonrel/django-dbindexer@d22cd12ce4c428abfbff4f510b4ea730c1381451#egg=django-dbindexer
+-e git+http://github.com/django-nonrel/django@a9987aea817256ae2fb28e8523c8df3cfffa65fc#egg=django
 -e git+http://github.com/django-nonrel/django-permission-backend-nonrel@c9c8c07ab68f3795eaca66706ae1fae696614685#egg=django-permission-backend-nonrel
 -e hg+http://bitbucket.org/twanschik/django-autoload#egg=django-autoload
 -e hg+https://code.google.com/p/gae-pytz/#egg=gaepytz
 pytz
+django-admin-bootstrapped

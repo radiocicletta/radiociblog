@@ -15,7 +15,7 @@ def blog_feeds():
     blogs = cache.get('blogs')
     if not blogs:
         blogs = Blog.objects.all()
-        cache.set('blogs', blogs)
+        cache.set('blogs', list(blogs))
     return {'blogs': blogs}
 
 
