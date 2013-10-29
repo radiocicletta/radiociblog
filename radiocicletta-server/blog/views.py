@@ -196,84 +196,61 @@ def tomorrow_schedule():
     sched = schedule()
     return sched[today][2]  # Assumendo Lunedi come giorno 0
 
-
 def orderedschedule():
-    cached_ordered_cal = cache.get('cached_ordered_cal')
+    """ Questa funzione restuisce una lista di liste : l'elemento calendario[time][day] è un dizionario contenente
+    il titolo, orario di inizio e orario di fine del programma che il giorno day va in onda all'ora time """
+    cached_ordered_cal = cache.get('cached_ordered_cal') 
     if cached_ordered_cal:
-        return cached_ordered_cal
-
-    progs = cache.get('programmi_exclude_0')
+        return cached_ordered_cal  # Se l'orario è già stato ordinato e messo in cache usiamo quello
+    
+    progs = cache.get('programmi_exclude_0') # Altrimenti carichiamo la lista dei programmi attivi (status /= 0) 
     if not progs:
-        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
-        cache.set('programmi_exclude_0', progs)
-    if not len(progs):
-        return []
-
-    orderedcal = list(progs.values())
-    orderedcal.sort(key=lambda x: x["startora"])
-
-    groupedcal = []
-    group = [{"startgiorno": x} for x in range(0, 7)]
-    tick = orderedcal[0]["startora"]
-
-    for i in orderedcal:
-        if i["startora"] != tick:
-            group.sort(key=lambda x: x["startgiorno"])
-            groupedcal.append(group)
-            group = [{"startgiorno": x} for x in range(0, 7)]
-            tick = i["startora"]
-        if i["startora"] < i["endora"]:
-            i['rowspan'] = ((i["endora"].hour * 60 + i["endora"].minute) - (i["startora"].hour * 60 + i["startora"].minute)) / 30
-        elif i["startora"] == i["endora"]:
-            i['rowspan'] = 48  # 24 hours (sliced in 30 mins cells)
+        progs = cached_programmi().exclude(status=0) # Se anche la lista dei programmi attivi non è in cache la recuriamo 
+        cache.set('programmi_exclude_0',progs) # Mettiamo in cache la lista dei programmi attivi
+    if not progs:
+        return [] # Se anche questo ha fallito (e quindi non ci sono ancora dei programmi restituisce la lista vuota)
+    # Ora proviamo a organizzare i dati una bella tabella, o meglio un dizionario di liste di programmi
+    settimana = ['lu','ma','me','gi','ve','sa','do']
+    orari = []  # questa lista conterra tutte le mezzore che ci sono nel giorno
+    for index in range(0,48): # Questo ciclo serve a popolare le mezzore
+        if index % 2 == 0:
+            orari.append(time(index/2,0))
         else:
-            i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
-                            i['endora'].hour * 60 + i['endora'].minute) / 30
+            orari.append(time(index/2,30))
+    calendario = [[] for x in range(0,48)] # il calendario è una lista di tanti elementi quando le mezzore
+    # ogni elemento della lista sarà a sua volta una lista di 7 elementi (quanti i giorni)
+    for mezzora in range(0,48):
+        for giorno in range(0,7):
+            calendario[mezzora].append(estraiProg(progs,settimana[giorno],orari[index]))
+    # Ora il calendario dovrebbe essere popolato per bene
+    # lo popoliamo con la classe di ogni programma (si lo so fa cagare ma per ora non ho pensato a niente di meglio)
+    classi = ['odd' for x in range(0,7)]
+    for mezzora in range(0,48):
+        for giorno in range(0,7):
+            if calendario[mezzora][giorno]['title'] == '':
+                calendario[mezzora][giorno]['classe'] = classi[giorno]
+            else:
+                if classi[giorno] == 'odd':
+                    classi[giorno] = 'even'
+                else:
+                    classi[giorno] = 'odd'
+                calendario[mezzora][giorno]['classe'] = classi[giorno]
 
-        i['url'] = cached_blogs(i['blog_id']) and cached_blogs(id=i['blog_id'])[0].url_stripped or ''
+    cache.set('cached_ordered_cal',calendario)
+    return calendario
 
-        i['startgiorno'] = {'lu': 0,
-                            'ma': 1,
-                            'me': 2,
-                            'gi': 3,
-                            've': 4,
-                            'sa': 5,
-                            'do': 6}[i['startgiorno']]
-        i['endgiorno'] = {'lu': 0,
-                          'ma': 1,
-                          'me': 2,
-                          'gi': 3,
-                          've': 4,
-                          'sa': 5,
-                          'do': 6}[i['endgiorno']]
-        group[i['startgiorno']] = i
 
-    group.sort(key=lambda x: x["startgiorno"])
-    groupedcal.append(group)
-
-    row = 0
-    while row < len(groupedcal):
-        recheck = False
-        for col in range(0, 7):
-            i = groupedcal[row][col]
-            if 'rowspan' in i and i["rowspan"] > 1:
-                j = row + 1
-                while j < min(row + i["rowspan"], len(groupedcal)):
-                    if "endora" in groupedcal[j][col]:  # COLLISION
-                        groupedcal.insert(j, [{"startgiorno": x} for x in range(0, 7)])
-                        recheck = True
-                        break
-                    else:
-                        groupedcal[j][col]["busy"] = True
-                    j = j + 1
-            if recheck:
-                break
-        if not recheck:
-            row = row + 1
-
-    cache.set('cached_ordered_cal', groupedcal)
-    return groupedcal
-
+def extractProg(listaProgrammi,giorno,mezzora):  # Da controllare
+    lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaProgrammi)
+    if lista == []:
+        return {'title':'',
+                'startora':'',
+                'endora':''}
+    else:
+        prog = lista[0]
+        return {'title': prog.title,
+                'startora': prog.startora,
+                'endora': prog.endora }
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
