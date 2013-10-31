@@ -1305,6 +1305,7 @@ table.schedule {
     border-collapse: separate;
     border-spacing: 2px 0;
     width: 100%;
+    empty-cells: show;
 }
 
 table.schedule th {

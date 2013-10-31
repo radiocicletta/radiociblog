@@ -32,12 +32,13 @@
                 {% for row in rowschedule %}
                 <tr>
                     {% for evt in row %}
-                      <td class="{{ evt.classe }}">
+                    {% with forloop.counter as rnum%}
+                      <td class="{{ rnum|divisibleby:2|yesno:'odd,even' }}">
+                        {% if evt.startora %}
                                 <strong>{{ evt.startora|time:"H:i" }} - {{ evt.endora|time:"H:i" }}</strong>
-                      <!--          <a href="http://{{ evt.url }}.radiocicletta.it">{{ evt.title }}</a> -->
-		                {{ evt.title }}
-                      </td>
+                                <a href="http://{{ evt.url }}.radiocicletta.it">{{ evt.title }}</a>
                         {% endif %}
+                      </td>
                     {%endwith%}
                     {% endfor %}
                 </tr>

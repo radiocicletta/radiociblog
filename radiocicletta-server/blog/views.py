@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
 from datetime import datetime, time
 from django.contrib.syndication.views import Feed
@@ -199,29 +200,26 @@ def tomorrow_schedule():
 def orderedschedule():
     """ Questa funzione restuisce una lista di liste : l'elemento calendario[time][day] è un dizionario contenente
     il titolo, orario di inizio e orario di fine del programma che il giorno day va in onda all'ora time """
-    cached_ordered_cal = cache.get('cached_ordered_cal') 
+    cached_ordered_cal = cache.get('cached_ordered_cal')
     if cached_ordered_cal:
         return cached_ordered_cal  # Se l'orario è già stato ordinato e messo in cache usiamo quello
-    
-    progs = cache.get('programmi_exclude_0') # Altrimenti carichiamo la lista dei programmi attivi (status /= 0) 
+
+    progs = cache.get('programmi_exclude_0') # Altrimenti carichiamo la lista dei programmi attivi (status /= 0)
     if not progs:
-        progs = cached_programmi().exclude(status=0) # Se anche la lista dei programmi attivi non è in cache la recuriamo 
+        progs = cached_programmi().exclude(status=0) # Se anche la lista dei programmi attivi non è in cache la recuriamo
         cache.set('programmi_exclude_0',progs) # Mettiamo in cache la lista dei programmi attivi
     if not progs:
         return [] # Se anche questo ha fallito (e quindi non ci sono ancora dei programmi restituisce la lista vuota)
     # Ora proviamo a organizzare i dati una bella tabella, o meglio un dizionario di liste di programmi
     settimana = ['lu','ma','me','gi','ve','sa','do']
-    orari = []  # questa lista conterra tutte le mezzore che ci sono nel giorno
-    for index in range(0,48): # Questo ciclo serve a popolare le mezzore
-        if index % 2 == 0:
-            orari.append(time(index/2,0))
-        else:
-            orari.append(time(index/2,30))
+
+    # questa lista conterra tutte le mezzore che ci sono nel giorno
+    orari = [ index % 2 == 0 and time(index/2,0) or time(index/2,30) for index in range(0,48) ]
     calendario = [[] for x in range(0,48)] # il calendario è una lista di tanti elementi quando le mezzore
     # ogni elemento della lista sarà a sua volta una lista di 7 elementi (quanti i giorni)
     for mezzora in range(0,48):
         for giorno in range(0,7):
-            calendario[mezzora].append(estraiProg(progs,settimana[giorno],orari[index]))
+            calendario[mezzora].append(extract_prog(progs,settimana[giorno],orari[mezzora]))
     # Ora il calendario dovrebbe essere popolato per bene
     # lo popoliamo con la classe di ogni programma (si lo so fa cagare ma per ora non ho pensato a niente di meglio)
     classi = ['odd' for x in range(0,7)]
@@ -240,17 +238,19 @@ def orderedschedule():
     return calendario
 
 
-def extractProg(listaProgrammi,giorno,mezzora):  # Da controllare
+def extract_prog(listaProgrammi,giorno,mezzora):  # Da controllare
     lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaProgrammi)
     if lista == []:
         return {'title':'',
                 'startora':'',
-                'endora':''}
-    else:
-        prog = lista[0]
-        return {'title': prog.title,
-                'startora': prog.startora,
-                'endora': prog.endora }
+                'endora':'',
+                'url': ''}
+    prog = lista[0]
+    return {'title': prog.title,
+            'startora': prog.startora,
+            'endora': prog.endora,
+            'url': cached_blogs(prog.blog_id) and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
+            }
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
