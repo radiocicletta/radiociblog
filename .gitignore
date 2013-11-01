@@ -11,6 +11,7 @@ include
 bin
 
 radiocicletta-server/django
+radiocicletta-server/django_admin_bootstrapped
 radiocicletta-server/djangotoolbox
 radiocicletta-server/djangoappengine
 radiocicletta-server/autoload

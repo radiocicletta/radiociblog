@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
 from datetime import datetime, time
 from django.contrib.syndication.views import Feed
@@ -24,7 +25,7 @@ def cached_programmi():
     p = cache.get('programmi')
     if not p:
         p = Programmi.objects.all()
-        cache.add('programmi', p)
+        cache.add('programmi', list(p))
     return p
 
 
@@ -68,7 +69,7 @@ def social(request):
 def oldhome(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    recent_posts = recent_posts[:6]
     today = today_schedule()
     tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
@@ -146,7 +147,7 @@ def standalone(request):
 def tuttib(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    recent_posts = recent_posts[:6]
     return render(request, 'blog/blog.html',
                   {'blogs': blogs,
                    'recent_posts': recent_posts,
@@ -161,7 +162,7 @@ def schedule():
 
     progs = cache.get('programmi_exclude_0')
     if not progs:
-        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
+        progs = Programmi.objects.exclude(status=0)  # see Programmi.models.PROGSTATUS
         cache.set('programmi_exclude_0', progs)
     cal = {"lu": ('Lunedi',     0, []),
            "ma": ('Martedi',    1, []),
@@ -196,84 +197,60 @@ def tomorrow_schedule():
     sched = schedule()
     return sched[today][2]  # Assumendo Lunedi come giorno 0
 
-
 def orderedschedule():
+    """ Questa funzione restuisce una lista di liste : l'elemento calendario[time][day] è un dizionario contenente
+    il titolo, orario di inizio e orario di fine del programma che il giorno day va in onda all'ora time """
     cached_ordered_cal = cache.get('cached_ordered_cal')
     if cached_ordered_cal:
-        return cached_ordered_cal
+        return cached_ordered_cal  # Se l'orario è già stato ordinato e messo in cache usiamo quello
 
-    progs = cache.get('programmi_exclude_0')
+    progs = cache.get('programmi_exclude_0') # Altrimenti carichiamo la lista dei programmi attivi (status /= 0)
     if not progs:
-        progs = cached_programmi().exclude(status=0)  # see Programmi.models.PROGSTATUS
-        cache.set('programmi_exclude_0', progs)
-    if not len(progs):
-        return []
+        progs = cached_programmi().exclude(status=0) # Se anche la lista dei programmi attivi non è in cache la recuriamo
+        cache.set('programmi_exclude_0',progs) # Mettiamo in cache la lista dei programmi attivi
+    if not progs:
+        return [] # Se anche questo ha fallito (e quindi non ci sono ancora dei programmi restituisce la lista vuota)
+    # Ora proviamo a organizzare i dati una bella tabella, o meglio un dizionario di liste di programmi
+    settimana = ['lu','ma','me','gi','ve','sa','do']
 
-    orderedcal = list(progs.values())
-    orderedcal.sort(key=lambda x: x["startora"])
+    # questa lista conterra tutte le mezzore che ci sono nel giorno
+    orari = [ index % 2 == 0 and time(index/2,0) or time(index/2,30) for index in range(0,48) ]
+    calendario = [[] for x in range(0,48)] # il calendario è una lista di tanti elementi quando le mezzore
+    # ogni elemento della lista sarà a sua volta una lista di 7 elementi (quanti i giorni)
+    for mezzora in range(0,48):
+        for giorno in range(0,7):
+            calendario[mezzora].append(extract_prog(progs,settimana[giorno],orari[mezzora]))
+    # Ora il calendario dovrebbe essere popolato per bene
+    # lo popoliamo con la classe di ogni programma (si lo so fa cagare ma per ora non ho pensato a niente di meglio)
+    classi = ['odd' for x in range(0,7)]
+    for mezzora in range(0,48):
+        for giorno in range(0,7):
+            if calendario[mezzora][giorno]['title'] == '':
+                calendario[mezzora][giorno]['classe'] = classi[giorno]
+            else:
+                if classi[giorno] == 'odd':
+                    classi[giorno] = 'even'
+                else:
+                    classi[giorno] = 'odd'
+                calendario[mezzora][giorno]['classe'] = classi[giorno]
 
-    groupedcal = []
-    group = [{"startgiorno": x} for x in range(0, 7)]
-    tick = orderedcal[0]["startora"]
+    cache.set('cached_ordered_cal',calendario)
+    return calendario
 
-    for i in orderedcal:
-        if i["startora"] != tick:
-            group.sort(key=lambda x: x["startgiorno"])
-            groupedcal.append(group)
-            group = [{"startgiorno": x} for x in range(0, 7)]
-            tick = i["startora"]
-        if i["startora"] < i["endora"]:
-            i['rowspan'] = ((i["endora"].hour * 60 + i["endora"].minute) - (i["startora"].hour * 60 + i["startora"].minute)) / 30
-        elif i["startora"] == i["endora"]:
-            i['rowspan'] = 48  # 24 hours (sliced in 30 mins cells)
-        else:
-            i['rowspan'] = ((1440 - (i['startora'].hour * 60 + i['startora'].minute)) +
-                            i['endora'].hour * 60 + i['endora'].minute) / 30
 
-        i['url'] = cached_blogs().filter(id=i['blog_id']) and cached_blogs().filter(id=i['blog_id'])[0].url_stripped or ''
-
-        i['startgiorno'] = {'lu': 0,
-                            'ma': 1,
-                            'me': 2,
-                            'gi': 3,
-                            've': 4,
-                            'sa': 5,
-                            'do': 6}[i['startgiorno']]
-        i['endgiorno'] = {'lu': 0,
-                          'ma': 1,
-                          'me': 2,
-                          'gi': 3,
-                          've': 4,
-                          'sa': 5,
-                          'do': 6}[i['endgiorno']]
-        group[i['startgiorno']] = i
-
-    group.sort(key=lambda x: x["startgiorno"])
-    groupedcal.append(group)
-
-    row = 0
-    while row < len(groupedcal):
-        recheck = False
-        for col in range(0, 7):
-            i = groupedcal[row][col]
-            if 'rowspan' in i and i["rowspan"] > 1:
-                j = row + 1
-                while j < min(row + i["rowspan"], len(groupedcal)):
-                    if "endora" in groupedcal[j][col]:  # COLLISION
-                        groupedcal.insert(j, [{"startgiorno": x} for x in range(0, 7)])
-                        recheck = True
-                        break
-                    else:
-                        groupedcal[j][col]["busy"] = True
-                    j = j + 1
-            if recheck:
-                break
-        if not recheck:
-            row = row + 1
-
-    cache.set('cached_ordered_cal', groupedcal)
-    return groupedcal
-
+def extract_prog(listaProgrammi,giorno,mezzora):  # Da controllare
+    lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaProgrammi)
+    if lista == []:
+        return {'title':'',
+                'startora':'',
+                'endora':'',
+                'url': ''}
+    prog = lista[0]
+    return {'title': prog.title,
+            'startora': prog.startora,
+            'endora': prog.endora,
+            'url': cached_blogs(prog.blog_id) and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
+            }
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
@@ -291,7 +268,7 @@ def browse(request, **kwargs):
     else:
         onair = []
     posts = cached_blog_posts(blog)
-    posts = posts.order_by('-published_on')
+    posts = posts
     paged_posts = Paginator(posts, 6).page(page)
     return render(request, 'blog/post_list.html',
                   {'blog': blog,
@@ -307,7 +284,7 @@ def tags(request, tag):
     page = abs(int(request.GET.get('page', 1)))
     tagged_posts = cache.get('posts_tag_%s' % tag)
     if not tagged_posts:
-        posts = cached_posts().order_by('-published_on')
+        posts = cached_posts()
         tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
         cache.set('posts_tag_%s' % tag, tagged_posts)
 
@@ -339,8 +316,10 @@ def review(request, review_key):
 
 
 def show_post(request, post, review=False):
-    recent_posts = cached_blog_posts(post.blog)
-    recent_posts = recent_posts.order_by('-published_on')[:6]
+    logger.warn(post)
+    logger.warn(post.blog)
+    recent_posts = cached_blog_posts(post.blog)[:6]
+    logger.warn(recent_posts)
     return render(request, 'blog/post_detail.html',
                   {'post': post,
                    'blog': post.blog,
@@ -395,8 +374,7 @@ class LatestEntriesFeed(Feed):
         return post.published_on
 
     def items(self, blog):
-        query = cached_blog_posts(blog).order_by(
-            '-published_on')
+        query = cached_blog_posts(blog)
         # TODO: add select_related('author') once it's supported
         return query[:100]
 

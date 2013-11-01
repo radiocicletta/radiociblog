@@ -9,22 +9,24 @@ pip install --download='./build' --no-install -r requirements.txt
 
 unzip -q build/django-autoload-*.zip -d build
 unzip -q build/django-dbindexer-*.zip -d build
-unzip -q build/django-nonrel-*.zip -d build
+unzip -q build/django-1.4.9.zip -d build
 unzip -q build/djangoappengine-*.zip -d build
 unzip -q build/djangotoolbox-*.zip -d build
 unzip -q build/django-permission-backend-nonrel*.zip -d build
 unzip -q build/gaepytz-*.zip -d build
-tar -zxvf build/pytz-*.tar.gz -C build
+tar -jxvf build/pytz-*.tar.bz2 -C build
+tar -zxvf build/django-admin-bootstrapped-*.tar.gz -C build
 
 cp -r build/django-autoload/autoload ./radiocicletta-server/autoload
 cp -r build/django-dbindexer/dbindexer ./radiocicletta-server/dbindexer
-cp -r build/django-nonrel/django ./radiocicletta-server/django
+cp -r build/django/django ./radiocicletta-server/django
 cp -r build/djangoappengine/djangoappengine ./radiocicletta-server/djangoappengine
 cp -r build/djangotoolbox/djangotoolbox ./radiocicletta-server/djangotoolbox
 cp -r build/django-permission-backend-nonrel/permission_backend_nonrel ./radiocicletta-server/permission_backend_nonrel
-cp -r build/pytz-*/pytz ./radiocicletta-server/pytz
+cp -R build/pytz-*/pytz/ ./radiocicletta-server/pytz
 cp -R build/gaepytz/pytz/ ./radiocicletta-server/pytz
 rm -rf ./radiocicletta-server/pytz/zoneinfo
+cp -r build/django-admin-bootstrapped-0.4.3/django_admin_bootstrapped ./radiocicletta-server/django_admin_bootstrapped
 
 }
 
@@ -37,6 +39,7 @@ rm -rf ./radiocicletta-server/djangoappengine
 rm -rf ./radiocicletta-server/djangotoolbox
 rm -rf ./radiocicletta-server/permission_backend_nonrel
 rm -rf ./radiocicletta-server/pytz
+rm -rf ./radiocicletta-server/django_admin_bootstrapped
 
 }
 

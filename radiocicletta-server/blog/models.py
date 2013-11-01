@@ -22,18 +22,20 @@ FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 tzdata = pytz.timezone('Europe/Rome')
 
 
-def cached_blogs():
+def cached_blogs(id=None):
     b = cache.get('blogs')
     if not b:
-        b = Blog.objects.all()
+        b = list(Blog.objects.all())
         cache.add('blogs', b)
+    if id:
+        return filter(lambda x: x.id == id, b)
     return b
 
 
 def cached_posts():
     p = cache.get('published_posts')
     if not p:
-        p = Post.objects.filter(published=True)
+        p = list(Post.objects.filter(published=True).order_by('-published_on'))
         cache.add('published_posts', p)
     return p
 
@@ -41,7 +43,7 @@ def cached_posts():
 def cached_blog_posts(blog):
     p = cache.get('blog_posts_%s' % blog.id)
     if not p:
-        p = Post.objects.filter(blog=blog, published=True)
+        p = list(Post.objects.filter(blog=blog, published=True).order_by('-published_on'))
         cache.add('blog_posts_%s' % blog.id, p)
     return p
 
@@ -201,7 +203,7 @@ class Post(BaseContent):
     def get_related_posts(self):
         if not self.tags:
             return []
-        posts = cached_posts().order_by('-published_on')
+        posts = cached_posts()
         postset = set()
         for tag in re.sub('\s+', '', self.tags).split(','):
             tagged_posts = cache.get('posts_tag_%s' % tag)
