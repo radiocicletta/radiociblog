@@ -2,12 +2,6 @@ from django.conf.urls.defaults import *
 from blog.models import PostsSitemap
 from minicms.models import PagesSitemap
 from django.views.generic.simple import redirect_to, direct_to_template
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.http import HttpResponsePermanentRedirect
-from django.conf import settings
-from django.db.models import *
-#from django.conf.urls import patterns, url, include
 from django.conf.urls import *
 from django.contrib import admin
 handler500 = 'djangotoolbox.errorviews.server_error'
@@ -34,7 +28,6 @@ urlpatterns = patterns('',
     (r'^snd/json.xsl$', redirect_to, {'url': 'http://api.radiocicletta.it/snd/json.xsl'}),
     (r'^home/', 'blog.views.oldhome'),
     (r'^$', 'blog.views.oldhome'),
-    (r'^foto/', 'blog.views.foto'),
     (r'^programmi(?:/(?P<day>[^/]*))?$', 'blog.views.programmi'),
     (r'^chisiamo/?', 'blog.views.chi'),
     (r'^aiutaci/?', 'blog.views.aiuta'),

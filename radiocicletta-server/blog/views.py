@@ -91,12 +91,6 @@ def oldhome(request):
                    'schedule': schedule()})
 
 
-def foto(request):
-    return render(request, 'blog/foto.html',
-                  {'schedule': schedule(),
-                   'today_schedule': today_schedule()})
-
-
 def programmi(request, day=''):
     blogs = cached_blogs()
     if str(day)[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
@@ -197,60 +191,55 @@ def tomorrow_schedule():
     sched = schedule()
     return sched[today][2]  # Assumendo Lunedi come giorno 0
 
+
 def orderedschedule():
-    """ Questa funzione restuisce una lista di liste : l'elemento calendario[time][day] è un dizionario contenente
-    il titolo, orario di inizio e orario di fine del programma che il giorno day va in onda all'ora time """
+    """ Questa funzione restuisce una lista di liste: l'elemento
+    calendario[time][day] è un dizionario contenente il titolo, orario
+    di inizio e orario di fine del programma che il giorno day va in
+    onda all'ora time """
+
     cached_ordered_cal = cache.get('cached_ordered_cal')
     if cached_ordered_cal:
-        return cached_ordered_cal  # Se l'orario è già stato ordinato e messo in cache usiamo quello
+        return cached_ordered_cal
 
-    progs = cache.get('programmi_exclude_0') # Altrimenti carichiamo la lista dei programmi attivi (status /= 0)
+    progs = cache.get('programmi_exclude_0')
     if not progs:
-        progs = cached_programmi().exclude(status=0) # Se anche la lista dei programmi attivi non è in cache la recuriamo
-        cache.set('programmi_exclude_0',progs) # Mettiamo in cache la lista dei programmi attivi
+        progs = Programmi.objects.exclude(status=0)
+        cache.set('programmi_exclude_0', progs)
     if not progs:
-        return [] # Se anche questo ha fallito (e quindi non ci sono ancora dei programmi restituisce la lista vuota)
-    # Ora proviamo a organizzare i dati una bella tabella, o meglio un dizionario di liste di programmi
-    settimana = ['lu','ma','me','gi','ve','sa','do']
+        return []
+
+    week = ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']
 
     # questa lista conterra tutte le mezzore che ci sono nel giorno
-    orari = [ index % 2 == 0 and time(index/2,0) or time(index/2,30) for index in range(0,48) ]
-    calendario = [[] for x in range(0,48)] # il calendario è una lista di tanti elementi quando le mezzore
-    # ogni elemento della lista sarà a sua volta una lista di 7 elementi (quanti i giorni)
-    for mezzora in range(0,48):
-        for giorno in range(0,7):
-            calendario[mezzora].append(extract_prog(progs,settimana[giorno],orari[mezzora]))
-    # Ora il calendario dovrebbe essere popolato per bene
-    # lo popoliamo con la classe di ogni programma (si lo so fa cagare ma per ora non ho pensato a niente di meglio)
-    classi = ['odd' for x in range(0,7)]
-    for mezzora in range(0,48):
-        for giorno in range(0,7):
-            if calendario[mezzora][giorno]['title'] == '':
-                calendario[mezzora][giorno]['classe'] = classi[giorno]
-            else:
-                if classi[giorno] == 'odd':
-                    classi[giorno] = 'even'
-                else:
-                    classi[giorno] = 'odd'
-                calendario[mezzora][giorno]['classe'] = classi[giorno]
+    orari = [time(i / 2, 0) if i % 2 == 0 else time(i / 2, 30) for i in range(0, 48)]
+    # il calendario è una lista di tanti elementi quando le mezzore
+    calendario = [[] for x in range(0, 48)]
+    # ogni elemento della lista sarà a sua volta una lista di 7 elementi
+    # (quanti i giorni)
+    for mezzora in range(0, 48):
+        for giorno in range(0, 7):
+            calendario[mezzora].append(
+                extract_prog(progs, week[giorno], orari[mezzora]))
 
-    cache.set('cached_ordered_cal',calendario)
+    cache.set('cached_ordered_cal', calendario)
     return calendario
 
 
-def extract_prog(listaProgrammi,giorno,mezzora):  # Da controllare
-    lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaProgrammi)
+def extract_prog(listaprogrammi, giorno, mezzora):  # Da controllare
+    lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaprogrammi)
     if lista == []:
-        return {'title':'',
-                'startora':'',
-                'endora':'',
-                'url': ''}
+        return {'title': None,
+                'startora': None,
+                'endora': None,
+                'url': None}
     prog = lista[0]
     return {'title': prog.title,
             'startora': prog.startora,
             'endora': prog.endora,
             'url': cached_blogs(prog.blog_id) and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
             }
+
 
 def browse(request, **kwargs):
     blog = kwargs.get('blog', None)
