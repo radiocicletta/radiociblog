@@ -1,4 +1,4 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 from django.utils import simplejson
 from blog.views import cached_programmi
 
@@ -8,10 +8,13 @@ def progjson(request):
     events = []
     for p in programmi:
         events.append(p.tojson())
-        #n=p.mynext()
-        #if n:
-        #   next[n[0]]=n[1]
-    return HttpResponse(simplejson.dumps({'programmi':events,'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='application/json')
+    return HttpResponse(simplejson.dumps({'programmi': events,
+                                          'adesso': {"id": 0,
+                                                     "start": ["s", "now"],
+                                                     "end": ["s", "now"],
+                                                     "title": "ADESSO"}
+                                          }),
+                        mimetype='application/json')
 
 
 def modjson(request):
@@ -32,4 +35,10 @@ def modjson(request):
                        "blog_url": blog.url,
                        "logo": logo and logo.to_json() or '',
                        "nome": p.title})
-    return HttpResponse(simplejson.dumps({'programmi':events, 'adesso':{"id":0,"start": ["s","now"],"end":["s","now"],"title":"ADESSO"}}), mimetype='application/json')
+    return HttpResponse(simplejson.dumps({'programmi': events,
+                                          'adesso': {"id": 0,
+                                                     "start": ["s", "now"],
+                                                     "end": ["s", "now"],
+                                                     "title": "ADESSO"}
+                                          }),
+                        mimetype='application/json')

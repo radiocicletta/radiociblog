@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.sitemaps import Sitemap
 from django.db import models
-from django.db.models import permalink
+from django.db.models import permalink, CharField, BooleanField, URLField, ForeignKey, DateTimeField
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
@@ -49,49 +49,49 @@ def cached_blog_posts(blog):
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=200,
-                             help_text='This will also be your feed title')
-    #proprietario = models.CharField(max_length=200,help_text='This will also be your feed title')
-    keywords = models.CharField(max_length=200,
-                                blank=True,
-                                help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
-    url = models.CharField('URL',
-                           max_length=200,
-                           help_text='Example: /blog')
-    description = models.CharField(max_length=500,
-                                   blank=True,
-                                   help_text='This will also be your feed description.')
-    blog_generic = models.BooleanField(default=False,
-                                       help_text='questo blog non &egrave; associato ad alcun programma')
-    feed_redirect_url = models.URLField('Feed redirect URL',
-                                        verify_exists=False,
-                                        blank=True,
-                                        help_text='Optional (use this to publish feeds via FeedBurner)<br />'
-                                        'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
-                                        'If you use FeedBurner this will also enable FeedFlares.')
+    title = CharField(max_length=200,
+                      help_text='This will also be your feed title')
+    #proprietario = CharField(max_length=200,help_text='This will also be your feed title')
+    keywords = CharField(max_length=200,
+                         blank=True,
+                         help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
+    url = CharField('URL',
+                    max_length=200,
+                    help_text='Example: /blog')
+    description = CharField(max_length=500,
+                            blank=True,
+                            help_text='This will also be your feed description.')
+    blog_generic = BooleanField(default=False,
+                                help_text='questo blog non &egrave; associato ad alcun programma')
+    feed_redirect_url = URLField('Feed redirect URL',
+                                 verify_exists=False,
+                                 blank=True,
+                                 help_text='Optional (use this to publish feeds via FeedBurner)<br />'
+                                 'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
+                                 'If you use FeedBurner this will also enable FeedFlares.')
     default_user = ""
-    utenti = ModelListField(models.ForeignKey(User,
-                                              null=True,
-                                              blank=True,
-                                              help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno'))
-    logo = models.ForeignKey(Plogo,
-                             related_name='logo',
-                             blank=True,
-                             null=True)
-    mixcloud_playlist = models.CharField('Mixcloud playlist',
-                                         max_length=200,
-                                         blank=True,
-                                         null=True,
-                                         help_text='Optional: Add a mixcloud playlist')
-    twitter = models.CharField('Account twitter',
-                               max_length=200,
-                               blank=True,
-                               null=True,
-                               help_text='Optional: Add a twitter account')
-    facebook_page_or_user = models.CharField('Pagina o utente facebook',
-                                             max_length=200,
-                                             blank=True, null=True,
-                                             help_text='Optional: Add a facebook username/page id')
+    utenti = ModelListField(ForeignKey(User,
+                            null=True,
+                            blank=True,
+                            help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno'))
+    logo = ForeignKey(Plogo,
+                      related_name='logo',
+                      blank=True,
+                      null=True)
+    mixcloud_playlist = CharField('Mixcloud playlist',
+                                  max_length=200,
+                                  blank=True,
+                                  null=True,
+                                  help_text='Optional: Add a mixcloud playlist')
+    twitter = CharField('Account twitter',
+                        max_length=200,
+                        blank=True,
+                        null=True,
+                        help_text='Optional: Add a twitter account')
+    facebook_page_or_user = CharField('Pagina o utente facebook',
+                                      max_length=200,
+                                      blank=True, null=True,
+                                      help_text='Optional: Add a facebook username/page id')
 
     def __unicode__(self):
         return self.title
@@ -151,30 +151,30 @@ def generate_review_key():
 
 
 class Post(BaseContent):
-    blog = models.ForeignKey(Blog, related_name='posts', default=default_blog)
-    published = models.BooleanField(default=False)
-    author = models.ForeignKey(User,
-                               related_name='posts',
-                               null=True,
-                               blank=True,
-                               help_text='Optional (filled automatically when saving)')
-    url = models.CharField('URL',
+    blog = ForeignKey(Blog, related_name='posts', default=default_blog)
+    published = BooleanField(default=False)
+    author = ForeignKey(User,
+                        related_name='posts',
+                        null=True,
+                        blank=True,
+                        help_text='Optional (filled automatically when saving)')
+    url = CharField('URL',
+                    blank=True,
+                    max_length=200,
+                    help_text='Optional (filled automatically when publishing). Better '
+                              'use a hand-optimized URL that is unique and SEO-friendly.<br/>'
+                              'Tip: Relative URLs (not starting with "/") will be prefixed '
+                              "with the blog's URL.")
+    published_on = DateTimeField(null=True,
+                                 blank=True,
+                                 help_text='Optional (filled automatically when publishing)')
+    review_key = CharField(max_length=32,
                            blank=True,
-                           max_length=200,
-                           help_text='Optional (filled automatically when publishing). Better '
-                                     'use a hand-optimized URL that is unique and SEO-friendly.<br/>'
-                                     'Tip: Relative URLs (not starting with "/") will be prefixed '
-                                     "with the blog's URL.")
-    published_on = models.DateTimeField(null=True,
-                                        blank=True,
-                                        help_text='Optional (filled automatically when publishing)')
-    review_key = models.CharField(max_length=32,
-                                  blank=True,
-                                  help_text='Optional (filled automatically when saving)')
-    tags = models.CharField(max_length=500,
-                            null=True,
-                            blank=True,
-                            help_text='Tag separati da virgole')
+                           help_text='Optional (filled automatically when saving)')
+    tags = CharField(max_length=500,
+                     null=True,
+                     blank=True,
+                     help_text='Tag separati da virgole')
 
     def __unicode__(self):
         return self.title
