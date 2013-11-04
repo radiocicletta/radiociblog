@@ -24,6 +24,8 @@ indexes:
   - name: published
   - name: published_on
     direction: desc
+  - name: __key__
+    direction: desc
 
 - kind: blog_post
   properties:
