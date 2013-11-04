@@ -91,13 +91,7 @@ class PostAdmin(BaseAdmin):
     #filtro di forza nella dropdown i blog che non competono all'utente
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'blog' and request.method == 'GET':
-            qs_blog_user = cache.get('qs_blog_%s' % request.user.id)
-            if not qs_blog_user:
-                if request.user.is_superuser:
-                    qs_blog_user = Blog.objects.all()
-                else:
-                    qs_blog_user = Blog.objects.filter(id__in=[b.id for b in filter(lambda x: request.user.id in x.utenti, Blog.objects.all())])
-                cache.add('qs_blog_%s' % request.user.id, list(qs_blog_user))
+            qs_blog_user = Blog.objects.all()
 
             kwargs['queryset'] = qs_blog_user
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
