@@ -46,6 +46,14 @@ indexes:
   - name: __key__
     direction: desc
 
+- kind: blog_post
+  properties:
+  - name: author_id
+  - name: last_update
+    direction: desc
+  - name: __key__
+    direction: desc
+
 - kind: blog_blog
   properties:
   - name: title
