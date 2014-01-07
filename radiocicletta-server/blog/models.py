@@ -11,6 +11,7 @@ from string import ascii_letters, digits
 from plogo.models import Plogo
 from django.core.cache import cache
 import re
+import math
 from pytz.gae import pytz
 
 
@@ -33,10 +34,17 @@ def cached_blogs(id=None):
 
 
 def cached_posts():
-    p = cache.get('published_posts')
+    chunks = cache.get('published_posts_chunks') or 0
+    p = []
+    for i in range(0, chunks):
+        if cache.get('published_posts_%d' % i):
+            p.extend(cache.get('published_posts_%d' % i))
     if not p:
         p = list(Post.objects.filter(published=True).order_by('-published_on'))
-        cache.add('published_posts', p)
+        chunksize = 10
+        for i in range(0, len(p), chunksize):
+            cache.add('published_posts_%d' % i, p[i: i + chunksize])
+        cache.add('published_posts_chunks', int(math.ceil(len(p) / float(chunksize))))
     return p
 
 
