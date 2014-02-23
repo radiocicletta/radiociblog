@@ -26,7 +26,7 @@ cp -r build/django-permission-backend-nonrel/permission_backend_nonrel ./radioci
 cp -R build/pytz-*/pytz/ ./radiocicletta-server/pytz
 cp -R build/gaepytz/pytz/ ./radiocicletta-server/pytz
 rm -rf ./radiocicletta-server/pytz/zoneinfo
-cp -r build/django-admin-bootstrapped-0.4.3/django_admin_bootstrapped ./radiocicletta-server/django_admin_bootstrapped
+cp -r build/django-admin-bootstrapped-1.6.4/django_admin_bootstrapped ./radiocicletta-server/django_admin_bootstrapped
 
 }
 
