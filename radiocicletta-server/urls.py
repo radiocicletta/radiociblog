@@ -4,7 +4,6 @@ from minicms.models import PagesSitemap
 from django.views.generic.base import TemplateView, RedirectView
 from django.conf.urls import *
 from django.contrib import admin
-handler500 = 'djangotoolbox.errorviews.server_error'
 admin.autodiscover()
 
 sitemaps = {
@@ -13,7 +12,6 @@ sitemaps = {
 }
 
 urlpatterns = patterns('',
-    ('^_ah/warmup$', 'djangoappengine.views.warmup'),
     (r'^admin/blog/report/$', 'blog.admin_views.report'),
     (r'^admin/', include(admin.site.urls)),
     (r'^(?P<id>.*)\.shtml$', RedirectView.as_view(url='%(id)s')),

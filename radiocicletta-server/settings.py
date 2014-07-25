@@ -4,9 +4,7 @@
 # modify this to match your environment (i.e., without fallbacks).
 try:
     from djangoappengine.settings_base import *
-    has_djangoappengine = True
 except ImportError:
-    has_djangoappengine = False
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
 
@@ -66,19 +64,13 @@ INSTALLED_APPS = (
     'pytz',
 )
 
-if has_djangoappengine:
-    # djangoappengine should come last, so it can override a few manage.py commands
-    INSTALLED_APPS += ('djangoappengine',)
 
-
-AUTHENTICATION_BACKENDS = (
-    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+#    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
+#)
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
-
-TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 REST_BACKENDS = (
 #    'minicms.markup_highlight',
