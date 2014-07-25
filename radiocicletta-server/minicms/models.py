@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.db import models
 from django import forms
-from django.contrib.markup.templatetags import markup
+#from django.contrib.markup.templatetags import markup
 
 class BaseContent(models.Model):
     title = models.CharField(max_length=200)
@@ -27,8 +27,8 @@ class BaseContent(models.Model):
 
     def save(self, *args, **kwargs):
         # Pre-generate HTML code from our markup for faster access, later
-        from .markup import html_body
-        self.pre_rendered_content = html_body(self.content)
+        #from .markup import html_body
+        self.pre_rendered_content = self.content  # html_body(self.content)
         super(BaseContent, self).save(*args, **kwargs)
 
 class Page(BaseContent):

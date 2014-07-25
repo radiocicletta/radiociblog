@@ -14,7 +14,8 @@ try:
     import simplejson as json
 except:
     import json
-from pytz.gae import pytz
+#from pytz.gae import pytz
+import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
 

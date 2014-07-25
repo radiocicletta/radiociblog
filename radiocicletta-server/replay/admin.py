@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import  render
 from replay.models import Replay
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from django import forms
 from django.contrib.admin import widgets
 import logging

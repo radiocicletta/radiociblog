@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 urlpatterns = patterns('profiles.views',
     (r'^(p/)?(?P<nickname>[^/]+)/*$', 'show_profile'),

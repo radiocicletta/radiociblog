@@ -14,12 +14,8 @@ except ImportError:
     # including SQL should work, too)
     DATABASES = {
         'default': {
-            'ENGINE': 'django_mongodb_engine',
-            'NAME': 'test',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': 27017,
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'radiociblog',
         }
     }
 
@@ -27,9 +23,6 @@ import os
 
 LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
-DATABASES['native'] = DATABASES['default']
-DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
-AUTOLOAD_SITECONF = 'dbindexes'
 
 SITE_NAME = 'radiocicletta-server'
 SITE_DESCRIPTION = ''
@@ -62,15 +55,10 @@ INSTALLED_APPS = (
     'plogo',
     'blog',
     'disqus',
-    'djangotoolbox',
     'google_analytics',
     'google_cse',
     'simplesocial',
     'redirects',
-    'autoload',
-    'dbindexer',
-    'permission_backend_nonrel',
-    'object_permission_backend_nonrel',
     'programmi',
     'events',
     'replay',
@@ -81,8 +69,6 @@ INSTALLED_APPS = (
 if has_djangoappengine:
     # djangoappengine should come last, so it can override a few manage.py commands
     INSTALLED_APPS += ('djangoappengine',)
-else:
-    INSTALLED_APPS += ('django_mongodb_engine',)
 
 
 AUTHENTICATION_BACKENDS = (
@@ -95,28 +81,28 @@ AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 REST_BACKENDS = (
-    'minicms.markup_highlight',
+#    'minicms.markup_highlight',
     'blog.markup_posts',
 )
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
- #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
-    }
-}
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+# #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
+#    }
+#}
 
 MIDDLEWARE_CLASSES = (
-    'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
+    #'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
     # This loads the index definitions, so it has to come first
-    'autoload.middleware.AutoloadMiddleware',
+    #'autoload.middleware.AutoloadMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'djangotoolbox.middleware.RedirectMiddleware',
+    #'djangotoolbox.middleware.RedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'urlrouter.middleware.URLRouterFallbackMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,7 +112,7 @@ MIDDLEWARE_CLASSES = (
 CACHE_MIDDLEWARE_SECONDS = 600
 
 URL_ROUTE_HANDLERS = (
-    'minicms.urlroutes.PageRoutes',
+#    'minicms.urlroutes.PageRoutes',
     'blog.urlroutes.BlogRoutes',
     'blog.urlroutes.BlogPostRoutes',
     'redirects.urlroutes.RedirectRoutes',
