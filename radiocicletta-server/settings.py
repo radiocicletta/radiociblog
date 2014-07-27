@@ -40,13 +40,15 @@ ALLOWED_DOMAINS = ()
 SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
 
 INSTALLED_APPS = (
-    'django_admin_bootstrapped',
+#    'django_admin_bootstrapped',
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.sitemaps',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'profiles',
     'urlrouter',
     'minicms',
@@ -60,7 +62,6 @@ INSTALLED_APPS = (
     'programmi',
     'events',
     'replay',
-    'authority',
     'pytz',
 )
 
@@ -123,9 +124,9 @@ USE_I18N = True
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 
-
-STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
-STATIC_ROOT = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'staticstuff'),
+)
 STATIC_URL = '/static/'
 
 
