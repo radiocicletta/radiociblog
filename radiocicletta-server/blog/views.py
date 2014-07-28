@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-from .models import Blog, Post, cached_blogs, cached_posts, cached_blog_posts
+from .models import Post, Blog, \
+    cached_blogs, \
+    cached_posts, \
+    cached_blog_posts, \
+    cached_programmi, \
+    cached_onair
 from datetime import datetime, time
 from django.contrib.syndication.views import Feed
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -10,47 +15,12 @@ from simplesocial.api import wide_buttons, narrow_buttons
 from programmi.models import Programmi
 from django.core.cache import cache
 import logging
-try:
-    import simplejson as json
-except:
-    import json
-#from pytz.gae import pytz
+import json
 import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
 
 logger = logging.getLogger(__name__)
-
-
-def cached_programmi():
-    p = cache.get('programmi')
-    if not p:
-        p = Programmi.objects.all()
-        cache.add('programmi', list(p))
-    return p
-
-
-def cached_onair(blog):
-
-    onair = cache.get('cached_onair_%s' % blog.id)
-    if onair:
-        return onair
-
-    onair = []
-    try:
-        onair = [{'startgiorno': p.startgiorno, 'startora': p.startora} for p in cached_programmi().filter(blog=blog)]
-    except:
-        pass
-    for p in onair:
-        p['startgiorno'] = {'lu': 'Lunedi',
-                            'ma': 'Martedi',
-                            'me': 'Mercoledi',
-                            'gi': 'Giovedi',
-                            've': 'Venerdi',
-                            'sa': 'Sabato',
-                            'do': 'Domenica'}[p['startgiorno']]
-    cache.set('cached_onair_%s' % blog.id, onair)
-    return onair
 
 
 def social(request):

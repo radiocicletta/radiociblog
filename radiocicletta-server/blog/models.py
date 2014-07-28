@@ -1,4 +1,3 @@
-#from .utils import slugify
 from .utils import slugify
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -13,11 +12,99 @@ from random import choice
 from string import ascii_letters, digits
 from plogo.models import Plogo
 from django.core.cache import cache
-import re
+from programmi.models import Programmi
 import math
+import re
 #from pytz.gae import pytz
 import pytz
 from redactor.fields import RedactorField
+
+
+def cache_chunked_get(key):
+    """ collecting the chunked keys stored in memcache """
+    chunks = cache.get('%s_chunks' % key) or 0
+    results = []
+    for i in range(0, chunks):
+        if cache.get('%s_%d' % (key, i)):
+            results.extend(cache.get('%s_%d' % (key, i)))
+    return results
+
+
+def cache_chunked_set(key, value):
+    """ preventing the store of more than 1M of data
+        under the same memcache key """
+    chunksize = 10
+    for i in range(0, len(value), chunksize):
+        cache.add('%s_%d' % (key, i),
+                  value[i: i + chunksize])
+    cache.add('%s_chunks' % key,
+              int(math.ceil(
+                  len(value) / float(chunksize))))
+
+
+def cached_blogs(id=None):
+    b = cache_chunked_get('blogs')
+    if not b:
+        b = list(Blog.objects.all())
+        cache_chunked_set('blogs', b)
+    if id:
+        return [x for x in b if x.id == id]
+    return b
+
+
+def cached_posts():
+    p = cache_chunked_get('published_posts') or 0
+    if not p:
+        p = list(Post.objects.filter(
+            published=True).order_by('-published_on'))
+        cache_chunked_set('published_posts', p)
+    return p
+
+
+def cached_blog_posts(blog):
+    p = cache_chunked_get('blog_posts_%s' % blog.id)
+    if not p:
+        p = list(Post.objects.filter(
+            blog=blog, published=True).order_by(
+            '-published_on'))
+        cache_chunked_set('blog_posts_%s' % blog.id, p)
+    return p
+
+
+def cached_programmi():
+    p = cache_chunked_get('programmi')
+    if not p:
+        p = Programmi.objects.all()
+        cache_chunked_set('programmi', list(p))
+    return p
+
+
+def cached_onair(blog):
+
+    onair = cache.get('cached_onair_%s' % blog.id)
+    if onair:
+        return onair
+
+    onair = []
+    try:
+        onair = [
+            {'startgiorno': p.startgiorno,
+             'startora':
+             p.startora
+             } for p in cached_programmi() if p.blog == blog]
+    except:
+        pass
+    for p in onair:
+        p['startgiorno'] = {
+            'lu': 'Lunedi',
+            'ma': 'Martedi',
+            'me': 'Mercoledi',
+            'gi': 'Giovedi',
+            've': 'Venerdi',
+            'sa': 'Sabato',
+            'do': 'Domenica'}[p['startgiorno']]
+    cache.set('cached_onair_%s' % blog.id, onair)
+    return onair
 
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
@@ -25,82 +112,72 @@ FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 tzdata = pytz.timezone('Europe/Rome')
 
 
-def cached_blogs(id=None):
-    b = cache.get('blogs')
-    if not b:
-        b = list(Blog.objects.all())
-        cache.add('blogs', b)
-    if id:
-        return filter(lambda x: x.id == id, b)
-    return b
-
-
-def cached_posts():
-    chunks = cache.get('published_posts_chunks') or 0
-    p = []
-    for i in range(0, chunks):
-        if cache.get('published_posts_%d' % i):
-            p.extend(cache.get('published_posts_%d' % i))
-    if not p:
-        p = list(Post.objects.filter(published=True).order_by('-published_on'))
-        chunksize = 10
-        for i in range(0, len(p), chunksize):
-            cache.add('published_posts_%d' % i, p[i: i + chunksize])
-        cache.add('published_posts_chunks', int(math.ceil(len(p) / float(chunksize))))
-    return p
-
-
-def cached_blog_posts(blog):
-    p = cache.get('blog_posts_%s' % blog.id)
-    if not p:
-        p = list(Post.objects.filter(blog=blog, published=True).order_by('-published_on'))
-        cache.add('blog_posts_%s' % blog.id, p)
-    return p
-
-
 class Blog(models.Model):
-    title = CharField(max_length=200,
-                      help_text='This will also be your feed title')
+    title = CharField(
+        max_length=200,
+        help_text='This will also be your feed title')
 
-    keywords = CharField(max_length=200,
-                         blank=True,
-                         help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
+    keywords = CharField(
+        max_length=200,
+        blank=True,
+        help_text='Optional: Add a short'
+        ' extra description for the title '
+        'tag (for SEO-purposes).')
     url = CharField('URL',
                     max_length=200,
                     help_text='Example: /blog')
     description = CharField(max_length=500,
                             blank=True,
-                            help_text='This will also be your feed description.')
-    blog_generic = BooleanField(default=False,
-                                help_text='questo blog non &egrave; associato ad alcun programma')
-    feed_redirect_url = URLField('Feed redirect URL',
-                                 blank=True,
-                                 help_text='Optional (use this to publish feeds via FeedBurner)<br />'
-                                 'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
-                                 'If you use FeedBurner this will also enable FeedFlares.')
-    default_user = "" #ForeignKey(User)
-    utenti = ManyToManyField(User,
-                            null=True,
-                            blank=True,
-                            help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno')
-    logo = ForeignKey(Plogo,
-                      related_name='logo',
-                      blank=True,
-                      null=True)
-    mixcloud_playlist = CharField('Mixcloud playlist',
-                                  max_length=200,
-                                  blank=True,
-                                  null=True,
-                                  help_text='Optional: Add a mixcloud playlist')
-    twitter = CharField('Account twitter',
-                        max_length=200,
-                        blank=True,
-                        null=True,
-                        help_text='Optional: Add a twitter account')
-    facebook_page_or_user = CharField('Pagina o utente facebook',
-                                      max_length=200,
-                                      blank=True, null=True,
-                                      help_text='Optional: Add a facebook username/page id')
+                            help_text='This will also be'
+                            ' your feed description.')
+    blog_generic = BooleanField(
+        default=False,
+        help_text='questo blog non &egrave;'
+        ' associato ad alcun programma')
+    feed_redirect_url = URLField(
+        'Feed redirect URL',
+        blank=True,
+        help_text='Optional (use this to publish feeds via FeedBurner)<br />'
+        'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
+        'If you use FeedBurner this will also enable FeedFlares.')
+    default_user = ""
+    utenti = ManyToManyField(
+        User,
+        null=True,
+        blank=True,
+        help_text='utenti che hanno accesso'
+        ' e possono scrivere/modificare questo blog. '
+        'Selezionarne almeno uno')
+    show = ForeignKey(
+        Programmi,
+        related_name='programmi',
+        default=None,
+        blank=True,
+        help_text='il programma a cui viene'
+        ' associato il blog')
+    logo = ForeignKey(
+        Plogo,
+        related_name='logo',
+        blank=True,
+        null=True)
+    mixcloud_playlist = CharField(
+        'Mixcloud playlist',
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text='Optional: Add a mixcloud playlist')
+    twitter = CharField(
+        'Account twitter',
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text='Optional: Add a twitter account')
+    facebook_page_or_user = CharField(
+        'Pagina o utente facebook',
+        max_length=200,
+        blank=True,
+        null=True,
+        help_text='Optional: Add a facebook username/page id')
 
     def __unicode__(self):
         return self.title
@@ -166,25 +243,31 @@ class Post(BaseContent):
                         related_name='posts',
                         null=True,
                         blank=True,
-                        help_text='Optional (filled automatically when saving)')
+                        help_text='Optional (filled automatically'
+                        ' when saving)')
     #url = CharField('URL',
     url = SlugField('URL',
                     blank=True,
                     max_length=200,
-                    help_text='Optional (filled automatically when publishing). Better '
-                              'use a hand-optimized URL that is unique and SEO-friendly.<br/>'
-                              'Tip: Relative URLs (not starting with "/") will be prefixed '
-                              "with the blog's URL.")
-    published_on = DateTimeField(null=True,
-                                 blank=True,
-                                 help_text='Optional (filled automatically when publishing)')
-    review_key = CharField(max_length=32,
-                           blank=True,
-                           help_text='Optional (filled automatically when saving)')
-    tags = CharField(max_length=500,
-                     null=True,
-                     blank=True,
-                     help_text='Tag separati da virgole')
+                    help_text='Optional (filled automatically'
+                    ' when publishing).'
+                    ' Better use a hand-optimized URL that is unique and '
+                    'SEO-friendly.<br/> Tip: Relative URLs'
+                    ' (not starting with "/") will be prefixed '
+                    'with the blog\'s URL.')
+    published_on = DateTimeField(
+        null=True,
+        blank=True,
+        help_text='Optional (filled automatically when publishing)')
+    review_key = CharField(
+        max_length=32,
+        blank=True,
+        help_text='Optional (filled automatically when saving)')
+    tags = CharField(
+        max_length=500,
+        null=True,
+        blank=True,
+        help_text='Tag separati da virgole')
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
@@ -223,7 +306,9 @@ class Post(BaseContent):
         for tag in re.sub('\s+', '', self.tags).split(','):
             tagged_posts = cache.get('posts_tag_%s' % tag)
             if not tagged_posts:
-                tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
+                tagged_posts = set([i.tags
+                                    and tag in i.tags
+                                    and i for i in posts])
                 cache.set('posts_tag_%s' % tag, tagged_posts)
             postset.update(tagged_posts)
         try:
@@ -270,7 +355,8 @@ class PostsSitemap(Sitemap):
     changefreq = "daily"
 
     def items(self):
-        return Post.objects.filter(published=True).order_by('-published_on')[:2000]
+        return Post.objects.filter(
+            published=True).order_by('-published_on')[:2000]
 
     def lastmod(self, obj):
         return obj.last_update
