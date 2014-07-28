@@ -20,13 +20,19 @@ Per inizializzare l'ambiente di sviluppo:
 
 Per scaricare la prima volta i pacchetti necessari
 
-    $ ./buildenv.sh create
+    (virtualenv)$ ./buildenv.sh create
 
 Per ricreare l'ambiente di svilppo in un repository esistente
 
-    $ ./buildenv.sh replace
+    (virtualenv)$ ./buildenv.sh replace
 
 _buildenv.sh_ effettua il download e il patching delle librerie necessarie.
+
+Per installare Appengine SDK su OSX: scaricare il pacchetto autoinstallante da https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python
+Per installare Appengine SDK su Linux da virtualenv:
+
+    pip install -e git+https://github.com/davidwtbuxton/appengine.py.git#egg=appengine
+    appengine.py [url dello zip in  https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python]
 
 Deploy
 ======
