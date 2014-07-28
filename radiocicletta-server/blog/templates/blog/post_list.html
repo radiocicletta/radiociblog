@@ -15,7 +15,7 @@
         {% if not blog.blog_generic %}
         <p class="onair">
             {% for airtime in onair %}
-                {{ airtime.startgiorno }} alle {{ airtime.startora|time:"H:i" }}{% if not forloop.last %}, {% endif %}
+                {{ airtime.start_day }} alle {{ airtime.start_hour|time:"H:i" }}{% if not forloop.last %}, {% endif %}
             {% empty %}
                 Attualmente non in programmazione.
             {% endfor %}

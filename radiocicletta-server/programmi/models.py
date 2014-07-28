@@ -33,7 +33,7 @@ GIORNI = (('lu', 'LUNEDI'),
 
 class Programmi(models.Model):
     verbose_name = "programmi"
-    list_display = ('title', 'startgiorno', 'startora')
+    list_display = ('title', 'start_day', 'start_hour')
 
     title = models.CharField(max_length=200, help_text='Titolo del programma')
     descr = models.CharField(
@@ -43,15 +43,15 @@ class Programmi(models.Model):
     status = models.CharField(
         max_length=1,
         choices=PROGSTATUS)
-    startgiorno = models.CharField(
+    start_day = models.CharField(
         max_length=2,
         choices=GIORNI,
         help_text='Scegliere il giorno oppure'
         ' SINGOLO se si ripete solo una volta')
-    startora = models.TimeField(
+    start_hour = models.TimeField(
         help_text='ora di inizio (nel formato hh:mm:ss con hh da 00 a 23)')
-    endgiorno = models.CharField(max_length=2, choices=GIORNI)
-    endora = models.TimeField()
+    end_day = models.CharField(max_length=2, choices=GIORNI)
+    end_hour = models.TimeField()
     successivo = models.BooleanField(
         default=False,
         help_text="Check se l'orario del programma"
@@ -75,14 +75,14 @@ class Programmi(models.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "start": [self.startgiorno,
-                      self.startora.hour,
-                      self.startora.minute],
-            "end": [self.endgiorno
+            "start": [self.start_day,
+                      self.start_hour.hour,
+                      self.start_hour.minute],
+            "end": [self.end_day
                     if not self.successivo
-                    else PRIMA[self.endgiorno],
-                    self.endora.hour,
-                    self.endora.minute],
+                    else PRIMA[self.end_day],
+                    self.end_hour.hour,
+                    self.end_hour.minute],
             "stato": self.status,
             "blog_id": blog.id,
             "blog_url": blog.url,

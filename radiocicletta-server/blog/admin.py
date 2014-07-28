@@ -70,7 +70,7 @@ class PostAdmin(BaseAdmin):
 
 
 class ProgrammiAdmin(BaseAdmin):
-    list_display = ('title', 'descr', 'startgiorno', 'startora')
+    list_display = ('title', 'descr', 'start_day', 'start_hour')
     search_fields = ()  # ('title',)
     ordering = ('title',)
 

@@ -24,11 +24,11 @@ def modjson(request):
         blog = p.get_blog()
         logo = blog.get_logo()
         events.append({"Program_id": p.id,
-                       "giorno": p.startgiorno,
-                       "ora_in": p.startora.hour,
-                       "minuti_in": p.startora.minute,
-                       "ora_out": p.endora.hour,
-                       "minuti_out": p.endora.minute,
+                       "giorno": p.start_day,
+                       "ora_in": p.start_hour.hour,
+                       "minuti_in": p.start_hour.minute,
+                       "ora_out": p.end_hour.hour,
+                       "minuti_out": p.end_hour.minute,
                        "stato": p.status,
                        "descrizione": p.descr or blog.description,
                        "blog_id": blog.id,

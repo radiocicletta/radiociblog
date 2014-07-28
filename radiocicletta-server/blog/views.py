@@ -32,7 +32,9 @@ def social(request):
         if len(b.twitter):
             result['modules_args']['twitter']['streams'].append(b.twitter)
         if len(b.facebook_page_or_user):
-            result['modules_args']['facebook']['items'].append(b.facebook_page_or_user)
+            result['modules_args']['facebook']['items'].append(
+                b.facebook_page_or_user
+            )
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 
@@ -45,45 +47,55 @@ def oldhome(request):
     tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
     current_show = [d for d in today
-                    if d.startora <= datetime.now(tzdata).time()
-                    and d.endora >= datetime.now(tzdata).time()
-                    or d.startora <= datetime.now(tzdata).time()
-                    and d.startora >= d.endora]
-    next_show = [d for d in today if d.startora >= datetime.now(tzdata).time()] +  tomorrow[:1]
+                    if d.start_hour <= datetime.now(tzdata).time()
+                    and d.end_hour >= datetime.now(tzdata).time()
+                    or d.start_hour <= datetime.now(tzdata).time()
+                    and d.start_hour >= d.end_hour]
+    next_show = [d for d in today
+                 if d.start_hour >= datetime.now(tzdata).time()] + tomorrow[:1]
 
-                                 #and d.endora >= datetime.now(tzdata).time()]
-
-    return render(request, 'blog/index.html',
-                  {'blogs': blogs,
-                   'recent_posts': recent_posts,
-                   'today_schedule': today,
-                   'current_show': current_show and current_show[0] or current_show,
-                   'next_show': next_show and next_show[0] or next_show,
-                   'schedule': schedule()})
+    return render(
+        request, 'blog/index.html',
+        {
+            'blogs': blogs,
+            'recent_posts': recent_posts,
+            'today_schedule': today,
+            'current_show': current_show and current_show[0] or current_show,
+            'next_show': next_show and next_show[0] or next_show,
+            'schedule': schedule()
+        })
 
 
 def programmi(request, day=''):
     blogs = cached_blogs()
     if str(day)[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
         # stiamo scherzando?
-        programmi = set(cached_programmi().filter(
-                        startgiorno=day[:2].lower())).union(
-                            set(cached_programmi().filter(
-                                endgiorno=day[:2].lower())))
-        return render(request, 'blog/programmiday.html',
-                      {'blogs': blogs,
-                       'programmi': programmi,
-                       'today_schedule': today_schedule(),
-                       'schedule': schedule(),
-                       'rowschedule': orderedschedule()})
+        programmi = set([
+            p for p in cached_programmi()
+            if p.start_day == day[:2].lower()]
+        ).union(set([
+            p for p in cached_programmi()
+            if p.end_day == day[:2].lower()]
+        ))
+        return render(
+            request, 'blog/programmiday.html',
+            {
+                'blogs': blogs,
+                'programmi': programmi,
+                'today_schedule': today_schedule(),
+                'schedule': schedule(),
+                'rowschedule': orderedschedule()
+            })
 
     programmi = cached_programmi()
     return render(request, 'blog/programmi.html',
-                  {'blogs': blogs,
-                   'programmi': programmi,
-                   'today_schedule': today_schedule(),
-                   'schedule': schedule(),
-                   'rowschedule': orderedschedule()})
+                  {
+                      'blogs': blogs,
+                      'programmi': programmi,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule(),
+                      'rowschedule': orderedschedule()
+                  })
 
 
 def chi(request):
@@ -114,10 +126,12 @@ def tuttib(request):
     recent_posts = cached_posts()
     recent_posts = recent_posts[:6]
     return render(request, 'blog/blog.html',
-                  {'blogs': blogs,
-                   'recent_posts': recent_posts,
-                   'today_schedule': today_schedule(),
-                   'schedule': schedule()})
+                  {
+                      'blogs': blogs,
+                      'recent_posts': recent_posts,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule()
+                  })
 
 
 def schedule():
@@ -127,7 +141,8 @@ def schedule():
 
     progs = cache.get('programmi_exclude_0')
     if not progs:
-        progs = Programmi.objects.exclude(status=0)  # see Programmi.models.PROGSTATUS
+        # see Programmi.models.PROGSTATUS
+        progs = Programmi.objects.exclude(status=0)
         cache.set('programmi_exclude_0', progs)
     cal = {"lu": ('Lunedi',     0, []),
            "ma": ('Martedi',    1, []),
@@ -137,13 +152,10 @@ def schedule():
            "sa": ("Sabato",     5, []),
            "do": ("Domenica",   6, [])}
     for p in progs:
-        cal[p.startgiorno][2].append(p)
+        cal[p.start_day][2].append(p)
 
     for day in cal.keys():
-        cal[day][2].sort(key=lambda x: x.startora)
-        # hack per programmi che cominciano a mezzanotte del giorno dopo
-        #if len(cal[day][2]) and cal[day][2][0].startora >= time(0, 0) and cal[day][2][0].startora < time(4, 0):
-        #    cal[day][2].append(cal[day][2].pop(0))
+        cal[day][2].sort(key=lambda x: x.start_hour)
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x, y: x[1] - y[1])
@@ -183,33 +195,45 @@ def orderedschedule():
     week = ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']
 
     # questa lista conterra tutte le mezzore che ci sono nel giorno
-    orari = [time(i / 2, 0) if i % 2 == 0 else time(i / 2, 30) for i in range(0, 48)]
+    orari = [time(i / 2, 0)
+             if i % 2 == 0
+             else time(i / 2, 30)
+             for i in range(0, 48)]
     # il calendario è una lista di tanti elementi quando le mezzore
     calendario = [[] for x in range(0, 48)]
     # ogni elemento della lista sarà a sua volta una lista di 7 elementi
     # (quanti i giorni)
     for mezzora in range(0, 48):
-        for giorno in range(0, 7):
+        for giorno in xrange(0, 7):
             calendario[mezzora].append(
-                extract_prog(progs, week[giorno], orari[mezzora]))
+                extract_prog(
+                    progs,
+                    week[giorno],
+                    orari[mezzora]))
 
     cache.set('cached_ordered_cal', calendario)
     return calendario
 
 
 def extract_prog(listaprogrammi, giorno, mezzora):  # Da controllare
-    lista = filter(lambda x: x.startgiorno == giorno and x.startora == mezzora, listaprogrammi)
+    lista = [x for x in listaprogrammi
+             if x.start_day == giorno
+             and x.start_hour == mezzora]
     if lista == []:
-        return {'title': None,
-                'startora': None,
-                'endora': None,
-                'url': None}
+        return {
+            'title': None,
+            'start_hour': None,
+            'end_hour': None,
+            'url': None
+        }
     prog = lista[0]
-    return {'title': prog.title,
-            'startora': prog.startora,
-            'endora': prog.endora,
-            'url': cached_blogs(prog.blog_id) and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
-            }
+    return {
+        'title': prog.title,
+        'start_hour': prog.start_hour,
+        'end_hour': prog.end_hour,
+        'url': cached_blogs(prog.blog_id)
+        and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
+    }
 
 
 def browse(request, **kwargs):
@@ -231,13 +255,15 @@ def browse(request, **kwargs):
     posts = posts
     paged_posts = Paginator(posts, 6).page(page)
     return render(request, 'blog/post_list.html',
-                  {'blog': blog,
-                   'browse_posts': True,
-                   'recent_posts': paged_posts.object_list,
-                   'page_obj': paged_posts,
-                   'today_schedule': today_schedule(),
-                   'schedule': schedule(),
-                   'onair': onair})
+                  {
+                      'blog': blog,
+                      'browse_posts': True,
+                      'recent_posts': paged_posts.object_list,
+                      'page_obj': paged_posts,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule(),
+                      'onair': onair
+                  })
 
 
 def tags(request, tag):
@@ -262,12 +288,14 @@ def tags(request, tag):
         pass
     paged_posts = Paginator(list(tagged_posts), 6).page(page)
     return render(request, 'blog/post_tags.html',
-                  {'tag': tag,
-                   'browse_posts': True,
-                   'recent_posts': paged_posts.object_list,
-                   'page_obj': paged_posts,
-                   'today_schedule': today_schedule(),
-                   'schedule': schedule()})
+                  {
+                      'tag': tag,
+                      'browse_posts': True,
+                      'recent_posts': paged_posts.object_list,
+                      'page_obj': paged_posts,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule()
+                  })
 
 
 def review(request, review_key):
@@ -281,12 +309,14 @@ def show_post(request, post, review=False):
     recent_posts = cached_blog_posts(post.blog)[:6]
     logger.warn(recent_posts)
     return render(request, 'blog/post_detail.html',
-                  {'post': post,
-                   'blog': post.blog,
-                   'recent_posts': recent_posts,
-                   'review': review,
-                   'today_schedule': today_schedule(),
-                   'schedule': schedule()})
+                  {
+                      'post': post,
+                      'blog': post.blog,
+                      'recent_posts': recent_posts,
+                      'review': review,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule()
+                  })
 
 
 def feedburner(feed):
@@ -322,8 +352,10 @@ class LatestEntriesFeed(Feed):
         url = 'http%s://%s%s' % ('s' if self._request.is_secure() else '',
                                  self._request.get_host(),
                                  post.get_absolute_url())
-        header = wide_buttons(self._request, post.title, post.get_absolute_url())
-        footer = narrow_buttons(self._request, post.title, post.get_absolute_url())
+        header = wide_buttons(
+            self._request, post.title, post.get_absolute_url())
+        footer = narrow_buttons(
+            self._request, post.title, post.get_absolute_url())
         footer += '<p><a href="%s#disqus_thread">Leave a comment</a></p>' % url
         return header + post.rendered_content + footer
 

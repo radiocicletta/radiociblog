@@ -88,21 +88,21 @@ def cached_onair(blog):
     onair = []
     try:
         onair = [
-            {'startgiorno': p.startgiorno,
-             'startora':
-             p.startora
+            {'start_day': p.start_day,
+             'start_hour':
+             p.start_hour
              } for p in cached_programmi() if p.blog == blog]
     except:
         pass
     for p in onair:
-        p['startgiorno'] = {
+        p['start_day'] = {
             'lu': 'Lunedi',
             'ma': 'Martedi',
             'me': 'Mercoledi',
             'gi': 'Giovedi',
             've': 'Venerdi',
             'sa': 'Sabato',
-            'do': 'Domenica'}[p['startgiorno']]
+            'do': 'Domenica'}[p['start_day']]
     cache.set('cached_onair_%s' % blog.id, onair)
     return onair
 
