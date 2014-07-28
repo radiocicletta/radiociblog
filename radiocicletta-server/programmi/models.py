@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import CharField, \
+    TimeField, BooleanField, ForeignKey
 from django.core.cache import cache
-#from pytz.gae import pytz
+from plogo.models import Plogo
 import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
@@ -35,27 +37,33 @@ class Programmi(models.Model):
     verbose_name = "programmi"
     list_display = ('title', 'start_day', 'start_hour')
 
-    title = models.CharField(max_length=200, help_text='Titolo del programma')
-    descr = models.CharField(
+    title = CharField(
+        max_length=200,
+        help_text='Titolo del programma')
+    descr = CharField(
         null=True, blank=True,
         max_length=200,
         help_text='descrizione (opzionale)')
-    status = models.CharField(
+    status = CharField(
         max_length=1,
         choices=PROGSTATUS)
-    start_day = models.CharField(
+    start_day = CharField(
         max_length=2,
         choices=GIORNI,
         help_text='Scegliere il giorno oppure'
         ' SINGOLO se si ripete solo una volta')
-    start_hour = models.TimeField(
+    start_hour = TimeField(
         help_text='ora di inizio (nel formato hh:mm:ss con hh da 00 a 23)')
-    end_day = models.CharField(max_length=2, choices=GIORNI)
-    end_hour = models.TimeField()
-    successivo = models.BooleanField(
+    end_day = CharField(max_length=2, choices=GIORNI)
+    end_hour = TimeField()
+    successivo = BooleanField(
         default=False,
         help_text="Check se l'orario del programma"
         " sconfina al giorno successivo (supera le 23.59)")
+    logo = ForeignKey(
+        Plogo,
+        related_name='program_logo',
+        blank=True)
 
     def __unicode__(self):
         return self.title
@@ -71,7 +79,7 @@ class Programmi(models.Model):
 
     def tojson(self):
         blog = self.get_blog()
-        logo = blog.get_logo()
+        bloglogo = blog.get_logo()
         return {
             "id": self.id,
             "title": self.title,
@@ -86,4 +94,4 @@ class Programmi(models.Model):
             "stato": self.status,
             "blog_id": blog.id,
             "blog_url": blog.url,
-            "logo": logo and logo.to_json() or ''}
+            "logo": self.logo and bloglogo.to_json() or ''}
