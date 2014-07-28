@@ -1,5 +1,5 @@
--e git+http://github.com/django-nonrel/djangotoolbox@f418d1f29e42ee579e1e134d04eff5b9316d9fa9#egg=djangotoolbox
--e git+http://github.com/django-nonrel/djangoappengine@2f02f2f2763e7cbcf3b32f41d087d8eeab9069f1#egg=djangoappengine
+-e git+http://github.com/django-nonrel/djangotoolbox@6536b0e6080dce2ad89c22fa4ea671e1f7e817f5#egg=djangotoolbox
+-e git+http://github.com/django-nonrel/djangoappengine@f61206c10c389428a3b8d0317b67f6aa6834bd7f#egg=djangoappengine
 -e git+http://github.com/django-nonrel/django-dbindexer@d22cd12ce4c428abfbff4f510b4ea730c1381451#egg=django-dbindexer
 -e git+http://github.com/django-nonrel/django@8c6d5eec98b63686e8742e8e5dba0ffff7cc6bd8#egg=django
 -e git+http://github.com/django-nonrel/django-permission-backend-nonrel@c9c8c07ab68f3795eaca66706ae1fae696614685#egg=django-permission-backend-nonrel

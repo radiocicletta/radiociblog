@@ -14,6 +14,9 @@ import re
 import math
 from pytz.gae import pytz
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 
@@ -49,10 +52,17 @@ def cached_posts():
 
 
 def cached_blog_posts(blog):
-    p = cache.get('blog_posts_%s' % blog.id)
+    chunks = cache.get('blog_posts_chunks_%s' % blog.id) or 0
+    p = []
+    for i in range(0, chunks):
+        if cache.get('blog_posts_%s_%d' % (blog.id, i)):
+            p.extend(cache.get('blog_posts_%s_%d' % (blog.id, i)))
     if not p:
         p = list(Post.objects.filter(blog=blog, published=True).order_by('-published_on'))
-        cache.add('blog_posts_%s' % blog.id, p)
+        chunksize = 6
+        for i in range(0, len(p), chunksize):
+            cache.add('blog_posts_%s_%d' % (blog.id, i), p[i: i + chunksize])
+        cache.add('blog_posts_chunks_%s' % blog.id , int(math.ceil(len(p) / float(chunksize))))
     return p
 
 
