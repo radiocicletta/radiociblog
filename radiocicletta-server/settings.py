@@ -63,15 +63,10 @@ INSTALLED_APPS = (
     'events',
     'replay',
     'pytz',
+    'redactor'
 )
 
-
-#AUTHENTICATION_BACKENDS = (
-#    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
-#)
-
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
-
 
 REST_BACKENDS = (
 #    'minicms.markup_highlight',
@@ -120,6 +115,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 USE_I18N = True
+USE_TZ = True
 
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
@@ -128,6 +124,7 @@ STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), 'staticstuff'),
 )
 STATIC_URL = '/static/'
+STATIC_ROOT = '/static/'
 
 
 CLOSURE_COMPILER_PATH = os.path.join(os.path.dirname(__file__),
@@ -143,8 +140,6 @@ PRODUCTION_MEDIA_URL = '/media/'
 GLOBAL_MEDIA_DIRS = (
     os.path.join(os.path.dirname(__file__), 'static'),
 )
-
-#ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 ADMIN_MEDIA_PREFIX ='/media/admin/'
 ROOT_URLCONF = 'urls'

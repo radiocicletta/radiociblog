@@ -1,3 +1,4 @@
+#from .utils import slugify
 from .utils import slugify
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -6,7 +7,7 @@ from django.db import models
 from django.db.models import permalink, CharField, \
     BooleanField, URLField, \
     ForeignKey, DateTimeField, \
-    ManyToManyField
+    ManyToManyField, SlugField
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
@@ -16,6 +17,7 @@ import re
 import math
 #from pytz.gae import pytz
 import pytz
+from redactor.fields import RedactorField
 
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
@@ -165,7 +167,8 @@ class Post(BaseContent):
                         null=True,
                         blank=True,
                         help_text='Optional (filled automatically when saving)')
-    url = CharField('URL',
+    #url = CharField('URL',
+    url = SlugField('URL',
                     blank=True,
                     max_length=200,
                     help_text='Optional (filled automatically when publishing). Better '
@@ -182,6 +185,11 @@ class Post(BaseContent):
                      null=True,
                      blank=True,
                      help_text='Tag separati da virgole')
+
+    def __init__(self, *args, **kwargs):
+        super(Post, self).__init__(*args, **kwargs)
+        content = RedactorField()
+        content.contribute_to_class(Post, 'content')
 
     def __unicode__(self):
         return self.title
@@ -245,7 +253,14 @@ class Post(BaseContent):
         if self.published and not self.published_on:
             self.published_on = tzdata.localize(datetime.now())
         if self.published and not self.url:
-            self.url = self.blog.url_prefix + slugify(self.title)
+            pattern = re.compile("-[0-9]+$")
+            slug = self.blog.url_prefix + slugify(self.title)
+            url = pattern.sub("", slug)
+            i = 1
+            while len(Post.objects.filter(url=url)) > 0:
+                url = "%s-%d" % (slug, i)
+                i = i + 1
+            self.url = url
         elif self.published and not self.url.startswith('/'):
             self.url = self.blog.url_prefix + self.url
         super(Post, self).save(*args, **kwargs)

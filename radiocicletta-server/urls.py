@@ -35,5 +35,6 @@ urlpatterns = patterns('',
     (r'^pro_mob.json', 'programmi.views.modjson'),
     (r'^social.json', 'blog.views.social'),
     (r'^blogs/?', 'blog.views.tuttib'),
-    (r'^googleb0d4a078c13a0231.html$', TemplateView.as_view(template_name='googleb0d4a078c13a0231.html'))
+    (r'^googleb0d4a078c13a0231.html$', TemplateView.as_view(template_name='googleb0d4a078c13a0231.html')),
+    (r'^redactor/', include('redactor.urls'))
 )

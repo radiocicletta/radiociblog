@@ -31,7 +31,7 @@ class PostAdmin(BaseAdmin):
         }),
     )
     #exclude = ('author',)
-    list_display = ('title', 'in_blog', 'author', 'published_on', 'published')
+    list_display = ('title', 'in_blog', 'author', 'published_on', 'published', 'url')
     search_fields = ('title', )
     ordering = ('-last_update',)
 
