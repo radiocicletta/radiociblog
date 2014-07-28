@@ -127,12 +127,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
 
-CLOSURE_COMPILER_PATH = os.path.join(os.path.dirname(__file__),
-                                     '.webutils', 'compiler.jar')
-
-YUICOMPRESSOR_PATH = os.path.join(os.path.dirname(__file__),
-                                  '.webutils', 'yuicompressor.jar')
-
 MEDIA_DEV_MODE = DEBUG
 DEV_MEDIA_URL = '/devmedia/'
 PRODUCTION_MEDIA_URL = '/media/'
