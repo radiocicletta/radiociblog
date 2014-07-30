@@ -1,1 +1,0 @@
-../../../django_admin_bootstrapped/static/admin/js/generic-lookup.js
