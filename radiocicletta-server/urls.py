@@ -3,6 +3,8 @@ from minicms.models import PagesSitemap
 #from django.views.generic.simple import redirect_to, direct_to_template
 from django.views.generic.base import TemplateView, RedirectView
 from django.conf.urls import *
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
@@ -19,7 +21,7 @@ urlpatterns = patterns('',
     (r'^blog/', include('blog.urls')),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     (r'^search$', 'google_cse.views.search'),
-#    (r'robots\.txt$', RedirectView.as_view(url='/static/robots.txt')),
+    (r'robots\.txt$', RedirectView.as_view(url='/static/robots.txt')),
     (r'^favicon\.ico$', RedirectView.as_view(url='http://cdn.radiocicletta.it/images/favicon.ico')),
     (r'^listen.pls$', RedirectView.as_view(url='http://radiocicletta.it/listen.pls')),
     (r'^stream$', RedirectView.as_view(url='http://radiocicletta.it/listen.pls')),
@@ -38,3 +40,6 @@ urlpatterns = patterns('',
     (r'^googleb0d4a078c13a0231.html$', TemplateView.as_view(template_name='googleb0d4a078c13a0231.html')),
     (r'^redactor/', include('redactor.urls'))
 )
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

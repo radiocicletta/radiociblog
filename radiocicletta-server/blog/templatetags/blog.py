@@ -34,17 +34,27 @@ def cdnmediaurljs():
     return settings.DISTRIBUITED_CONTENT_URL.replace("/", "\/")
 
 fonttagregex = re.compile('</{0,1}font[^>]*>')
-fontregex = re.compile('(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
+fontregex = re.compile(
+    '(?:font(?:-family|-size){0,1})\s*\:[^;"]+\;{0,1}\s*',
+    re.MULTILINE)
 colorregex = re.compile('(?:color)\s*\:[^;"]+\;{0,1}\s*', re.MULTILINE)
 styleregex = re.compile('style="[^"]*"', re.MULTILINE)
-#imageregex = re.compile('(<img [^>]*>)', re.MULTILINE)
 srcregex = re.compile('<(\w+[^>]+)src', re.MULTILINE | re.IGNORECASE)
 
 
 @register.filter
 def comicsanitize(value):
-    return mark_safe(colorregex.sub('', fontregex.sub('', fonttagregex.sub('', value))))
-    #return mark_safe(colorregex.sub('', fontregex.sub('', value)))
+    return mark_safe(
+        colorregex.sub(
+            '',
+            fontregex.sub(
+                '',
+                fonttagregex.sub(
+                    '',
+                    value)
+            )
+        )
+    )
 
 
 @register.filter
@@ -52,8 +62,9 @@ def smarty(value):  # smartypants
     return mark_safe(smartyPants(value))
 
 
+# http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin
 @register.filter
-def widont(value):  # http://shauninman.com/archive/2006/08/22/widont_wordpress_plugin
+def widont(value):
     return mark_safe(value)
 
 

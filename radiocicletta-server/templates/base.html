@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load cms blog google_cse google_analytics %}
+{% load cms staticfiles blog google_cse google_analytics %}
 <html lang="it" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# blog: http://ogp.me/ns/blog#">
   <head>
 	<title>{% block pagetitle %}{% endblock %} — Radiocicletta</title>
@@ -11,8 +11,8 @@
     <meta property="og:site_name" content="Radiocicletta" />
     {% block headmeta %}{% endblock %}
 
-    <link rel="stylesheet" href="{% cdnmediaurl %}/css/layout.css"/>
-    <link rel="stylesheet" href="{% cdnmediaurl %}/css/media.css"/>
+    <link rel="stylesheet" href="{% static "css/layout.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/media.css" %}"/>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,701italic,300italic,600italic,400,600,300,700" rel="stylesheet" type="text/css" />
     <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700" rel="stylesheet" type="text/css" />
     <link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css" />
@@ -50,7 +50,7 @@
         {% endif %}
     {% endblock %}
     {% block body %}{% endblock %}
-    <script type="text/javascript" src="{% cdnmediaurl %}/js/zepto.js"></script>
+    <script type="text/javascript" src="{% static "js/zepto.js" %}"></script>
     <script type="text/javascript">
         if ('__proto__' in {}){
             window['jQuery'] = window.Zepto; // Fallback for mediaelement.js (meh.)
@@ -67,8 +67,8 @@
             window['jQuery'] = jquip;
         }
     </script>
-    <script type="text/javascript" src="{% cdnmediaurl %}/js/me/mediaelement.js"></script>
-    <script type="text/javascript" src="{% cdnmediaurl %}/js/bike.js"></script>
+    <script type="text/javascript" src="{% static "js/me/mediaelement.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/bike.js" %}"></script>
     {% block headscript %}{% endblock %}
     {% if not request.user.is_authenticated %}
       {% google_analytics_code %}

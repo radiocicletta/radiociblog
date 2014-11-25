@@ -153,6 +153,7 @@ class Blog(models.Model):
         related_name='programmi',
         default=None,
         blank=True,
+        null=True,
         help_text='il programma a cui viene'
         ' associato il blog')
     logo = ForeignKey(

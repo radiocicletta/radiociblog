@@ -20,7 +20,6 @@ except ImportError:
 import os
 
 LANGUAGE_CODE='it'
-# Activate django-dbindexer for the default database
 
 SITE_NAME = 'radiocicletta-server'
 SITE_DESCRIPTION = ''
@@ -83,14 +82,10 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 #}
 
 MIDDLEWARE_CLASSES = (
-    #'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
-    # This loads the index definitions, so it has to come first
-    #'autoload.middleware.AutoloadMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #'djangotoolbox.middleware.RedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'urlrouter.middleware.URLRouterFallbackMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -122,9 +117,10 @@ TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 STATICFILES_DIRS = (
     os.path.join(os.path.dirname(__file__), 'staticstuff'),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), 'staticstuff')
 )
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'deploystatic')
 
 
 MEDIA_DEV_MODE = DEBUG
@@ -137,7 +133,6 @@ GLOBAL_MEDIA_DIRS = (
 
 ADMIN_MEDIA_PREFIX ='/media/admin/'
 ROOT_URLCONF = 'urls'
-#DISTRIBUITED_CONTENT_URL = 'http://localhost:8081'
 DISTRIBUITED_CONTENT_URL = 'http://cdn.radiocicletta.it'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
