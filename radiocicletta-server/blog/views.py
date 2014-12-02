@@ -236,21 +236,20 @@ def extract_prog(listaprogrammi, giorno, mezzora):  # Da controllare
     }
 
 
-def browse(request, **kwargs):
-    blog = kwargs.get('blog', None)
+def browse_blog(request, **kwargs):
+    blog_id = kwargs.get('blog', None)
+    blog = cache.get('blog_%s' % blog_id)
     if not blog:
-        blog = cache.get('blog_%s' % request.path)
-    if not blog:
-        blog = get_object_or_404(Blog, request.path)
+        blog = get_object_or_404(Blog, url="/" + blog_id)
     if not blog:
         raise Http404('Not found')
     else:
-        cache.set('blog_%s' % request.path, blog)
+        cache.set('blog_%s' % blog_id, blog)
     page = abs(int(request.GET.get('page', 1)))
-    if not blog.blog_generic:
-        onair = cached_onair(blog)
-    else:
-        onair = []
+    #if not blog.blog_generic:
+    #    onair = cached_onair(blog)
+    #else:
+    onair = []
     posts = cached_blog_posts(blog)
     posts = posts
     paged_posts = Paginator(posts, 6).page(page)
@@ -263,6 +262,36 @@ def browse(request, **kwargs):
                       'today_schedule': today_schedule(),
                       'schedule': schedule(),
                       'onair': onair
+                  })
+
+
+def get_post(request, **kwargs):
+    blog_url = kwargs.get('blog', None)
+    post_url = kwargs.get('url', None)
+    review = kwargs.get('review', False)
+    blog = cache.get('blog_%s' % blog_url)
+    if not blog:
+        blog = get_object_or_404(Blog, url="/" + blog_url)
+    if not blog:
+        raise Http404('Not found')
+    else:
+        cache.set('blog_%s' % blog_url, blog)
+    page = abs(int(request.GET.get('page', 1)))
+    onair = []
+    try:
+        post = blog.posts.filter(url="/" + blog_url + "/" + post_url)[0]
+    except Exception as e :
+        raise Http404(e)
+
+    recent_posts = cached_blog_posts(post.blog)[:6]
+    return render(request, 'blog/post_detail.html',
+                  {
+                      'post': post,
+                      'blog': post.blog,
+                      'recent_posts': recent_posts,
+                      'review': review,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule()
                   })
 
 
@@ -300,7 +329,8 @@ def tags(request, tag):
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
-    return show_post(request, post, review=True)
+    logger.debug(post)
+    return get_post(request, blog=post.blog.url, post=post.url_stripped, review=True)
 
 
 def show_post(request, post, review=False):

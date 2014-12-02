@@ -206,7 +206,7 @@ class Blog(models.Model):
         return None
 
     def get_absolute_url(self):
-        return self.url
+        return "/blog" + self.url
 
     def get_feed_url(self):
         return self.feed_redirect_url or self.get_internal_feed_url()
@@ -281,7 +281,7 @@ class Post(BaseContent):
     def get_absolute_url(self):
         if not self.published:
             return self.get_review_url()
-        return self.url
+        return "/blog" + self.url
 
     @property
     def url_stripped(self):
