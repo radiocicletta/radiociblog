@@ -329,8 +329,15 @@ def tags(request, tag):
 
 def review(request, review_key):
     post = get_object_or_404(Post, review_key=review_key)
-    logger.debug(post)
-    return get_post(request, blog=post.blog.url, post=post.url_stripped, review=True)
+    return render(request, 'blog/post_detail.html',
+                  {
+                      'post': post,
+                      'blog': post.blog,
+                      'recent_posts': [],
+                      'review': review_key,
+                      'today_schedule': today_schedule(),
+                      'schedule': schedule()
+                  })
 
 
 def show_post(request, post, review=False):
