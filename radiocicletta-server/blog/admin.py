@@ -1,5 +1,4 @@
 from .models import Blog, Post
-from programmi.models import Programmi
 from django.contrib import admin
 from minicms.admin import BaseAdmin
 import logging
@@ -69,18 +68,5 @@ class PostAdmin(BaseAdmin):
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ProgrammiAdmin(BaseAdmin):
-    list_display = ('title', 'descr', 'start_day', 'start_hour')
-    search_fields = ()  # ('title',)
-    ordering = ('title',)
-
-    def queryset(self, request):
-        qs = super(BaseAdmin, self).queryset(request)
-        if request.user.is_superuser:
-            return qs
-        return qs.filter(author=request.user)
-
-
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(Programmi, ProgrammiAdmin)
