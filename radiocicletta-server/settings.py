@@ -2,6 +2,7 @@
 
 # The following takes care of auto-configuring the database. You might want to
 # modify this to match your environment (i.e., without fallbacks).
+import logging
 try:
     from djangoappengine.settings_base import *
 except ImportError:
@@ -16,6 +17,11 @@ except ImportError:
             'NAME': 'radiociblog',
         }
     }
+    # will output to your console
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+    )
 
 import os
 
@@ -49,7 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
-    'urlrouter',
+    #'urlrouter',
     'minicms',
     'plogo',
     'blog',
@@ -87,7 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'urlrouter.middleware.URLRouterFallbackMiddleware',
+#    'urlrouter.middleware.URLRouterFallbackMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
