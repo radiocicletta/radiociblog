@@ -29,12 +29,13 @@ def social(request):
                                'facebook': {'items': []},
                                'mixcloud': {'username': 'radiocicletta'}}}
     for b in cached_blogs():
-        if len(b.twitter):
-            result['modules_args']['twitter']['streams'].append(b.twitter)
-        if len(b.facebook_page_or_user):
-            result['modules_args']['facebook']['items'].append(
-                b.facebook_page_or_user
-            )
+        if b.show:
+            if len(b.show.twitter):
+                result['modules_args']['twitter']['streams'].append(b.show.twitter)
+            if len(b.show.facebook_page_or_user):
+                result['modules_args']['facebook']['items'].append(
+                    b.show.facebook_page_or_user
+                )
     return HttpResponse(json.dumps(result), mimetype='application/json')
 
 

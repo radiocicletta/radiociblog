@@ -161,24 +161,6 @@ class Blog(models.Model):
         related_name='logo',
         blank=True,
         null=True)
-    mixcloud_playlist = CharField(
-        'Mixcloud playlist',
-        max_length=200,
-        blank=True,
-        null=True,
-        help_text='Optional: Add a mixcloud playlist')
-    twitter = CharField(
-        'Account twitter',
-        max_length=200,
-        blank=True,
-        null=True,
-        help_text='Optional: Add a twitter account')
-    facebook_page_or_user = CharField(
-        'Pagina o utente facebook',
-        max_length=200,
-        blank=True,
-        null=True,
-        help_text='Optional: Add a facebook username/page id')
 
     def __unicode__(self):
         return self.title
