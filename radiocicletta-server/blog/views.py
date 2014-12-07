@@ -39,7 +39,7 @@ def social(request):
 
 
 ### pagine "statiche"
-def oldhome(request):
+def home(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts[:6]
@@ -121,7 +121,7 @@ def standalone(request):
 
 
 ### pagine bloggose
-def tuttib(request):
+def all_blogs(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts[:6]
