@@ -3,8 +3,7 @@ from .models import Post, Blog, \
     cached_blogs, \
     cached_posts, \
     cached_blog_posts, \
-    cached_programmi, \
-    cached_onair
+    cached_programmi
 from datetime import datetime, time
 from django.contrib.syndication.views import Feed
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -12,8 +11,9 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.core.paginator import Paginator
 from simplesocial.api import wide_buttons, narrow_buttons
-from programmi.models import Programmi
+from config.models import SiteConfiguration
 from django.core.cache import cache
+from django.db.models import Q, F
 import logging
 import json
 import pytz
@@ -21,6 +21,7 @@ import pytz
 tzdata = pytz.timezone('Europe/Rome')
 
 logger = logging.getLogger(__name__)
+config = SiteConfiguration.objects.get()
 
 
 def social(request):
@@ -44,16 +45,21 @@ def home(request):
     blogs = cached_blogs()
     recent_posts = cached_posts()
     recent_posts = recent_posts[:6]
+    #TODO: change behaviour using query on config.active_schedule
     today = today_schedule()
     tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
-    current_show = [d for d in today
-                    if d.start_hour <= datetime.now(tzdata).time()
-                    and d.end_hour >= datetime.now(tzdata).time()
-                    or d.start_hour <= datetime.now(tzdata).time()
-                    and d.start_hour >= d.end_hour]
-    next_show = [d for d in today
-                 if d.start_hour >= datetime.now(tzdata).time()] + tomorrow[:1]
+    current_show = today.filter(
+        Q(onair__start_hour__lte=datetime.now(tzdata).time()) &
+        Q(onair__end_hour__gte=datetime.now(tzdata).time()) |
+        Q(onair__start_hour__lte=datetime.now(tzdata).time()) &
+        Q(onair__start_hour__gte=F("onair__end_hour"))
+    )
+    #TODO: add tomorrow's first show
+    next_show = today.filter(
+        onair__start_hour__gte=datetime.now(tzdata).time())
+    #next_show = [d for d in today
+    #             if d.start_hour >= datetime.now(tzdata).time()] + tomorrow[:1]
 
     return render(
         request, 'blog/index.html',
@@ -61,8 +67,8 @@ def home(request):
             'blogs': blogs,
             'recent_posts': recent_posts,
             'today_schedule': today,
-            'current_show': current_show and current_show[0] or current_show,
-            'next_show': next_show and next_show[0] or next_show,
+            'current_show': current_show.exists() and current_show.get() or None,
+            'next_show': next_show.exists() and next_show.get() or None,
             'schedule': schedule()
         })
 
@@ -136,31 +142,21 @@ def all_blogs(request):
 
 
 def schedule():
-    cached_cal = cache.get('cached_cal')
-    if cached_cal:
-        return cached_cal
-
-    progs = cache.get('programmi_exclude_0')
-    if not progs:
-        # see Programmi.models.PROGSTATUS
-        progs = Programmi.objects.exclude(status=0)
-        cache.set('programmi_exclude_0', progs)
-    cal = {"lu": ('Lunedi',     0, []),
-           "ma": ('Martedi',    1, []),
-           "me": ("Mercoledi",  2, []),
-           "gi": ("Giovedi",    3, []),
-           "ve": ("Venerdi",    4, []),
-           "sa": ("Sabato",     5, []),
-           "do": ("Domenica",   6, [])}
-    for p in progs:
-        cal[p.start_day][2].append(p)
-
+    sched = config.active_schedule
+    cal = {"lu": ['Lunedi',     0, []],
+           "ma": ['Martedi',    1, []],
+           "me": ["Mercoledi",  2, []],
+           "gi": ["Giovedi",    3, []],
+           "ve": ["Venerdi",    4, []],
+           "sa": ["Sabato",     5, []],
+           "do": ["Domenica",   6, []]}
     for day in cal.keys():
-        cal[day][2].sort(key=lambda x: x.start_hour)
+        cal[day][2] = sched.members.filter(
+            onair__start_day=day
+        ).order_by('onair__start_hour')
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x, y: x[1] - y[1])
-    cache.set('cached_cal', orderedcal)
     return orderedcal
 
 
@@ -182,24 +178,9 @@ def orderedschedule():
     di inizio e orario di fine del programma che il giorno day va in
     onda all'ora time """
 
-    cached_ordered_cal = cache.get('cached_ordered_cal')
-    if cached_ordered_cal:
-        return cached_ordered_cal
-
-    progs = cache.get('programmi_exclude_0')
-    if not progs:
-        progs = Programmi.objects.exclude(status=0)
-        cache.set('programmi_exclude_0', progs)
-    if not progs:
-        return []
-
+    sched = config.active_schedule
     week = ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']
 
-    # questa lista conterra tutte le mezzore che ci sono nel giorno
-    orari = [time(i / 2, 0)
-             if i % 2 == 0
-             else time(i / 2, 30)
-             for i in range(0, 48)]
     # il calendario è una lista di tanti elementi quando le mezzore
     calendario = [[] for x in range(0, 48)]
     # ogni elemento della lista sarà a sua volta una lista di 7 elementi
@@ -207,34 +188,12 @@ def orderedschedule():
     for mezzora in range(0, 48):
         for giorno in xrange(0, 7):
             calendario[mezzora].append(
-                extract_prog(
-                    progs,
-                    week[giorno],
-                    orari[mezzora]))
-
-    cache.set('cached_ordered_cal', calendario)
+                sched.onair.filter(
+                    start_day=week[giorno],
+                    start_hour=time(
+                        (mezzora / 2) % 24, (mezzora % 2) * 30)
+                ).prefetch_related())
     return calendario
-
-
-def extract_prog(listaprogrammi, giorno, mezzora):  # Da controllare
-    lista = [x for x in listaprogrammi
-             if x.start_day == giorno
-             and x.start_hour == mezzora]
-    if lista == []:
-        return {
-            'title': None,
-            'start_hour': None,
-            'end_hour': None,
-            'url': None
-        }
-    prog = lista[0]
-    return {
-        'title': prog.title,
-        'start_hour': prog.start_hour,
-        'end_hour': prog.end_hour,
-        'url': cached_blogs(prog.blog_id)
-        and cached_blogs(id=prog.blog_id)[0].url_stripped or ''
-    }
 
 
 def browse_blog(request, **kwargs):

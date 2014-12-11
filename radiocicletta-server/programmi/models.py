@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import CharField, \
-    TimeField, BooleanField, ForeignKey
+    TimeField, DateField, BooleanField, ForeignKey, \
+    ManyToManyField
 from django.core.cache import cache
 from plogo.models import Plogo
 import pytz
@@ -44,18 +45,6 @@ class Programmi(models.Model):
         null=True, blank=True,
         max_length=200,
         help_text='descrizione (opzionale)')
-    status = CharField(
-        max_length=1,
-        choices=PROGSTATUS)
-    start_day = CharField(
-        max_length=2,
-        choices=GIORNI,
-        help_text='Scegliere il giorno oppure'
-        ' SINGOLO se si ripete solo una volta')
-    start_hour = TimeField(
-        help_text='ora di inizio (nel formato hh:mm:ss con hh da 00 a 23)')
-    end_day = CharField(max_length=2, choices=GIORNI)
-    end_hour = TimeField()
     successivo = BooleanField(
         default=False,
         help_text="Check se l'orario del programma"
@@ -63,7 +52,8 @@ class Programmi(models.Model):
     logo = ForeignKey(
         Plogo,
         related_name='program_logo',
-        blank=True)
+        blank=True,
+        null=True)
     mixcloud_playlist = CharField(
         'Mixcloud playlist',
         max_length=200,
@@ -113,3 +103,36 @@ class Programmi(models.Model):
             "blog_id": blog.id,
             "blog_url": blog.url,
             "logo": self.logo and bloglogo.to_json() or ''}
+
+
+class Schedule(models.Model):
+    list_display = ('name', 'start', 'stop')
+    name = CharField(
+        max_length=200,
+        help_text="Nome del palinsesto",
+        blank=False,
+        null=False
+    )
+    start = DateField()
+    stop = DateField()
+    members = ManyToManyField(
+        Programmi,
+        through='OnAir',
+        related_name="members")
+
+    def __unicode__(self):
+        return self.name
+
+
+class OnAir(models.Model):
+    schedule = ForeignKey(Schedule, related_name='onair')
+    programmi = ForeignKey(Programmi, related_name='onair')
+    start_day = CharField(
+        max_length=2,
+        choices=GIORNI,
+        help_text='Scegliere il giorno oppure'
+        ' SINGOLO se si ripete solo una volta')
+    start_hour = TimeField(
+        help_text='ora di inizio (nel formato hh:mm:ss con hh da 00 a 23)')
+    end_day = CharField(max_length=2, choices=GIORNI)
+    end_hour = TimeField()

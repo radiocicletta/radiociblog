@@ -31,13 +31,17 @@
             <tbody>
                 {% for row in rowschedule %}
                 <tr>
-                    {% for evt in row %}
+                    {% for mid in row %}
                     {% with forloop.counter as rnum%}
                       <td class="{{ rnum|divisibleby:2|yesno:'odd,even' }}">
-                        {% if evt.start_hour != None %}
-                                <strong>{{ evt.start_hour|time:"H:i" }} - {{ evt.end_hour|time:"H:i" }}</strong>
-                                <a href="http://{{ evt.url }}.radiocicletta.it">{{ evt.title }}</a>
-                        {% endif %}
+                        {% for onair in mid %}
+                        {% with onair.programmi as evt %}
+                            {% if onair.start_hour != None %}
+                                <strong>{{ onair.start_hour|time:"H:i" }} - {{ onair.end_hour|time:"H:i" }}</strong>
+                                <a href="http://{{ evt.title }}.radiocicletta.it">{{ evt.title }}</a>
+                            {% endif %}
+                        {%endwith%}
+                        {% endfor %}
                       </td>
                     {%endwith%}
                     {% endfor %}
@@ -47,14 +51,4 @@
         </table>
     </div>
 </article>
-<section class="more-blog">
-    <h2>Tutti i blog dei programmi</h2>
-    <ul>
-        {% for b in blogs %}
-            {% if not b.blog_generic %}
-                <li><a href="http://{{b.url_stripped}}.radiocicletta.it">{{ b.title }}</a></li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-</section>
 {% endblock %}

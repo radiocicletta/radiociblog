@@ -12,7 +12,7 @@
             <img data-src="{{ current_show.blog.get_logo.url }}" data-thumbnail="l"/>
         </a>
         <div class="rightbox">
-            <span class="firstrow onair">Ora in onda ({{current_show.start_hour|time:"H:i"}} - {{current_show.end_hour|time:"H:i"}}):</span>
+            <span class="firstrow onair">Ora in onda ({{current_show.onair.start_hour|time:"H:i"}} - {{current_show.onair.end_hour|time:"H:i"}}):</span>
             <a class="secondrow" href="http://{{current_show.blog.url_stripped}}.radiocicletta.it"><strong>{{current_show.title|capfirst}}</strong></a>
             <span class="thirdrow">{{current_show.descr}}</span>
             <div>

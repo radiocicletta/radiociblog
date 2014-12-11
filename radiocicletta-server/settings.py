@@ -55,6 +55,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
+    'solo',
+    'config',
     #'urlrouter',
     'minicms',
     'plogo',
