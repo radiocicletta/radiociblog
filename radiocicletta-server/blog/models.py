@@ -130,10 +130,6 @@ class Blog(models.Model):
                             blank=True,
                             help_text='This will also be'
                             ' your feed description.')
-    blog_generic = BooleanField(
-        default=False,
-        help_text='questo blog non &egrave;'
-        ' associato ad alcun programma')
     feed_redirect_url = URLField(
         'Feed redirect URL',
         blank=True,
