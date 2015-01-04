@@ -3,3 +3,4 @@ python-memcached
 pytz
 bootstrap-admin
 django-solo
+django-wysiwyg-redactor
