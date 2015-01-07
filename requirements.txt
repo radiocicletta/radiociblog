@@ -4,3 +4,4 @@ pytz
 bootstrap-admin
 django-solo
 django-wysiwyg-redactor
+-e git+http://github.com/leofiore/django-imgur#egg=django-imgur
