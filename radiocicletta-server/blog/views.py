@@ -21,7 +21,7 @@ import pytz
 tzdata = pytz.timezone('Europe/Rome')
 
 logger = logging.getLogger(__name__)
-config = SiteConfiguration.objects.get()
+config = SiteConfiguration.get_solo()
 
 
 def social(request):
@@ -50,14 +50,14 @@ def home(request):
     tomorrow = tomorrow_schedule()
     logger.info(datetime.now(tzdata).time())
     current_show = today.filter(
-        Q(onair__start_hour__lte=datetime.now(tzdata).time()) &
-        Q(onair__end_hour__gte=datetime.now(tzdata).time()) |
-        Q(onair__start_hour__lte=datetime.now(tzdata).time()) &
-        Q(onair__start_hour__gte=F("onair__end_hour"))
+        Q(start_hour__lte=datetime.now(tzdata).time()) &
+        Q(end_hour__gte=datetime.now(tzdata).time()) |
+        Q(start_hour__lte=datetime.now(tzdata).time()) &
+        Q(start_hour__gte=F("end_hour"))
     )
     #TODO: add tomorrow's first show
     next_show = today.filter(
-        onair__start_hour__gte=datetime.now(tzdata).time())
+        start_hour__gte=datetime.now(tzdata).time())
     #next_show = [d for d in today
     #             if d.start_hour >= datetime.now(tzdata).time()] + tomorrow[:1]
 
@@ -151,9 +151,9 @@ def schedule():
            "sa": ["Sabato",     5, []],
            "do": ["Domenica",   6, []]}
     for day in cal.keys():
-        cal[day][2] = sched.members.filter(
-            onair__start_day=day
-        ).order_by('onair__start_hour')
+        cal[day][2] = sched.onair.filter(
+            start_day=day
+        ).order_by('start_hour')
 
     orderedcal = cal.values()
     orderedcal.sort(lambda x, y: x[1] - y[1])

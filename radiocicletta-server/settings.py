@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'config',
     #'urlrouter',
     'minicms',
+    'django_imgur',
     'plogo',
     'blog',
     'disqus',

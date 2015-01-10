@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <header class="blog_show_header" data-background-image="url({{ blog.get_logo.url|default_if_none:'' }});">
+    <header class="blog_show_header" data-background-image="url({% if blog.logo %} {{ blog.logo.url|default_if_none:'' }} {% endif %});">
         <h2 class="blogtitle">{{ blog.title|titlecase }}</h2>
         <p class="desc">{{ blog.description }}</p>
         {% if not blog.blog_generic %}

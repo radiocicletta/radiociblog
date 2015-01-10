@@ -1,12 +1,13 @@
 from django.db import models
 from django.db.models import CharField, \
     TimeField, DateField, BooleanField, ForeignKey, \
-    ManyToManyField
+    ManyToManyField, ImageField, SlugField
+from django_imgur.storage import ImgurStorage
 from django.core.cache import cache
-from plogo.models import Plogo
 import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
+IMGUR = ImgurStorage()
 
 PROGSTATUS = (
     ('0', 'ferie (offair)'),
@@ -49,11 +50,11 @@ class Programmi(models.Model):
         default=False,
         help_text="Check se l'orario del programma"
         " sconfina al giorno successivo (supera le 23.59)")
-    logo = ForeignKey(
-        Plogo,
-        related_name='program_logo',
-        blank=True,
-        null=True)
+    logo = ImageField(
+        upload_to='shows',
+        storage=IMGUR,
+        null=True,
+        blank=True)
     mixcloud_playlist = CharField(
         'Mixcloud playlist',
         max_length=200,
@@ -72,6 +73,7 @@ class Programmi(models.Model):
         blank=True,
         null=True,
         help_text='Optional: Add a facebook username/page id')
+    url = SlugField(unique=True, max_length=200)
 
     def __unicode__(self):
         return self.title
@@ -99,7 +101,6 @@ class Programmi(models.Model):
                     else PRIMA[self.end_day],
                     self.end_hour.hour,
                     self.end_hour.minute],
-            "stato": self.status,
             "blog_id": blog.id,
             "blog_url": blog.url,
             "logo": self.logo and bloglogo.to_json() or ''}

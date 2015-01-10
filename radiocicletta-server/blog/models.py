@@ -6,11 +6,11 @@ from django.db import models
 from django.db.models import permalink, CharField, \
     BooleanField, URLField, \
     ForeignKey, DateTimeField, \
-    ManyToManyField, SlugField
+    ManyToManyField, SlugField, \
+    ImageField
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
-from plogo.models import Plogo
 from django.core.cache import cache
 from programmi.models import Programmi
 import math
@@ -18,6 +18,9 @@ import re
 #from pytz.gae import pytz
 import pytz
 from redactor.fields import RedactorField
+from django_imgur.storage import ImgurStorage
+
+IMGUR = ImgurStorage()
 
 
 def cache_chunked_get(key):
@@ -152,11 +155,11 @@ class Blog(models.Model):
         null=True,
         help_text='il programma a cui viene'
         ' associato il blog')
-    logo = ForeignKey(
-        Plogo,
-        related_name='logo',
-        blank=True,
-        null=True)
+    logo = ImageField(
+        upload_to='blogs',
+        storage=IMGUR,
+        null=True,
+        blank=True)
 
     def __unicode__(self):
         return self.title
@@ -192,16 +195,6 @@ class Blog(models.Model):
     def get_internal_feed_url(self):
         return self.url_prefix + 'feed/latest'
 
-    def get_logo(self):
-        try:
-            cache_logo = cache.get('blog_%s_logo' % self.pk)
-            if not cache_logo:
-                cache.set('blog_%s_logo' % self.pk, self.logo)
-                return self.logo
-            return cache_logo
-        except:
-            return None
-
 
 def default_blog():
     blogs = Blog.objects.all()[:1]
@@ -227,6 +220,7 @@ class Post(BaseContent):
     #url = CharField('URL',
     url = SlugField('URL',
                     blank=True,
+                    unique=True,
                     max_length=200,
                     help_text='Optional (filled automatically'
                     ' when publishing).'

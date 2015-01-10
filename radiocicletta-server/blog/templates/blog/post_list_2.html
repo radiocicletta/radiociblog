@@ -1,6 +1,6 @@
 {% load blog simplesocial %}
         <article class="bloglist">
-        <h2 class="post_head" data-background-image="url({{ post.get_blog.get_logo.url|default_if_none:'none' }})">
+            <h2 class="post_head" data-background-image="url({% if post.blog.logo %}{{ post.blog.logo.url|default_if_none:'none' }}{%endif%})">
             <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">
                 <span class="catch_headline">{{post.get_blog}}:</span>
                 <span class="headline">{{ post.title|titlecase }}</span>

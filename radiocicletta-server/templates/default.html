@@ -11,7 +11,7 @@
                 <li><a href="/programmi/{{day}}">{{day}}</a>
                     <ul class="submenu">
                     {% for p in list %}
-                        <li><a>{{ p.title }}</a></li>
+                        <li><a>{{ p.programmi.title }}</a></li>
                     {% endfor %}
                 </ul></li>
                 {% endif %}
@@ -42,9 +42,7 @@
             <h2>Oggi in onda</h2>
                 <ul>
                     {% for p in today_schedule %}
-                    {% with p.onair.get as onair %}
-                    <li><span class="time">{{onair.start_hour|time:"H:i"}}</span> <a href="/{{ p.title }}">{{ p.title }}</a></li>
-                    {% endwith %}
+                    <li><span class="time">{{p.start_hour|time:"H:i"}}</span> <a href="/{{ p.programmi.title }}">{{ p.programmi.title }}</a></li>
                     {% endfor %}
                 </ul>
         </section>
