@@ -4,7 +4,7 @@ from datetime import datetime, time
 from django.contrib.syndication.views import Feed
 from django.http import HttpResponse, \
     HttpResponseRedirect, \
-    Http404, Http500
+    Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.core.paginator import Paginator
@@ -204,10 +204,7 @@ def get_post(request, **kwargs):
     review = kwargs.get('review', False)
     blog = get_object_or_404(Blog, url="/" + blog_url)
     page = abs(int(request.GET.get('page', 1)))
-    try:
-        post = blog.posts.filter(url="/" + blog_url + "/" + post_url)[0]
-    except Exception as e:
-        raise Http500(e)
+    post = blog.posts.filter(url="/" + blog_url + "/" + post_url)[0]
 
     recent_posts = Post.objects.filter(blog=post.blog)[:6]
     return render(request, 'blog/post_detail.html',
