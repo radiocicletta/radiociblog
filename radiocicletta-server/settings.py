@@ -82,12 +82,13 @@ REST_BACKENDS = (
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
-#CACHES = {
-#    'default': {
-#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-# #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
-#    }
-#}
+if not DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+     #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
+        }
+    }
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
