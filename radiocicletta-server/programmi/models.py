@@ -3,7 +3,6 @@ from django.db.models import CharField, \
     TimeField, DateField, BooleanField, ForeignKey, \
     ManyToManyField, ImageField, SlugField
 from django_imgur.storage import ImgurStorage
-from django.core.cache import cache
 import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
@@ -79,14 +78,6 @@ class Programmi(models.Model):
         return self.title
     # preparo il json e scalo il giorno se il programma scavalla la mezzanotte
     # (il js che renderizza se n'ha a male altrimenti)
-
-    def get_blog(self):
-        cached_blog = cache.get('programma_%s_blog' % self.pk)
-        if not cached_blog:
-            cache.set('programma_%s_blog' % self.pk, self.blog)
-            return self.blog
-        return cached_blog
-
     def tojson(self):
         blog = self.get_blog()
         bloglogo = blog.get_logo()

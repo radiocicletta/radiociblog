@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
-from .models import Post, Blog, \
-    cached_blogs, \
-    cached_posts, \
-    cached_blog_posts, \
-    cached_programmi
+from .models import Post, Blog
 from datetime import datetime, time
 from django.contrib.syndication.views import Feed
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, \
+    HttpResponseRedirect, \
+    Http404, Http500
 from django.shortcuts import get_object_or_404, render
 from django.utils.feedgenerator import Atom1Feed
 from django.core.paginator import Paginator
 from simplesocial.api import wide_buttons, narrow_buttons
 from config.models import SiteConfiguration
-from django.core.cache import cache
 from django.db.models import Q, F
+from programmi.models import Programmi
 import logging
 import json
 import pytz
@@ -29,10 +27,12 @@ def social(request):
               'modules_args': {'twitter': {'streams': []},
                                'facebook': {'items': []},
                                'mixcloud': {'username': 'radiocicletta'}}}
-    for b in cached_blogs():
+    for b in Blog.objects.all():
         if b.show:
             if len(b.show.twitter):
-                result['modules_args']['twitter']['streams'].append(b.show.twitter)
+                result['modules_args']['twitter']['streams'].append(
+                    b.show.twitter
+                )
             if len(b.show.facebook_page_or_user):
                 result['modules_args']['facebook']['items'].append(
                     b.show.facebook_page_or_user
@@ -42,8 +42,8 @@ def social(request):
 
 ### pagine "statiche"
 def home(request):
-    blogs = cached_blogs()
-    recent_posts = cached_posts()
+    blogs = Blog.objects.all()
+    recent_posts = Post.objects.all()
     recent_posts = recent_posts[:6]
     #TODO: change behaviour using query on config.active_schedule
     today = today_schedule()
@@ -67,34 +67,16 @@ def home(request):
             'blogs': blogs,
             'recent_posts': recent_posts,
             'today_schedule': today,
-            'current_show': current_show.exists() and current_show.get() or None,
+            'current_show': current_show.exists() and
+            current_show.get() or None,
             'next_show': next_show.exists() and next_show.get() or None,
             'schedule': schedule()
         })
 
 
 def programmi(request, day=''):
-    blogs = cached_blogs()
-    if str(day)[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
-        # stiamo scherzando?
-        programmi = set([
-            p for p in cached_programmi()
-            if p.start_day == day[:2].lower()]
-        ).union(set([
-            p for p in cached_programmi()
-            if p.end_day == day[:2].lower()]
-        ))
-        return render(
-            request, 'blog/programmiday.html',
-            {
-                'blogs': blogs,
-                'programmi': programmi,
-                'today_schedule': today_schedule(),
-                'schedule': schedule(),
-                'rowschedule': orderedschedule()
-            })
-
-    programmi = cached_programmi()
+    blogs = Blog.objects.all()
+    programmi = Programmi.objects.all()
     return render(request, 'blog/programmi.html',
                   {
                       'blogs': blogs,
@@ -129,8 +111,8 @@ def standalone(request):
 
 ### pagine bloggose
 def all_blogs(request):
-    blogs = cached_blogs()
-    recent_posts = cached_posts()
+    blogs = Blog.objects.all()
+    recent_posts = Post.objects.all()
     recent_posts = recent_posts[:6]
     return render(request, 'blog/blog.html',
                   {
@@ -198,19 +180,10 @@ def orderedschedule():
 
 def browse_blog(request, **kwargs):
     blog_id = kwargs.get('blog', None)
-    blog = cache.get('blog_%s' % blog_id)
-    if not blog:
-        blog = get_object_or_404(Blog, url="/" + blog_id)
-    if not blog:
-        raise Http404('Not found')
-    else:
-        cache.set('blog_%s' % blog_id, blog)
+    blog = get_object_or_404(Blog, url="/" + blog_id)
     page = abs(int(request.GET.get('page', 1)))
-    #if not blog.blog_generic:
-    #    onair = cached_onair(blog)
-    #else:
     onair = []
-    posts = cached_blog_posts(blog)
+    posts = Post.objects.filter(blog=blog)
     posts = posts
     paged_posts = Paginator(posts, 6).page(page)
     return render(request, 'blog/post_list.html',
@@ -229,21 +202,14 @@ def get_post(request, **kwargs):
     blog_url = kwargs.get('blog', None)
     post_url = kwargs.get('url', None)
     review = kwargs.get('review', False)
-    blog = cache.get('blog_%s' % blog_url)
-    if not blog:
-        blog = get_object_or_404(Blog, url="/" + blog_url)
-    if not blog:
-        raise Http404('Not found')
-    else:
-        cache.set('blog_%s' % blog_url, blog)
+    blog = get_object_or_404(Blog, url="/" + blog_url)
     page = abs(int(request.GET.get('page', 1)))
-    onair = []
     try:
         post = blog.posts.filter(url="/" + blog_url + "/" + post_url)[0]
-    except Exception as e :
-        raise Http404(e)
+    except Exception as e:
+        raise Http500(e)
 
-    recent_posts = cached_blog_posts(post.blog)[:6]
+    recent_posts = Post.objects.filter(blog=post.blog)[:6]
     return render(request, 'blog/post_detail.html',
                   {
                       'post': post,
@@ -257,12 +223,8 @@ def get_post(request, **kwargs):
 
 def tags(request, tag):
     page = abs(int(request.GET.get('page', 1)))
-    tagged_posts = cache.get('posts_tag_%s' % tag)
-    if not tagged_posts:
-        posts = cached_posts()
-        tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
-        cache.set('posts_tag_%s' % tag, tagged_posts)
-
+    posts = Post.objects.all()
+    tagged_posts = set([i.tags and tag in i.tags and i for i in posts])
     try:
         tagged_posts.remove(None)
     except KeyError:
@@ -303,7 +265,7 @@ def review(request, review_key):
 def show_post(request, post, review=False):
     logger.warn(post)
     logger.warn(post.blog)
-    recent_posts = cached_blog_posts(post.blog)[:6]
+    recent_posts = Post.objects.filter(blog=post.blog)[:6]
     logger.warn(recent_posts)
     return render(request, 'blog/post_detail.html',
                   {
@@ -363,7 +325,7 @@ class LatestEntriesFeed(Feed):
         return post.published_on
 
     def items(self, blog):
-        query = cached_blog_posts(blog)
+        query = Post.objects.filter(blog=blog)
         # TODO: add select_related('author') once it's supported
         return query[:100]
 

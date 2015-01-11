@@ -1,8 +1,8 @@
 {% load blog simplesocial %}
         <article class="bloglist">
             <h2 class="post_head" data-background-image="url({% if post.blog.logo %}{{ post.blog.logo.url|default_if_none:'none' }}{%endif%})">
-            <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">
-                <span class="catch_headline">{{post.get_blog}}:</span>
+            <a href="http://{{post.blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}">
+                <span class="catch_headline">{{post.blog}}:</span>
                 <span class="headline">{{ post.title|titlecase }}</span>
             </a></h2>
             <ul class="articleinfo">
@@ -19,11 +19,11 @@
                 {% endfor %}
                 </li>
                 <li>
-        	        <a href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread">Commenti</a>
+        	        <a href="http://{{post.blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}#disqus_thread">Commenti</a>
                 </li>
             </ul>
             <div class="articlecontent socialicons">
                 {{ post.rendered_content|truncatewords_html:150|comicsanitize|rewritesrc|smarty }}
-                <p><a  href="http://{{post.get_blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="http://{{post.blog.url_stripped}}.radiocicletta.it">Leggi il blog {{post.get_blog.title|truncatewords:4|titlecase}}</a></p>
+                <p><a  href="http://{{post.blog.url_stripped}}.radiocicletta.it{{ post.url_stripped }}" class="readmore">Leggi/commenta l'articolo</a> <a class="readmoreblog" href="http://{{post.blog.url_stripped}}.radiocicletta.it">Leggi il blog {{post.blog.title|truncatewords:4|titlecase}}</a></p>
             </div>
         </article>

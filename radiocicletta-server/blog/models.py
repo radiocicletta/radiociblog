@@ -44,72 +44,6 @@ def cache_chunked_set(key, value):
               int(math.ceil(
                   len(value) / float(chunksize))))
 
-
-def cached_blogs(id=None):
-    b = cache_chunked_get('blogs')
-    if not b:
-        b = list(Blog.objects.all())
-        cache_chunked_set('blogs', b)
-    if id:
-        return [x for x in b if x.id == id]
-    return b
-
-
-def cached_posts():
-    p = cache_chunked_get('published_posts') or 0
-    if not p:
-        p = list(Post.objects.filter(
-            published=True).order_by('-published_on'))
-        cache_chunked_set('published_posts', p)
-    return p
-
-
-def cached_blog_posts(blog):
-    p = cache_chunked_get('blog_posts_%s' % blog.id)
-    if not p:
-        p = list(Post.objects.filter(
-            blog=blog, published=True).order_by(
-            '-published_on'))
-        cache_chunked_set('blog_posts_%s' % blog.id, p)
-    return p
-
-
-def cached_programmi():
-    p = cache_chunked_get('programmi')
-    if not p:
-        p = Programmi.objects.all()
-        cache_chunked_set('programmi', list(p))
-    return p
-
-
-def cached_onair(blog):
-
-    onair = cache.get('cached_onair_%s' % blog.id)
-    if onair:
-        return onair
-
-    onair = []
-    try:
-        onair = [
-            {'start_day': p.start_day,
-             'start_hour':
-             p.start_hour
-             } for p in cached_programmi() if p.blog == blog]
-    except:
-        pass
-    for p in onair:
-        p['start_day'] = {
-            'lu': 'Lunedi',
-            'ma': 'Martedi',
-            'me': 'Mercoledi',
-            'gi': 'Giovedi',
-            've': 'Venerdi',
-            'sa': 'Sabato',
-            'do': 'Domenica'}[p['start_day']]
-    cache.set('cached_onair_%s' % blog.id, onair)
-    return onair
-
-
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 
 tzdata = pytz.timezone('Europe/Rome')
@@ -259,13 +193,6 @@ class Post(BaseContent):
     def url_stripped(self):
         return re.sub('^/[^/]*', '', self.url)
 
-    def get_blog(self):
-        cached_blog = cache.get('post_%s_blog' % self.pk)
-        if not cached_blog:
-            cache.set('post_%s_blog' % self.pk, self.blog)
-            return self.blog
-        return cached_blog
-
     def get_tags(self):
         if self.tags:
             return self.tags.split(',')
@@ -274,7 +201,7 @@ class Post(BaseContent):
     def get_related_posts(self):
         if not self.tags:
             return []
-        posts = cached_posts()
+        posts = Post.objects.all()
         postset = set()
         for tag in re.sub('\s+', '', self.tags).split(','):
             tagged_posts = cache.get('posts_tag_%s' % tag)
