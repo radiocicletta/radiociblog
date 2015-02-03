@@ -14,7 +14,7 @@ sitemaps = {
 }
 
 urlpatterns = patterns('',
-    (r'^admin/blog/report/$', 'blog.admin_views.report'),
+    #(r'^admin/blog/report/$', 'blog.admin_views.report'),
     (r'^admin/', include(admin.site.urls)),
     (r'^(?P<id>.*)\.shtml$', RedirectView.as_view(url='%(id)s')),
     (r'^p/', include('profiles.urls')),
