@@ -1,7 +1,7 @@
 django==1.6.5
 python-memcached
 pytz
-bootstrap-admin
+bootstrap-admin==0.3.0
 django-solo
 django-wysiwyg-redactor
 -e git+http://github.com/leofiore/django-imgur#egg=django-imgur
