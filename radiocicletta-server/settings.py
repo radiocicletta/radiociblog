@@ -2,20 +2,25 @@
 
 # The following takes care of auto-configuring the database. You might want to
 # modify this to match your environment (i.e., without fallbacks).
-try:
-    from djangoappengine.settings_base import *
-except ImportError:
-    DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
-
-    # Fall back to MongoDB if App Engine isn't used (note that other backends
-    # including SQL should work, too)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'radiociblog',
-        }
+#try:
+#    from djangoappengine.settings_base import *
+#except ImportError:
+#    DEBUG = True
+#    TEMPLATE_DEBUG = DEBUG
+#
+#    # Fall back to MongoDB if App Engine isn't used (note that other backends
+#    # including SQL should work, too)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'blogtransitional', # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '', # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '', # Set to empty string for default.
     }
+}
 
 import os
 
