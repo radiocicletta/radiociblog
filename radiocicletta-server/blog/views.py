@@ -98,8 +98,7 @@ def programmi(request, day=''):
         # stiamo scherzando?
         programmi = set(cached_programmi().filter(
                         startgiorno=day[:2].lower())).union(
-                            set(cached_programmi().filter(
-                                endgiorno=day[:2].lower())))
+                            set([c for c in cached_programmi() if c.endgiorno==day[:2].lower()]))
         return render(request, 'blog/programmiday.html',
                       {'blogs': blogs,
                        'programmi': programmi,
