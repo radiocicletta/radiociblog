@@ -1,0 +1,45 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_modify blog %}
+{% load url from future %}
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+    window['jQuery'] = django.jQuery;
+    window['$'] = django.jQuery;
+    </script>
+    <script src="{% cdnmediaurl %}/js/ckeditor/_samples/sample.js" type="text/javascript"></script>
+	<script src="{% cdnmediaurl %}/js/ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script src="{% cdnmediaurl %}/js/ckeditor/adapters/jquery.js" type="text/javascript"></script>
+	
+<script type="text/javascript">
+
+$(document).ready(function(){
+        
+    CKEDITOR.config.autoGrow_onStartup = true;
+    CKEDITOR.config.autoParagraph = true;
+	CKEDITOR.config.language = 'it';
+
+    $('textarea').ckeditor(function() {
+        }, 
+        { extraPlugins:"youtube,vimeo,autogrow,clipboard",
+        /*uiColor:'#BAC0C0',*/
+        toolbar:[
+            {name:'docum', items:['Preview','Templates','Source']},
+            {name:'clipb', items:['Cut','Copy','Paste','-','Undo','Redo','-','Find','Replace','-','SelectAll']},
+            {name:'style', items : [ 'Styles','Format','FontSize' ] },
+            '/',
+            {name:'basics',items:['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+            {name:'para',  items:['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']},
+            {name:'links', items : [ 'Link','Unlink','Anchor','-','Image','Flash','Youtube','Vimeo','-','SpecialChar','PageBreak' ] }
+        ],
+        resize_minHeight: 700
+    });
+});
+
+</script>
+<style type="text/css">
+.cke_editor_id_content {
+    clear: both;
+}
+</style>
+{% endblock %}

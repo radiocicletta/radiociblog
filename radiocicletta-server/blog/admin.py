@@ -53,7 +53,7 @@ class PostAdmin(BaseAdmin):
                          {'classes':
                           ('collapse',),
                           'fields':
-                          ('author', 'published_on',
+                          ('url', 'author', 'published_on',
                            'review_key')}))
             return Post.objects.all()
         return Post.objects.filter(author=request.user)
