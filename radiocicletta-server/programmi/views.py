@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.utils import simplejson
+import json
 from blog.views import cached_programmi
 
 
@@ -8,12 +8,12 @@ def progjson(request):
     events = []
     for p in programmi:
         events.append(p.tojson())
-    return HttpResponse(simplejson.dumps({'programmi': events,
-                                          'adesso': {"id": 0,
-                                                     "start": ["s", "now"],
-                                                     "end": ["s", "now"],
-                                                     "title": "ADESSO"}
-                                          }),
+    return HttpResponse(json.dumps({'programmi': events,
+                                    'adesso': {"id": 0,
+                                               "start": ["s", "now"],
+                                               "end": ["s", "now"],
+                                               "title": "ADESSO"}
+                                    }),
                         mimetype='application/json')
 
 

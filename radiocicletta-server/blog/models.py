@@ -1,10 +1,12 @@
 from .utils import slugify
-from .fields import ModelListField
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.sitemaps import Sitemap
 from django.db import models
-from django.db.models import permalink, CharField, BooleanField, URLField, ForeignKey, DateTimeField
+from django.db.models import permalink, CharField, \
+    BooleanField, URLField, \
+    ForeignKey, DateTimeField, \
+    ManyToManyField
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
@@ -12,7 +14,8 @@ from plogo.models import Plogo
 from django.core.cache import cache
 import re
 import math
-from pytz.gae import pytz
+#from pytz.gae import pytz
+import pytz
 
 import logging
 logger = logging.getLogger(__name__)
@@ -20,9 +23,6 @@ logger = logging.getLogger(__name__)
 
 FEEDBURNER_ID = re.compile(r'^http://feeds\d*.feedburner.com/([^/]+)/?$')
 
-# Alcune soluzioni prese in considerazione per i ManyToManyFields:
-# https://bitbucket.org/legutierr/django-manytomany-nonrel/src/881ad974bb42/manytomany/models.py
-# https://gist.github.com/1200165
 tzdata = pytz.timezone('Europe/Rome')
 
 
@@ -69,7 +69,7 @@ def cached_blog_posts(blog):
 class Blog(models.Model):
     title = CharField(max_length=200,
                       help_text='This will also be your feed title')
-    #proprietario = CharField(max_length=200,help_text='This will also be your feed title')
+
     keywords = CharField(max_length=200,
                          blank=True,
                          help_text='Optional: Add a short extra description for the title tag (for SEO-purposes).')
@@ -82,16 +82,15 @@ class Blog(models.Model):
     blog_generic = BooleanField(default=False,
                                 help_text='questo blog non &egrave; associato ad alcun programma')
     feed_redirect_url = URLField('Feed redirect URL',
-                                 verify_exists=False,
                                  blank=True,
                                  help_text='Optional (use this to publish feeds via FeedBurner)<br />'
                                  'Example: http://feeds.feedburner.com/YourFeedBurnerID<br />'
                                  'If you use FeedBurner this will also enable FeedFlares.')
-    default_user = ""
-    utenti = ModelListField(ForeignKey(User,
+    default_user = "" #ForeignKey(User)
+    utenti = ManyToManyField(User,
                             null=True,
                             blank=True,
-                            help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno'))
+                            help_text='utenti che hanno accesso e possono scrivere/modificare questo blog. Selezionarne almeno uno')
     logo = ForeignKey(Plogo,
                       related_name='logo',
                       blank=True,
@@ -115,7 +114,7 @@ class Blog(models.Model):
         return self.title
 
     def related_utenti(self):
-        return ', '.join([x.username for x in User.objects.filter(id__in=self.utenti)])
+        return ', '.join([x.username for x in list(self.utenti.all())])
 
     @property
     def url_prefix(self):

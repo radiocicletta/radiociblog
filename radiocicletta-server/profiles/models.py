@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
-    nickname = models.CharField(max_length=50, blank=True, unique=True)
+    nickname = models.CharField(max_length=50, blank=True, unique=True, null=True)
     appear_as_nickname = models.BooleanField(default=False,
                                              help_text='Il tuo nickname sar&agrave; visualizzato al posto del nome')
     blog = models.URLField("Blog", blank=True)

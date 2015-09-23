@@ -14,7 +14,8 @@ try:
     import simplejson as json
 except:
     import json
-from pytz.gae import pytz
+#from pytz.gae import pytz
+import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
 
@@ -95,10 +96,9 @@ def programmi(request, day=''):
     blogs = cached_blogs()
     if str(day)[:2].lower() in ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']:
         # stiamo scherzando?
-        programmi = set([c for c in cached_programmi() if
-                        c.startgiorno == day[:2].lower()]).union(
-                            set([c for c in cached_programmi() if
-                                c.endgiorno == day[:2].lower()]))
+        programmi = set(cached_programmi().filter(
+                        startgiorno=day[:2].lower())).union(
+                            set([c for c in cached_programmi() if c.endgiorno==day[:2].lower()]))
         return render(request, 'blog/programmiday.html',
                       {'blogs': blogs,
                        'programmi': programmi,

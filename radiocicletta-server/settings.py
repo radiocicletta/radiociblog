@@ -2,34 +2,30 @@
 
 # The following takes care of auto-configuring the database. You might want to
 # modify this to match your environment (i.e., without fallbacks).
-try:
-    from djangoappengine.settings_base import *
-    has_djangoappengine = True
-except ImportError:
-    has_djangoappengine = False
-    DEBUG = True
-    TEMPLATE_DEBUG = DEBUG
-
-    # Fall back to MongoDB if App Engine isn't used (note that other backends
-    # including SQL should work, too)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django_mongodb_engine',
-            'NAME': 'test',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': 27017,
-        }
+#try:
+#    from djangoappengine.settings_base import *
+#except ImportError:
+#    DEBUG = True
+#    TEMPLATE_DEBUG = DEBUG
+#
+#    # Fall back to MongoDB if App Engine isn't used (note that other backends
+#    # including SQL should work, too)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'blogtransitional', # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '', # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '', # Set to empty string for default.
     }
+}
 
 import os
 
 LANGUAGE_CODE='it'
 # Activate django-dbindexer for the default database
-DATABASES['native'] = DATABASES['default']
-DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
-AUTOLOAD_SITECONF = 'dbindexes'
 
 SITE_NAME = 'radiocicletta-server'
 SITE_DESCRIPTION = ''
@@ -49,74 +45,62 @@ ALLOWED_DOMAINS = ()
 SECRET_KEY = '=r-$b*8hglm+858&9t043hlm6-&6-3d3vfc4((7yd0dbrakhvi'
 
 INSTALLED_APPS = (
-    'django_admin_bootstrapped',
+#    'django_admin_bootstrapped',
+    'bootstrap_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.sitemaps',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'profiles',
     'urlrouter',
     'minicms',
     'plogo',
     'blog',
     'disqus',
-    'djangotoolbox',
     'google_analytics',
     'google_cse',
     'simplesocial',
     'redirects',
-    'autoload',
-    'dbindexer',
-    'permission_backend_nonrel',
-    'object_permission_backend_nonrel',
     'programmi',
     'events',
     'replay',
-    'authority',
     'pytz',
 )
 
-if has_djangoappengine:
-    # djangoappengine should come last, so it can override a few manage.py commands
-    INSTALLED_APPS += ('djangoappengine',)
-else:
-    INSTALLED_APPS += ('django_mongodb_engine',)
 
-
-AUTHENTICATION_BACKENDS = (
-    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
-)
+#AUTHENTICATION_BACKENDS = (
+#    'permission_backend_nonrel.backends.NonrelPermissionBackend','object_permission_backend_nonrel.backends.ObjectPermBackend',
+#)
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
 
-TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
-
 REST_BACKENDS = (
-    'minicms.markup_highlight',
+#    'minicms.markup_highlight',
     'blog.markup_posts',
 )
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
- #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
-    }
-}
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+# #       'BACKEND': 'gae_backends.memcache.MemcacheCache',
+#    }
+#}
 
 MIDDLEWARE_CLASSES = (
-    'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
+    #'google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',
     # This loads the index definitions, so it has to come first
-    'autoload.middleware.AutoloadMiddleware',
+    #'autoload.middleware.AutoloadMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'djangotoolbox.middleware.RedirectMiddleware',
+    #'djangotoolbox.middleware.RedirectMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'urlrouter.middleware.URLRouterFallbackMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,7 +110,7 @@ MIDDLEWARE_CLASSES = (
 CACHE_MIDDLEWARE_SECONDS = 600
 
 URL_ROUTE_HANDLERS = (
-    'minicms.urlroutes.PageRoutes',
+#    'minicms.urlroutes.PageRoutes',
     'blog.urlroutes.BlogRoutes',
     'blog.urlroutes.BlogPostRoutes',
     'redirects.urlroutes.RedirectRoutes',
@@ -145,9 +129,9 @@ USE_I18N = True
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 
-
-STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
-STATIC_ROOT = (os.path.join(os.path.dirname(__file__), 'staticstuff'),)
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'staticstuff'),
+)
 STATIC_URL = '/static/'
 
 

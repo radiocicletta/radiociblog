@@ -1,7 +1,8 @@
 from django.db import models
 from blog.models import Blog
 from django.core.cache import cache
-from pytz.gae import pytz
+#from pytz.gae import pytz
+import pytz
 
 tzdata = pytz.timezone('Europe/Rome')
 

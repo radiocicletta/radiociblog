@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 urlpatterns = patterns('blog.views',
     #(r'^(?P<url>[^/]+)/page/(?P<page>\d+)$', 'blog_browse'),
