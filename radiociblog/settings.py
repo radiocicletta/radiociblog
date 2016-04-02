@@ -14,7 +14,7 @@ except ImportError:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'radiociblog',
+            'NAME': 'radiociblog.sqlite3',
         }
     }
     # will output to your console
@@ -141,7 +141,7 @@ GLOBAL_MEDIA_DIRS = (
 )
 
 ADMIN_MEDIA_PREFIX ='/media/admin/'
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'radiociblog.urls'
 DISTRIBUITED_CONTENT_URL = 'http://cdn.radiocicletta.it'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
