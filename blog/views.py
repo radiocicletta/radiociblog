@@ -19,7 +19,6 @@ import pytz
 tzdata = pytz.timezone('Europe/Rome')
 
 logger = logging.getLogger(__name__)
-config = SiteConfiguration.get_solo()
 
 
 def social(request):
@@ -124,6 +123,7 @@ def all_blogs(request):
 
 
 def schedule():
+    config = SiteConfiguration.get_solo()
     sched = config.active_schedule
     cal = {"lu": ['Lunedi',     0, []],
            "ma": ['Martedi',    1, []],
@@ -160,6 +160,7 @@ def orderedschedule():
     di inizio e orario di fine del programma che il giorno day va in
     onda all'ora time """
 
+    config = SiteConfiguration.get_solo()
     sched = config.active_schedule
     week = ['lu', 'ma', 'me', 'gi', 've', 'sa', 'do']
 

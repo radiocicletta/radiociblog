@@ -68,9 +68,9 @@ INSTALLED_APPS = (
     'redirects',
     'programmi',
     'events',
-    'replay',
+    #'replay',
     'pytz',
-    'redactor'
+    'redactor',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.UserProfile'
@@ -145,6 +145,7 @@ ROOT_URLCONF = 'radiociblog.urls'
 DISTRIBUITED_CONTENT_URL = 'http://cdn.radiocicletta.it'
 
 NON_REDIRECTED_PATHS = ('/admin/',)
+REDACTOR_FILE_STORAGE = "django_imgur.storage.ImgurStorage"
 
 try:
     from settings_local import *

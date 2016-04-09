@@ -3,10 +3,10 @@ import json
 from .models import Programmi
 from config.models import SiteConfiguration
 
-config = SiteConfiguration.get_solo()
 
 
 def progjson(request):
+    config = SiteConfiguration.get_solo()
     programmi = config.active_schedule.onair
     events = []
     for p in programmi:
@@ -21,6 +21,7 @@ def progjson(request):
 
 
 def modjson(request):
+    config = SiteConfiguration.get_solo()
     programmi = config.active_schedule.onair
     events = []
     for p in programmi:

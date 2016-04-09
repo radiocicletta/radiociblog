@@ -1,12 +1,11 @@
 from .models import Blog, Post
 from django.contrib import admin
-from minicms.admin import BaseAdmin
 import logging
 
 
 logger=logging.getLogger(__name__)
 
-class BlogAdmin(BaseAdmin):
+class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'url', 'related_utenti')
     search_fields = ('title',)
     ordering = ('title', 'url')
@@ -19,7 +18,7 @@ class BlogAdmin(BaseAdmin):
 
 
 
-class PostAdmin(BaseAdmin):
+class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('title', 'blog', 'content', 'published', 'tags'),

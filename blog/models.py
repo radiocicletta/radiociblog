@@ -142,9 +142,11 @@ def generate_review_key():
     return ''.join(choice(charset) for i in range(32))
 
 
-class Post(BaseContent):
+class Post(models.Model):
+    title = models.CharField(max_length=200)
     blog = ForeignKey(Blog, related_name='posts', default=default_blog)
     published = BooleanField(default=False)
+    last_update = models.DateTimeField(auto_now=True)
     author = ForeignKey(User,
                         related_name='posts',
                         null=True,
@@ -175,11 +177,11 @@ class Post(BaseContent):
         null=True,
         blank=True,
         help_text='Tag separati da virgole')
+    content = RedactorField()
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
-        content = RedactorField()
-        content.contribute_to_class(Post, 'content')
+        #content.contribute_to_class(Post, 'content')
 
     def __unicode__(self):
         return self.title
