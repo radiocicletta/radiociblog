@@ -8,6 +8,7 @@ from django.db.models import permalink, CharField, \
     ForeignKey, DateTimeField, \
     ManyToManyField, SlugField, \
     ImageField
+from django.forms import ModelForm
 from minicms.models import BaseContent
 from random import choice
 from string import ascii_letters, digits
@@ -15,6 +16,8 @@ from django.core.cache import cache
 from programmi.models import Programmi
 import math
 import re
+from .widgets import AutoSlug
+from django.contrib.admin.widgets import FilteredSelectMultiple
 #from pytz.gae import pytz
 import pytz
 from redactor.fields import RedactorField
@@ -142,6 +145,16 @@ def generate_review_key():
     return ''.join(choice(charset) for i in range(32))
 
 
+class BlogForm(ModelForm):
+    class Meta:
+        model = Blog
+        fields = '__all__'
+        widgets = {
+            'url': AutoSlug(data_source="title"),
+            'utenti': FilteredSelectMultiple("Utenti", False, attrs={'rows':'10'})
+        }
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     blog = ForeignKey(Blog, related_name='posts', default=default_blog)
@@ -153,7 +166,6 @@ class Post(models.Model):
                         blank=True,
                         help_text='Optional (filled automatically'
                         ' when saving)')
-    #url = CharField('URL',
     url = SlugField('URL',
                     blank=True,
                     unique=True,

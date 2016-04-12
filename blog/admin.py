@@ -1,4 +1,4 @@
-from .models import Blog, Post
+from .models import Blog, Post, BlogForm
 from django.contrib import admin
 import logging
 
@@ -9,6 +9,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'url', 'related_utenti')
     search_fields = ('title',)
     ordering = ('title', 'url')
+    form = BlogForm
     def queryset(self, request):
         if request.user.is_superuser:
             qs = super(BaseAdmin, self).queryset(request)
